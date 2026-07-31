@@ -1,0 +1,117 @@
+# Kant — tam stack (PostgreSQL + OpenCloud + uygulama)
+# Başlat: docker compose up -d --build
+# İlk kurulumda seed otomatik çalışır (KANT_AUTO_SEED=true)
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: kant-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kant_user
+      POSTGRES_PASSWORD: kant_password
+      POSTGRES_DB: kant_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - kant_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kant_user -d kant_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  opencloud:
+    image: opencloudeu/opencloud-rolling:7.3.0
+    container_name: kant-opencloud
+    expose:
+      - "9200"
+    environment:
+      OC_URL: https://localhost:9200
+      PROXY_TLS: "true"
+      OC_INSECURE: "true"
+      PROXY_ENABLE_BASIC_AUTH: "true"
+      IDM_ADMIN_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
+      IDM_CREATE_DEMO_USERS: "false"
+      OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD: "false"
+      OC_PASSWORD_POLICY_DISABLED: "true"
+      OC_LOG_LEVEL: warn
+    volumes:
+      - kant_opencloud_config:/etc/opencloud
+      - kant_opencloud_data:/var/lib/opencloud
+    entrypoint: ["/bin/sh"]
+    command:
+      - -c
+      - opencloud init || true; opencloud server
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-check-certificate",
+          "-q",
+          "--spider",
+          "https://localhost:9200/status.php",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 45s
+
+  opencloud-redirect:
+    image: nginx:alpine
+    container_name: kant-opencloud-redirect
+    volumes:
+      - ./docker/opencloud/nginx-redirect.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+
+  opencloud-gateway:
+    image: nginx:alpine
+    container_name: kant-opencloud-gateway
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./docker/opencloud/nginx-gateway.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      opencloud:
+        condition: service_healthy
+      opencloud-redirect:
+        condition: service_started
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kant-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+      AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-random-secret}
+      NODE_ENV: production
+      OPENCLOUD_ENABLED: "true"
+      OPENCLOUD_URL: https://opencloud:9200
+      OPENCLOUD_PUBLIC_URL: ${OPENCLOUD_PUBLIC_URL:-https://localhost:9200}
+      OPENCLOUD_USERNAME: admin
+      OPENCLOUD_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
+      OPENCLOUD_ROOT: Kant
+      STORAGE_MODE: opencloud
+      OPENCLOUD_PUBLIC_SHARES: "true"
+      OPENCLOUD_INSECURE: "true"
+      KANT_AUTO_SEED: ${KANT_AUTO_SEED:-true}
+    depends_on:
+      db:
+        condition: service_healthy
+      opencloud:
+        condition: service_healthy
+    volumes:
+      - kant_uploads:/app/uploads
+
+volumes:
+  kant_postgres_data:
+  kant_opencloud_config:
+  kant_opencloud_data:
+  kant_uploads:

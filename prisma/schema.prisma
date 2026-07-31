@@ -1,0 +1,326 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  REQUESTER
+  DESIGNER
+  EDITOR
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  firstName     String?
+  lastName      String?
+  password      String
+  mustChangePassword Boolean @default(true)
+  isActive      Boolean   @default(true)
+  avatarUrl     String?
+  color         String?
+  
+  // Legacy role enum (useful for hardcoded SUPERADMIN)
+  role          Role      @default(REQUESTER)
+  
+  // Dynamic role relation
+  customRoleId  String?
+  customRole    CustomRole? @relation(fields: [customRoleId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  boards           BoardMember[]
+  cards            Card[]        @relation("CardCreator")
+  comments         Comment[]
+  activities       ActivityLog[]
+  chatGroupMembers ChatGroupMember[]
+  chatMessages     ChatMessage[]
+  descriptionHistories CardDescriptionHistory[]
+
+  // Telegram hesap bağlama
+  telegramUserId           String?   @unique
+  telegramUsername         String?
+  telegramLinkCode         String?   @unique
+  telegramLinkCodeExpiresAt DateTime?
+  /** MTProto oturumu — Kant'tan Telegram'a kendi adıyla mesaj göndermek için */
+  telegramMtprotoSession   String?
+  /** MTProto web doğrulama (geçici) */
+  telegramMtprotoPendingPhone     String?
+  telegramMtprotoPhoneCodeHash    String?
+  telegramMtprotoAuthSession      String?
+  telegramMtprotoAuthExpiresAt    DateTime?
+  
+  assignedCards    Card[]        @relation("CardAssignees")
+}
+
+model CustomRole {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  icon        String?
+  
+  permissions String[] @default([])
+
+  users       User[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AppSettings {
+  id                         String   @id @default("default")
+  telegramSupergroupId       String?
+  telegramDefaultChatGroupId String?
+  telegramGeneralTopicName   String?
+  updatedAt                  DateTime @updatedAt
+}
+
+model Board {
+  id          String   @id @default(uuid())
+  name        String
+  identifier  String   @default("ATF")
+  sequenceCounter Int  @default(1)
+  description String?
+  isPrivate   Boolean  @default(false)
+  coverImage  String?
+  icon        String?
+  order       Int      @default(0)
+  openCloudPath String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members   BoardMember[]
+  columns   Column[]
+  chatGroups ChatGroup[]
+}
+
+model BoardMember {
+  id        String   @id @default(uuid())
+  userId    String
+  boardId   String
+  role      Role
+
+  user      User     @relation(fields: [userId], references: [id])
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, boardId])
+}
+
+model Column {
+  id        String   @id @default(uuid())
+  name      String
+  order     Int
+  color     String?
+  category  String?  @default("ACTIVE") // BACKLOG, UNSTARTED, ACTIVE, DONE vs
+  allowedRoles String[] @default([])
+  dragOutRoles String[] @default([])
+  
+  boardId   String
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  
+  cards     Card[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Priority {
+  NONE
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Card {
+  id          String   @id @default(uuid())
+  sequenceId  Int
+  title       String
+  description String?
+  startDate   DateTime?
+  dueDate     DateTime?
+  order       Int
+  
+  priority    Priority @default(NONE)
+  tags        String[] @default([])
+  
+  columnId    String
+  column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  
+  creatorId   String
+  creator     User     @relation("CardCreator", fields: [creatorId], references: [id])
+
+  attachments Attachment[]
+  comments    Comment[]
+  activities  ActivityLog[]
+  checklists  ChecklistItem[]
+  descriptionHistories CardDescriptionHistory[]
+  assignees   User[]         @relation("CardAssignees")
+
+  coverAttachmentId String?
+  coverMode         String @default("COVER")
+
+  reminderMinutes Int?
+  isRecurring     Boolean @default(false)
+
+  chatMessages ChatMessage[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ChecklistItem {
+  id        String   @id @default(uuid())
+  content   String
+  isDone    Boolean  @default(false)
+  
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String
+  
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+
+model CardDescriptionHistory {
+  id        String   @id @default(uuid())
+  content   String?  // The description content at this point in time
+  
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+
+model Attachment {
+  id        String   @id @default(uuid())
+  filename  String
+  path      String
+  remotePath String?
+  storageProvider String @default("OPENCLOUD")
+  mimeType  String
+  size      Int      @default(0)
+  width     Int?
+  height    Int?
+  
+  cardId    String?
+  card      Card?    @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  chatMessageId String?
+  chatMessage   ChatMessage? @relation(fields: [chatMessageId], references: [id])
+  
+  shareLink SharedLink?
+
+  createdAt DateTime @default(now())
+}
+
+model SharedLink {
+  id           String   @id @default(uuid())
+  token        String   @unique
+  attachmentId String   @unique
+  attachment   Attachment @relation(fields: [attachmentId], references: [id])
+  
+  expiresAt    DateTime?
+  password     String?
+
+  createdAt    DateTime @default(now())
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChatGroup {
+  id        String   @id @default(uuid())
+  name      String
+  
+  boardId   String
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  // Telegram forum konusu (message_thread_id)
+  telegramTopicId Int?
+  
+  members   ChatGroupMember[]
+  messages  ChatMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChatGroupMember {
+  id          String    @id @default(uuid())
+  chatGroupId String
+  userId      String
+  lastReadAt  DateTime?
+
+  chatGroup   ChatGroup @relation(fields: [chatGroupId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([chatGroupId, userId])
+}
+
+model ChatMessage {
+  id          String    @id @default(uuid())
+  content     String
+  
+  chatGroupId String
+  chatGroup   ChatGroup @relation(fields: [chatGroupId], references: [id], onDelete: Cascade)
+
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  replyToId String?
+  replyTo   ChatMessage?  @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
+  replies   ChatMessage[] @relation("MessageReplies")
+
+  // Telegram senkronizasyonu
+  source            String  @default("web") // web | telegram
+  telegramMessageId String?
+
+  cardId String?
+  card   Card?   @relation(fields: [cardId], references: [id], onDelete: SetNull)
+
+  mentionedUserIds String[] @default([])
+
+  attachments Attachment[]
+
+  editedAt  DateTime?
+  deletedAt DateTime?
+
+  createdAt   DateTime  @default(now())
+
+  @@unique([chatGroupId, telegramMessageId])
+  @@index([replyToId])
+  @@index([cardId])
+}

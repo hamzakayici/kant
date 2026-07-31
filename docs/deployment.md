@@ -1,0 +1,225 @@
+# Dağıtım
+
+## Docker ile Dağıtım
+
+Proje Docker ve Docker Compose desteği ile gelir.
+
+### docker-compose.yml
+
+Tüm servisler tek dosyada tanımlıdır:
+
+| Servis | Image | Port | Açıklama |
+|--------|-------|------|----------|
+| `db` | postgres:15-alpine | 5433 | PostgreSQL veritabanı |
+| `opencloud` | opencloudeu/opencloud-rolling | — | OpenCloud dosya sunucusu |
+| `opencloud-gateway` | nginx:alpine | 9200 | OpenCloud HTTPS proxy |
+| `app` | Build (Dockerfile) | 3000 | Next.js uygulaması |
+
+### Hızlı Başlangıç
+
+```bash
+# Tüm servisleri başlat (ilk kurulumda --build)
+docker compose up -d --build
+
+# Sadece veritabanı (yerel npm run dev için)
+docker compose up db -d
+
+# Logları izle
+docker compose logs -f app
+```
+
+### Ortam Değişkenleri (Docker)
+
+`docker-compose.yml` içinde tanımlı:
+
+```yaml
+environment:
+  - DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+```
+
+Production için `AUTH_SECRET` eklenmelidir:
+
+```yaml
+environment:
+  - DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+  - AUTH_SECRET=your-production-secret
+```
+
+### Dockerfile
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npx prisma generate
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+Build adımları:
+
+1. Bağımlılıkları yükle (`npm ci`)
+2. Prisma Client oluştur
+3. Next.js production build
+4. `npm start` ile çalıştır
+
+### İlk Kurulum (Docker)
+
+```bash
+# Servisleri başlat
+docker compose up -d
+
+# Migration uygula
+docker compose exec app npx prisma migrate deploy
+
+# Seed verilerini yükle
+docker compose exec app npx prisma db seed
+```
+
+---
+
+## Manuel Production Dağıtımı
+
+### 1. Ortam Hazırlığı
+
+```bash
+# Production ortam değişkenleri
+export DATABASE_URL="postgresql://user:pass@host:5432/kant_db?schema=public"
+export AUTH_SECRET="$(openssl rand -base64 32)"
+export NODE_ENV=production
+```
+
+### 2. Build
+
+```bash
+npm ci
+npx prisma generate
+npx prisma migrate deploy
+npm run build
+```
+
+### 3. Çalıştırma
+
+```bash
+npm start
+# veya PM2 ile:
+pm2 start npm --name kant -- start
+```
+
+---
+
+## Veritabanı Yönetimi
+
+### Migration
+
+```bash
+# Geliştirme
+npx prisma migrate dev --name migration_adi
+
+# Production
+npx prisma migrate deploy
+```
+
+### Backup
+
+```bash
+# PostgreSQL dump
+pg_dump -h localhost -U kant_user kant_db > backup.sql
+
+# Restore
+psql -h localhost -U kant_user kant_db < backup.sql
+```
+
+### Prisma Studio
+
+Veritabanını GUI ile incelemek için:
+
+```bash
+npx prisma studio
+```
+
+---
+
+## Dosya Depolama
+
+Yüklenen dosyalar `uploads/` dizininde saklanır.
+
+### Production Önerileri
+
+- `uploads/` dizinini kalıcı bir volume olarak mount edin
+- Docker Compose örneği:
+
+```yaml
+app:
+  volumes:
+    - uploads_data:/app/uploads
+
+volumes:
+  uploads_data:
+```
+
+- Büyük dosyalar için S3 veya benzeri object storage entegrasyonu düşünülebilir (şu an desteklenmiyor)
+
+---
+
+## Güvenlik Kontrol Listesi
+
+- [ ] `AUTH_SECRET` güçlü ve benzersiz bir değer olmalı
+- [ ] PostgreSQL şifresi production'da değiştirilmeli
+- [ ] `uploads/` dizini web root'tan erişilemez olmalı (API üzerinden servis edilir)
+- [ ] HTTPS kullanılmalı (reverse proxy: nginx, Caddy)
+- [ ] Varsayılan seed şifreleri değiştirilmeli
+- [ ] `isActive` ile kullanılmayan hesaplar askıya alınmalı
+
+---
+
+## Yönetim Scriptleri
+
+`scripts/` klasöründeki araçlar production'da da kullanılabilir:
+
+```bash
+# Admin kullanıcı kontrolü
+npx tsx scripts/check-admin.ts
+
+# Admin kullanıcı adı değiştirme
+npx tsx scripts/rename-admin.ts
+
+# Tüm şifreleri sıfırlama
+npx tsx scripts/reset-passwords.ts
+```
+
+---
+
+## Reverse Proxy (Nginx Örneği)
+
+```nginx
+server {
+    listen 80;
+    server_name kant.example.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 50M;
+    }
+}
+```
+
+> `client_max_body_size 50M` — Server Actions body limiti ile uyumlu olmalıdır.
+
+---
+
+## Monitoring
+
+- Next.js built-in logging (`console.error` API route'larda kullanılır)
+- PostgreSQL bağlantı havuzu: `pg` Pool (Prisma adapter)
+- Health check: `GET /` (auth gerektirir) veya özel health endpoint eklenebilir
