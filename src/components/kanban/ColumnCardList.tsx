@@ -96,7 +96,7 @@ function ColumnCardListComponent({
     overscan: isPreviewActive ? 6 : 4,
     getItemKey: (index) => {
       if (dropIndicatorIndex !== null && index === dropIndicatorIndex) {
-        return `drop-${columnId}`
+        return `drop-${columnId}-${dropIndicatorIndex}`
       }
       const card = orderedCards[mapVirtualIndex(index, dropIndicatorIndex)]
       return card?.id ?? index
@@ -121,7 +121,7 @@ function ColumnCardListComponent({
             ) {
               return (
                 <div
-                  key={`drop-${columnId}`}
+                  key={`drop-${columnId}-${dropIndicatorIndex}`}
                   className="absolute top-0 left-0 z-10 w-full shrink-0"
                   style={{
                     transform: `translate3d(0, ${virtualRow.start}px, 0)`,

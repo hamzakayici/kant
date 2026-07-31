@@ -85,6 +85,8 @@ export default function KanbanBoard({
   const pointerRef = useRef({ x: 0, y: 0 })
   const dropTargetRef = useRef<{ columnId: string; index: number } | null>(null)
   const columnScrollMapRef = useRef(new Map<string, HTMLElement>())
+  const activeCardDragRef = useRef(false)
+  const pointerDropFrameRef = useRef<number | null>(null)
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -178,9 +180,81 @@ export default function KanbanBoard({
     [],
   )
 
-  const trackPointer = useCallback((event: PointerEvent) => {
-    pointerRef.current = { x: event.clientX, y: event.clientY }
+  const updateCardDropTarget = useCallback(
+    (columnId: string, cardCount: number) => {
+      const scrollEl = columnScrollMapRef.current.get(columnId)
+      let clientY = pointerRef.current.y
+      if (scrollEl) {
+        const rect = scrollEl.getBoundingClientRect()
+        clientY = Math.max(rect.top, Math.min(clientY, rect.bottom))
+      }
+      const index = scrollEl
+        ? computeDropIndex(scrollEl, clientY, cardCount)
+        : cardCount
+
+      const prev = dropTargetRef.current
+      if (prev?.columnId === columnId && prev.index === index) {
+        return
+      }
+
+      dropTargetRef.current = { columnId, index }
+      kanbanDragUiStore.setDropHint({ columnId, index })
+    },
+    [],
+  )
+
+  const findColumnAtPointer = useCallback((x: number, y: number) => {
+    let fallback: { columnId: string; scrollEl: HTMLElement } | null = null
+    let fallbackDistance = Infinity
+
+    for (const [columnId, scrollEl] of columnScrollMapRef.current.entries()) {
+      const rect = scrollEl.getBoundingClientRect()
+      if (x < rect.left || x > rect.right) continue
+
+      if (y >= rect.top && y <= rect.bottom) {
+        return { columnId, scrollEl }
+      }
+
+      const distance = y < rect.top ? rect.top - y : y - rect.bottom
+      if (distance < fallbackDistance) {
+        fallbackDistance = distance
+        fallback = { columnId, scrollEl }
+      }
+    }
+
+    if (fallback && fallbackDistance <= 96) {
+      return fallback
+    }
+
+    return null
   }, [])
+
+  const refreshDropTargetFromPointer = useCallback(() => {
+    if (!activeCardDragRef.current) return
+
+    const { x, y } = pointerRef.current
+    const hit = findColumnAtPointer(x, y)
+    const columnId = hit?.columnId ?? dropTargetRef.current?.columnId
+    if (!columnId) return
+
+    const column = columnsRef.current.find((col: any) => col.id === columnId)
+    if (!column) return
+
+    updateCardDropTarget(columnId, column.cards.length)
+  }, [findColumnAtPointer, updateCardDropTarget])
+
+  const trackPointer = useCallback(
+    (event: PointerEvent) => {
+      pointerRef.current = { x: event.clientX, y: event.clientY }
+      if (!activeCardDragRef.current) return
+      if (pointerDropFrameRef.current !== null) return
+      pointerDropFrameRef.current = requestAnimationFrame(() => {
+        pointerDropFrameRef.current = null
+        refreshDropTargetFromPointer()
+      })
+    },
+    [refreshDropTargetFromPointer],
+  )
 
   const startPointerTracking = useCallback(() => {
     window.addEventListener("pointermove", trackPointer, { passive: true })
@@ -212,6 +286,9 @@ export default function KanbanBoard({
     return () => {
       if (dragFrameRef.current !== null) {
         cancelAnimationFrame(dragFrameRef.current)
+      }
+      if (pointerDropFrameRef.current !== null) {
+        cancelAnimationFrame(pointerDropFrameRef.current)
       }
       stopPointerTracking()
     }
@@ -400,25 +477,10 @@ export default function KanbanBoard({
       activeCard: card,
       dropHint: { columnId: column.id, index: sourceIndex },
     })
+    activeCardDragRef.current = true
+    dropTargetRef.current = { columnId: column.id, index: sourceIndex }
+    refreshDropTargetFromPointer()
   }
-
-  const updateCardDropTarget = useCallback(
-    (columnId: string, cardCount: number) => {
-      const scrollEl = columnScrollMapRef.current.get(columnId)
-      const index = scrollEl
-        ? computeDropIndex(scrollEl, pointerRef.current.y, cardCount)
-        : cardCount
-
-      const prev = dropTargetRef.current
-      if (prev?.columnId === columnId && prev.index === index) {
-        return
-      }
-
-      dropTargetRef.current = { columnId, index }
-      kanbanDragUiStore.setDropHint({ columnId, index })
-    },
-    [],
-  )
 
   const pendingDropTargetRef = useRef<{
     columnId: string
@@ -488,6 +550,11 @@ export default function KanbanBoard({
   }, [updateCardDropTarget])
 
   const finishDrag = useCallback(() => {
+    activeCardDragRef.current = false
+    if (pointerDropFrameRef.current !== null) {
+      cancelAnimationFrame(pointerDropFrameRef.current)
+      pointerDropFrameRef.current = null
+    }
     stopPointerTracking()
     setKanbanDragging(false)
     kanbanDragUiStore.clear()
