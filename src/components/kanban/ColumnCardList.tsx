@@ -95,7 +95,7 @@ function ColumnCardListComponent({
                 card={card}
                 index={virtualRow.index}
                 top={virtualRow.start}
-                isAnimating={isPreviewActive}
+                isDragging={isPreviewActive}
                 measureRef={measureElement}
                 canDelete={canDelete}
                 boardIdentifier={boardIdentifier}

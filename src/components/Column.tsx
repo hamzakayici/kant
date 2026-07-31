@@ -48,7 +48,7 @@ import {
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 import { getColumnCategoryLabel, hexToRgba } from "@/lib/kanban-utils"
-import { useColumnIsDragTarget } from "@/components/kanban/useColumnDragUi"
+import { useColumnIsDragTarget, useKanbanCardDragActive } from "@/components/kanban/useColumnDragUi"
 
 const ColumnScrollContext = createContext<HTMLDivElement | null>(null)
 
@@ -136,6 +136,10 @@ export default function Column({
   const categoryLabel = getColumnCategoryLabel(column.category)
   const hasCards = totalCount > 0
   const isDragTarget = useColumnIsDragTarget(column.id)
+  const isCardDragActive = useKanbanCardDragActive()
+  const columnDropActive = isCardDragActive ? isDragTarget : isOver
+  const showDropHighlight =
+    !isDragging && (isCardDragActive ? columnDropActive : isOver)
 
   const handleSavePermissions = async () => {
     await updateColumnAllowedRoles(column.id, allowedRoles, dragOutRoles)
@@ -147,8 +151,9 @@ export default function Column({
     <div
       ref={setSortableRef}
       className={cn(
-        "flex h-full max-h-full min-h-0 w-[min(320px,85vw)] shrink-0 flex-col rounded-2xl border transition-all duration-200",
-        isOver && !isDragging
+        "flex h-full max-h-full min-h-0 w-[min(320px,85vw)] shrink-0 flex-col rounded-2xl border",
+        isCardDragActive ? "transition-none" : "transition-all duration-200",
+        showDropHighlight
           ? "border-primary/50 bg-primary/5 shadow-lg shadow-primary/5"
           : "border-border/60 bg-card/40",
         isDragging && "z-10 opacity-40",
@@ -156,7 +161,7 @@ export default function Column({
       style={{
         ...columnStyle,
         boxShadow:
-          isOver && !isDragging ? undefined : `inset 0 3px 0 0 ${dotColor}`,
+          showDropHighlight ? undefined : `inset 0 3px 0 0 ${dotColor}`,
       }}
     >
       <div className="flex items-center justify-between gap-2 px-3 py-3">
@@ -288,12 +293,13 @@ export default function Column({
           }
         }}
         className={cn(
-          "custom-scrollbar mx-2 mb-2 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain rounded-xl border border-transparent p-1.5 transition-colors",
-          isOver && "border-primary/20 bg-primary/5",
+          "custom-scrollbar mx-2 mb-2 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain rounded-xl border border-transparent p-1.5",
+          isCardDragActive ? "transition-none" : "transition-colors",
+          columnDropActive && "border-primary/20 bg-primary/5",
           isDragTarget && !hasCards && "min-h-[160px]",
         )}
         style={{
-          backgroundColor: isOver
+          backgroundColor: columnDropActive
             ? undefined
             : hexToRgba(dotColor, 0.04),
         }}

@@ -7,7 +7,7 @@ type VirtualKanbanRowProps = {
   card: any
   index: number
   top: number
-  isAnimating: boolean
+  isDragging: boolean
   measureRef?: (element: HTMLElement | null) => void
   canDelete: boolean
   boardIdentifier: string
@@ -20,7 +20,7 @@ function VirtualKanbanRowComponent({
   card,
   index,
   top,
-  isAnimating,
+  isDragging,
   measureRef,
   canDelete,
   boardIdentifier,
@@ -35,10 +35,8 @@ function VirtualKanbanRowComponent({
       className="absolute top-0 left-0 w-full shrink-0 [backface-visibility:hidden]"
       style={{
         transform: `translate3d(0, ${top}px, 0)`,
-        transition: isAnimating
-          ? "transform 120ms cubic-bezier(0.25, 1, 0.5, 1)"
-          : undefined,
         contain: "layout style paint",
+        willChange: isDragging ? "transform" : undefined,
       }}
     >
       <KanbanCard
@@ -60,7 +58,7 @@ export const VirtualKanbanRow = memo(
     prev.card === next.card &&
     prev.index === next.index &&
     prev.top === next.top &&
-    prev.isAnimating === next.isAnimating &&
+    prev.isDragging === next.isDragging &&
     prev.measureRef === next.measureRef &&
     prev.canDelete === next.canDelete &&
     prev.boardIdentifier === next.boardIdentifier &&

@@ -1,22 +1,21 @@
 "use client"
 
 import { memo } from "react"
-import Card from "@/components/Card"
 import Column from "@/components/Column"
+import { KanbanCard } from "@/components/kanban/KanbanCard"
+import { useKanbanDragUi } from "@/components/kanban/useColumnDragUi"
 
 type KanbanDragOverlayProps = {
-  activeCard: any | null
   activeColumn: any | null
-  userRole: string
   boardIdentifier: string
 }
 
 function KanbanDragOverlayComponent({
-  activeCard,
   activeColumn,
-  userRole,
   boardIdentifier,
 }: KanbanDragOverlayProps) {
+  const dragUi = useKanbanDragUi()
+
   if (activeColumn) {
     return (
       <div className="w-[min(320px,85vw)] rotate-1 opacity-95">
@@ -39,18 +38,18 @@ function KanbanDragOverlayComponent({
     )
   }
 
-  if (!activeCard) return null
+  if (!dragUi) return null
 
   return (
     <div className="w-[min(320px,85vw)] cursor-grabbing [will-change:transform]">
-      <Card
-        card={activeCard}
+      <KanbanCard
+        card={dragUi.activeCard}
+        index={0}
         isOverlay
         canDelete={false}
-        userRole={userRole}
         boardIdentifier={boardIdentifier}
-        onDelete={() => {}}
-        onClick={() => {}}
+        onDeleteCard={() => {}}
+        onOpenCard={() => {}}
       />
     </div>
   )

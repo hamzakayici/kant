@@ -232,6 +232,10 @@ body.kanban-dragging [data-kanban-column-scroll] {
   scroll-behavior: auto;
 }
 
+body.kanban-dragging [data-kanban-column-scroll] {
+  contain: layout style;
+}
+
 body.kanban-dragging [data-kanban-card] {
   pointer-events: none;
 }

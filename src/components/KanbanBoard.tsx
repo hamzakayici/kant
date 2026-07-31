@@ -62,7 +62,6 @@ export default function KanbanBoard({
   const columnsRef = useRef(columns)
   columnsRef.current = columns
 
-  const [activeCard, setActiveCard] = useState<any | null>(null)
   const [activeColumn, setActiveColumn] = useState<any | null>(null)
   const dragOriginRef = useRef<{ cardId: string; columnId: string } | null>(null)
   const columnOriginIndexRef = useRef<number | null>(null)
@@ -393,7 +392,6 @@ export default function KanbanBoard({
     if (!column) return
     const card = column.cards.find((c: any) => c.id === active.id)
     if (!card || !canDragCard(column)) return
-    setActiveCard(card)
     dragOriginRef.current = { cardId: card.id, columnId: column.id }
     const sourceIndex = column.cards.findIndex((c: any) => c.id === card.id)
     kanbanDragUiStore.start({
@@ -405,15 +403,10 @@ export default function KanbanBoard({
   }
 
   const updateCardDropTarget = useCallback(
-    (columnId: string, cardCount: number, activeCardId: string) => {
+    (columnId: string, cardCount: number) => {
       const scrollEl = columnScrollMapRef.current.get(columnId)
       const index = scrollEl
-        ? computeDropIndex(
-            scrollEl,
-            pointerRef.current.y,
-            cardCount,
-            activeCardId,
-          )
+        ? computeDropIndex(scrollEl, pointerRef.current.y, cardCount)
         : cardCount
 
       const prev = dropTargetRef.current
@@ -430,23 +423,18 @@ export default function KanbanBoard({
   const pendingDropTargetRef = useRef<{
     columnId: string
     cardCount: number
-    activeCardId: string
   } | null>(null)
   const dropTargetFrameRef = useRef<number | null>(null)
 
   const scheduleCardDropTarget = useCallback(
-    (columnId: string, cardCount: number, activeCardId: string) => {
-      pendingDropTargetRef.current = { columnId, cardCount, activeCardId }
+    (columnId: string, cardCount: number) => {
+      pendingDropTargetRef.current = { columnId, cardCount }
       if (dropTargetFrameRef.current !== null) return
       dropTargetFrameRef.current = requestAnimationFrame(() => {
         dropTargetFrameRef.current = null
         const pending = pendingDropTargetRef.current
         if (!pending) return
-        updateCardDropTarget(
-          pending.columnId,
-          pending.cardCount,
-          pending.activeCardId,
-        )
+        updateCardDropTarget(pending.columnId, pending.cardCount)
       })
     },
     [updateCardDropTarget],
@@ -456,8 +444,6 @@ export default function KanbanBoard({
     const { active, over } = event
 
     if (!over) {
-      dropTargetRef.current = null
-      kanbanDragUiStore.clear()
       return
     }
 
@@ -486,7 +472,7 @@ export default function KanbanBoard({
     const column = currentColumns.find((col: any) => col.id === columnId)
     if (!column) return
 
-    scheduleCardDropTarget(columnId, column.cards.length, String(activeId))
+    scheduleCardDropTarget(columnId, column.cards.length)
   }
 
   const flushPendingDropTarget = useCallback(() => {
@@ -497,11 +483,7 @@ export default function KanbanBoard({
     const pending = pendingDropTargetRef.current
     pendingDropTargetRef.current = null
     if (pending) {
-      updateCardDropTarget(
-        pending.columnId,
-        pending.cardCount,
-        pending.activeCardId,
-      )
+      updateCardDropTarget(pending.columnId, pending.cardCount)
     }
   }, [updateCardDropTarget])
 
@@ -552,7 +534,6 @@ export default function KanbanBoard({
     }
 
     const origin = dragOriginRef.current
-    setActiveCard(null)
     dragOriginRef.current = null
 
     if (!over || !origin || origin.cardId !== active.id) {
@@ -648,7 +629,6 @@ export default function KanbanBoard({
     finalizeDragFrame()
     flushPendingDropTarget()
     finishDrag()
-    setActiveCard(null)
     setActiveColumn(null)
     dragOriginRef.current = null
     columnOriginIndexRef.current = null
@@ -746,8 +726,8 @@ export default function KanbanBoard({
             }}
             autoScroll={{
               threshold: { x: 0.12, y: 0.18 },
-              acceleration: 6,
-              interval: 8,
+              acceleration: 8,
+              interval: 16,
             }}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
@@ -812,9 +792,7 @@ export default function KanbanBoard({
               }}
             >
               <KanbanDragOverlay
-                activeCard={activeCard}
                 activeColumn={activeColumn}
-                userRole={userRole}
                 boardIdentifier={initialBoard.identifier}
               />
             </DragOverlay>
