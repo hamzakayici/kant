@@ -595,6 +595,24 @@ export default function KanbanBoard({
 
   const handleDragEnd = async (event: DragEndEvent) => {
     finalizeDragFrame()
+
+    const activator = event.activatorEvent
+    if (
+      activator &&
+      typeof activator === "object" &&
+      "clientX" in activator &&
+      "clientY" in activator
+    ) {
+      const pointer = activator as { clientX: number; clientY: number }
+      pointerRef.current = {
+        x: pointer.clientX,
+        y: pointer.clientY,
+      }
+    }
+
+    if (event.active.data.current?.type === "Card") {
+      refreshDropTargetFromPointer()
+    }
     flushPendingDropTarget()
     finishDrag()
 
