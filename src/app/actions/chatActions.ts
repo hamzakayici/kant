@@ -134,47 +134,6 @@ export async function getUserChatGroups(): Promise<EnrichedChatGroup[]> {
   return sortChatGroupsByActivity(enriched)
 }
 
-export async function getBoardChatGroups(
-  boardId: string,
-): Promise<EnrichedChatGroup[]> {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
-
-  const isAdmin = session.user.role === "ADMIN"
-  const telegramEnabled = isTelegramEnabled()
-
-  const groups = await prisma.chatGroup.findMany({
-    where: {
-      boardId,
-      ...(telegramEnabled ? { telegramTopicId: { not: null } } : {}),
-      ...(isAdmin
-        ? {}
-        : { members: { some: { userId: session.user.id } } }),
-    },
-    include: {
-      board: { select: { id: true, name: true, identifier: true } },
-      members: {
-        include: {
-          user: {
-            select: { id: true, email: true, firstName: true, lastName: true },
-          },
-        },
-      },
-    },
-  })
-
-  const visible = telegramEnabled
-    ? groups.filter(
-        (group) =>
-          group.telegramTopicId == null ||
-          !isPlaceholderTopicName(group.name, group.telegramTopicId),
-      )
-    : groups
-
-  const enriched = await enrichChatGroupsBatch(visible, session.user.id)
-  return sortChatGroupsByActivity(enriched)
-}
-
 export async function markChatGroupAsRead(chatGroupId: string) {
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
