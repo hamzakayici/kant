@@ -10,6 +10,9 @@
 #   POSTGRES_PASSWORD=kant_password
 #   DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
 #   KANT_AUTO_SEED=true
+#   KANT_SEED_MINIMAL=true
+#   SEED_ADMIN_EMAIL=admin@kant.com
+#   SEED_ADMIN_PASSWORD=admin123
 #   OPENCLOUD_ADMIN_PASSWORD=kant_opencloud_dev
 #   OPENCLOUD_PASSWORD=kant_opencloud_dev
 #   TELEGRAM_BOT_TOKEN=...
@@ -104,6 +107,9 @@ services:
       OPENCLOUD_PUBLIC_SHARES: "true"
       OPENCLOUD_INSECURE: "true"
       KANT_AUTO_SEED: ${KANT_AUTO_SEED:-true}
+      KANT_SEED_MINIMAL: ${KANT_SEED_MINIMAL:-true}
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@kant.com}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-admin123}
     depends_on:
       db:
         condition: service_healthy

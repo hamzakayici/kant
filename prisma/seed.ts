@@ -778,16 +778,44 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
 }
 
 async function main() {
-  const adminPassword = await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD ?? "admin123", 10)
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@kant.com"
+  const adminPasswordPlain = process.env.SEED_ADMIN_PASSWORD ?? "admin123"
+  const adminPassword = await bcrypt.hash(adminPasswordPlain, 10)
+
+  if (process.env.KANT_SEED_MINIMAL === "true") {
+    await prisma.user.upsert({
+      where: { email: adminEmail },
+      update: {
+        firstName: "Admin",
+        lastName: "Kullanıcı",
+        role: "ADMIN",
+        mustChangePassword: false,
+        isActive: true,
+        password: adminPassword,
+      },
+      create: {
+        email: adminEmail,
+        firstName: "Admin",
+        lastName: "Kullanıcı",
+        password: adminPassword,
+        role: "ADMIN",
+        mustChangePassword: false,
+        isActive: true,
+      },
+    })
+    console.log(`Minimal seed: ${adminEmail} (ADMIN)`)
+    return
+  }
+
   const userPassword = await bcrypt.hash(process.env.SEED_USER_PASSWORD ?? "user123", 10)
   const ownerEmail = process.env.SEED_OWNER_EMAIL ?? "hamzakayc@gmail.com"
   const ownerPasswordPlain = process.env.SEED_OWNER_PASSWORD
 
   const admin = await prisma.user.upsert({
-    where: { email: "admin@kant.com" },
+    where: { email: adminEmail },
     update: { firstName: "Sistem", lastName: "Yöneticisi" },
     create: {
-      email: "admin@kant.com",
+      email: adminEmail,
       firstName: "Sistem",
       lastName: "Yöneticisi",
       password: adminPassword,
