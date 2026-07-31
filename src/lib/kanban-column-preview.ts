@@ -1,4 +1,3 @@
-import { arrayMove } from "@dnd-kit/sortable"
 import type { ColumnDragUiSnapshot } from "@/lib/kanban-drag-ui-store"
 
 function hasSameOrder<T extends { id: string }>(left: T[], right: T[]) {
@@ -9,40 +8,46 @@ function hasSameOrder<T extends { id: string }>(left: T[], right: T[]) {
   return true
 }
 
+/** During drag: only hide the active card in its source column — no full array reorder. */
+export function buildColumnDragCards<T extends { id: string }>(
+  cards: T[],
+  columnId: string,
+  dragUi: ColumnDragUiSnapshot | null,
+): T[] {
+  if (!dragUi || dragUi.sourceColumnId !== columnId) return cards
+
+  const next = cards.filter((card) => card.id !== dragUi.activeCardId)
+  return hasSameOrder(cards, next) ? cards : next
+}
+
+/** Virtual row index for a drop-gap indicator (avoids arrayMove on large columns). */
+export function getColumnDropIndicatorIndex(
+  visibleCards: { id: string }[],
+  columnId: string,
+  dragUi: ColumnDragUiSnapshot | null,
+  sourceCards: { id: string }[],
+): number | null {
+  if (!dragUi || dragUi.dropHint.columnId !== columnId) return null
+
+  let index = dragUi.dropHint.index
+
+  if (dragUi.sourceColumnId === columnId) {
+    const activeIndex = sourceCards.findIndex(
+      (card) => card.id === dragUi.activeCardId,
+    )
+    if (activeIndex !== -1 && index > activeIndex) {
+      index -= 1
+    }
+  }
+
+  return Math.max(0, Math.min(index, visibleCards.length))
+}
+
+/** @deprecated Use buildColumnDragCards — kept for compatibility during migration */
 export function buildColumnPreviewCards<T extends { id: string }>(
   cards: T[],
   columnId: string,
   dragUi: ColumnDragUiSnapshot | null,
 ): T[] {
-  if (!dragUi) return cards
-
-  const { activeCardId, sourceColumnId, activeCard, dropHint } = dragUi
-  const isSource = sourceColumnId === columnId
-  const isTarget = dropHint.columnId === columnId
-
-  if (!isSource && !isTarget) return cards
-
-  if (isSource && isTarget) {
-    const activeIndex = cards.findIndex((card) => card.id === activeCardId)
-    if (activeIndex === -1) return cards
-    const insertIndex = Math.max(0, Math.min(dropHint.index, cards.length))
-    if (activeIndex === insertIndex) return cards
-    const next = arrayMove(
-      cards,
-      activeIndex,
-      insertIndex >= cards.length ? cards.length - 1 : insertIndex,
-    )
-    return hasSameOrder(cards, next) ? cards : next
-  }
-
-  if (isSource) {
-    const next = cards.filter((card) => card.id !== activeCardId)
-    return hasSameOrder(cards, next) ? cards : next
-  }
-
-  const next = [...cards]
-  const insertIndex = Math.max(0, Math.min(dropHint.index, next.length))
-  if (next.some((card) => card.id === activeCardId)) return cards
-  next.splice(insertIndex, 0, activeCard as T)
-  return hasSameOrder(cards, next) ? cards : next
+  return buildColumnDragCards(cards, columnId, dragUi)
 }

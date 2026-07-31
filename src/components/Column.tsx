@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  createContext,
-  useContext,
-  useState,
-} from "react"
-import { useDroppable } from "@dnd-kit/core"
+import { useState } from "react"
 import { useSortable } from "@dnd-kit/sortable"
 import { sortableTranslateStyle } from "@/lib/kanban-dnd-style"
 import {
@@ -18,7 +13,6 @@ import {
   ArrowRight,
   Plus,
   X,
-  Inbox,
   GripVertical,
 } from "lucide-react"
 import {
@@ -47,14 +41,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
-import { getColumnCategoryLabel, hexToRgba } from "@/lib/kanban-utils"
+import { getColumnCategoryLabel } from "@/lib/kanban-utils"
 import { useColumnIsDragTarget, useKanbanCardDragActive } from "@/components/kanban/useColumnDragUi"
+import { ColumnDropScroll } from "@/components/kanban/ColumnDropScroll"
 
-const ColumnScrollContext = createContext<HTMLDivElement | null>(null)
-
-export function useColumnScrollRoot() {
-  return useContext(ColumnScrollContext)
-}
+export { useColumnScrollRoot } from "@/components/kanban/ColumnDropScroll"
 
 const COLUMN_COLORS = [
   "#579dff",
@@ -111,15 +102,6 @@ export default function Column({
     disabled: !canReorderColumn,
   })
 
-  const { setNodeRef: setDropRef, isOver } = useDroppable({
-    id: `column-drop-${column.id}`,
-    data: { type: "ColumnDrop", columnId: column.id },
-  })
-
-  const [scrollRootNode, setScrollRootNode] = useState<HTMLDivElement | null>(null)
-
-  const columnStyle = sortableTranslateStyle(transform, transition)
-
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [showRenamePrompt, setShowRenamePrompt] = useState(false)
   const [showPermissionsModal, setShowPermissionsModal] = useState(false)
@@ -137,9 +119,9 @@ export default function Column({
   const hasCards = totalCount > 0
   const isDragTarget = useColumnIsDragTarget(column.id)
   const isCardDragActive = useKanbanCardDragActive()
-  const columnDropActive = isCardDragActive ? isDragTarget : isOver
-  const showDropHighlight =
-    !isDragging && (isCardDragActive ? columnDropActive : isOver)
+  const showDropHighlight = !isDragging && isCardDragActive && isDragTarget
+
+  const columnStyle = sortableTranslateStyle(transform, transition)
 
   const handleSavePermissions = async () => {
     await updateColumnAllowedRoles(column.id, allowedRoles, dragOutRoles)
@@ -283,39 +265,14 @@ export default function Column({
         </DropdownMenu>
       </div>
 
-      <ColumnScrollContext.Provider value={scrollRootNode}>
-      <div
-        ref={(node) => {
-          setScrollRootNode(node)
-          setDropRef(node)
-          if (node) {
-            node.dataset.kanbanColumnScroll = ""
-          }
-        }}
-        className={cn(
-          "custom-scrollbar mx-2 mb-2 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain rounded-xl border border-transparent p-1.5",
-          isCardDragActive ? "transition-none" : "transition-colors",
-          columnDropActive && "border-primary/20 bg-primary/5",
-          isDragTarget && !hasCards && "min-h-[160px]",
-        )}
-        style={{
-          backgroundColor: columnDropActive
-            ? undefined
-            : hexToRgba(dotColor, 0.04),
-        }}
+      <ColumnDropScroll
+        columnId={column.id}
+        dotColor={dotColor}
+        hasCards={hasCards}
+        isAdding={isAdding}
       >
-        {hasCards || isAdding ? (
-          <div className="flex flex-col gap-2">{children}</div>
-        ) : (
-          <div className="flex min-h-[120px] flex-col items-center justify-center rounded-xl border border-dashed border-border/60 px-4 py-8 text-center">
-            <Inbox className="mb-2 size-8 text-muted-foreground/40" />
-            <p className="text-xs text-muted-foreground">
-              {isDragTarget ? "Kartı buraya bırakın" : "Bu sütunda kart yok"}
-            </p>
-          </div>
-        )}
-      </div>
-      </ColumnScrollContext.Provider>
+        {children}
+      </ColumnDropScroll>
 
       {canAddCard ? (
         <div className="mt-auto shrink-0 border-t border-border/50 bg-card/40 p-2">

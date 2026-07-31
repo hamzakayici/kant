@@ -3,15 +3,21 @@
 import { memo, useEffect, useMemo } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { KanbanCardSkeleton } from "@/components/kanban/KanbanCardSkeleton"
+import { KanbanDropIndicator } from "@/components/kanban/KanbanDropIndicator"
 import { VirtualKanbanRow } from "@/components/kanban/VirtualKanbanRow"
-import { useColumnScrollRoot } from "@/components/Column"
+import { useColumnScrollRoot } from "@/components/kanban/ColumnDropScroll"
 import { useKanbanBoardDndOptional } from "@/components/kanban/KanbanBoardDndContext"
 import { useColumnDragUi } from "@/components/kanban/useColumnDragUi"
-import { buildColumnPreviewCards } from "@/lib/kanban-column-preview"
+import {
+  buildColumnDragCards,
+  getColumnDropIndicatorIndex,
+} from "@/lib/kanban-column-preview"
 import {
   KANBAN_CARD_ESTIMATE_HEIGHT,
   KANBAN_CARD_ROW_GAP,
 } from "@/lib/kanban-utils"
+
+const DROP_INDICATOR_HEIGHT = KANBAN_CARD_ESTIMATE_HEIGHT
 
 type ColumnCardListProps = {
   columnId: string
@@ -61,17 +67,40 @@ function ColumnCardListComponent({
   }, [cards, filterVisibleIds, hasActiveFilters])
 
   const orderedCards = useMemo(
-    () => buildColumnPreviewCards(baseOrderedCards, columnId, columnDragUi),
+    () => buildColumnDragCards(baseOrderedCards, columnId, columnDragUi),
     [baseOrderedCards, columnDragUi, columnId],
   )
 
+  const dropIndicatorIndex = useMemo(
+    () =>
+      getColumnDropIndicatorIndex(
+        orderedCards,
+        columnId,
+        columnDragUi,
+        baseOrderedCards,
+      ),
+    [orderedCards, columnId, columnDragUi, baseOrderedCards],
+  )
+
+  const virtualCount =
+    orderedCards.length + (dropIndicatorIndex !== null ? 1 : 0)
+
   const virtualizer = useVirtualizer({
-    count: orderedCards.length,
+    count: virtualCount,
     getScrollElement: () => scrollRoot,
-    estimateSize: () => KANBAN_CARD_ESTIMATE_HEIGHT,
+    estimateSize: (index) =>
+      dropIndicatorIndex !== null && index === dropIndicatorIndex
+        ? DROP_INDICATOR_HEIGHT
+        : KANBAN_CARD_ESTIMATE_HEIGHT,
     gap: KANBAN_CARD_ROW_GAP,
     overscan: isPreviewActive ? 2 : 4,
-    getItemKey: (index) => orderedCards[index]?.id ?? index,
+    getItemKey: (index) => {
+      if (dropIndicatorIndex !== null && index === dropIndicatorIndex) {
+        return `drop-${columnId}`
+      }
+      const card = orderedCards[mapVirtualIndex(index, dropIndicatorIndex)]
+      return card?.id ?? index
+    },
   })
 
   const measureElement = isPreviewActive ? undefined : virtualizer.measureElement
@@ -80,20 +109,42 @@ function ColumnCardListComponent({
   return (
     <>
       {isCreatingCard ? <KanbanCardSkeleton /> : null}
-      {orderedCards.length === 0 ? null : (
+      {orderedCards.length === 0 && dropIndicatorIndex === null ? null : (
         <div
           className="relative w-full"
           style={{ height: virtualizer.getTotalSize() }}
         >
           {virtualItems.map((virtualRow) => {
-            const card = orderedCards[virtualRow.index]
+            if (
+              dropIndicatorIndex !== null &&
+              virtualRow.index === dropIndicatorIndex
+            ) {
+              return (
+                <div
+                  key={`drop-${columnId}`}
+                  className="absolute top-0 left-0 w-full shrink-0"
+                  style={{
+                    transform: `translate3d(0, ${virtualRow.start}px, 0)`,
+                    contain: "layout style paint",
+                  }}
+                >
+                  <KanbanDropIndicator />
+                </div>
+              )
+            }
+
+            const cardIndex = mapVirtualIndex(
+              virtualRow.index,
+              dropIndicatorIndex,
+            )
+            const card = orderedCards[cardIndex]
             if (!card) return null
 
             return (
               <VirtualKanbanRow
                 key={card.id}
                 card={card}
-                index={virtualRow.index}
+                index={cardIndex}
                 top={virtualRow.start}
                 isDragging={isPreviewActive}
                 measureRef={measureElement}
@@ -109,6 +160,16 @@ function ColumnCardListComponent({
       )}
     </>
   )
+}
+
+function mapVirtualIndex(
+  virtualIndex: number,
+  dropIndicatorIndex: number | null,
+) {
+  if (dropIndicatorIndex === null || virtualIndex < dropIndicatorIndex) {
+    return virtualIndex
+  }
+  return virtualIndex - 1
 }
 
 export const ColumnCardList = memo(ColumnCardListComponent)
