@@ -2,7 +2,7 @@
 
 import { createContext, memo, useContext, useState, type ReactNode } from "react"
 import { useDroppable } from "@dnd-kit/core"
-import { Inbox } from "lucide-react"
+import { KanbanDropSlot } from "@/components/kanban/KanbanDropIndicator"
 import { cn } from "@/lib/utils"
 import { hexToRgba } from "@/lib/kanban-utils"
 import {
@@ -66,12 +66,11 @@ function ColumnDropScrollComponent({
       >
         {hasCards || isAdding ? (
           <div className="flex flex-col gap-2">{children}</div>
+        ) : isDragTarget ? (
+          <KanbanDropSlot variant="target" className="w-full" />
         ) : (
           <div className="flex min-h-[120px] flex-col items-center justify-center rounded-xl border border-dashed border-border/60 px-4 py-8 text-center">
-            <Inbox className="mb-2 size-8 text-muted-foreground/40" />
-            <p className="text-xs text-muted-foreground">
-              {isDragTarget ? "Kartı buraya bırakın" : "Bu sütunda kart yok"}
-            </p>
+            <p className="text-xs text-muted-foreground">Bu sütunda kart yok</p>
           </div>
         )}
       </div>

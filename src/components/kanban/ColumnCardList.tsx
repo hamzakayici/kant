@@ -3,7 +3,7 @@
 import { memo, useEffect, useMemo } from "react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { KanbanCardSkeleton } from "@/components/kanban/KanbanCardSkeleton"
-import { KanbanDropIndicator } from "@/components/kanban/KanbanDropIndicator"
+import { KanbanDropSlot } from "@/components/kanban/KanbanDropIndicator"
 import { VirtualKanbanRow } from "@/components/kanban/VirtualKanbanRow"
 import { useColumnScrollRoot } from "@/components/kanban/ColumnDropScroll"
 import { useKanbanBoardDndOptional } from "@/components/kanban/KanbanBoardDndContext"
@@ -93,7 +93,7 @@ function ColumnCardListComponent({
         ? DROP_INDICATOR_HEIGHT
         : KANBAN_CARD_ESTIMATE_HEIGHT,
     gap: KANBAN_CARD_ROW_GAP,
-    overscan: isPreviewActive ? 2 : 4,
+    overscan: isPreviewActive ? 6 : 4,
     getItemKey: (index) => {
       if (dropIndicatorIndex !== null && index === dropIndicatorIndex) {
         return `drop-${columnId}`
@@ -122,13 +122,13 @@ function ColumnCardListComponent({
               return (
                 <div
                   key={`drop-${columnId}`}
-                  className="absolute top-0 left-0 w-full shrink-0"
+                  className="absolute top-0 left-0 z-10 w-full shrink-0"
                   style={{
                     transform: `translate3d(0, ${virtualRow.start}px, 0)`,
                     contain: "layout style paint",
                   }}
                 >
-                  <KanbanDropIndicator />
+                  <KanbanDropSlot variant="target" />
                 </div>
               )
             }

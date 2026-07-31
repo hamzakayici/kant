@@ -20,6 +20,7 @@ import {
   getPriorityLabel,
 } from "@/lib/card-styles"
 import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import { KANBAN_CARD_ESTIMATE_HEIGHT } from "@/lib/kanban-utils"
 import { cn } from "@/lib/utils"
 
 const PRIORITY_BORDER: Record<string, string> = {
@@ -63,7 +64,8 @@ function KanbanCardComponent({
         data-kanban-card={card.id}
         data-kanban-index={index}
         data-dragging="true"
-        className="h-[72px] shrink-0 rounded-xl border-2 border-dashed border-primary/50 bg-primary/8"
+        className="kanban-drop-slot shrink-0 rounded-xl border-2 border-dashed border-primary/45 bg-primary/8"
+        style={{ height: KANBAN_CARD_ESTIMATE_HEIGHT }}
         aria-hidden
       />
     )
