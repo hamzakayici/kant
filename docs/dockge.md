@@ -1,89 +1,79 @@
-# Dockge ile Deploy
+# Dockge ile Deploy (yalnızca YAML)
 
-## Hata: `open Dockerfile: no such file or directory`
+Dockge'de **git clone gerekmez**. Hazır Docker image + bu compose dosyası yeterli.
 
-Bu hata, stack klasöründe **yalnızca compose dosyası** olduğunda görülür. `app` servisi `build: .` ile **tüm proje klasörünü** (Dockerfile, package.json, src/, prisma/ vb.) gerektirir.
+## 1. Image'in build edilmesi
 
-**Yanlış:** Dockge editörüne sadece `docker-compose.yml` yapıştırmak  
-**Doğru:** Git reposunun tamamını stack klasörüne almak
+`main` branch'e push edildiğinde GitHub Actions otomatik image üretir:
 
----
+`ghcr.io/hamzakayici/kant:latest`
 
-## Kurulum (önerilen — Git)
+İlk kez deploy etmeden önce [Actions](https://github.com/hamzakayici/kant/actions) sekmesinden **Publish Docker image** workflow'unun yeşil olduğundan emin olun.
 
-1. Dockge → **+ Compose**
+Manuel tetiklemek için: Actions → Publish Docker image → **Run workflow**
+
+## 2. Dockge'de stack oluştur
+
+1. **+ Compose**
 2. Stack adı: `kant`
-3. **Source / Git** (varsa):
-   - Repository: `https://github.com/hamzakayici/kant.git`
-   - Branch: `main`
-   - Compose path: `docker-compose.yml`
-4. **Environment** sekmesine `.env.production.example` içeriğini yapıştırıp şifreleri doldurun
+3. Web editörüne `compose.dockge.yml` dosyasının **tüm içeriğini** yapıştırın  
+   (repo'daki `docker-compose.yml` değil — o build gerektirir)
+4. **Environment** sekmesine değişkenleri ekleyin (aşağıda)
 5. **Deploy**
 
-### Manuel clone (SSH)
+## 3. Environment değişkenleri
 
-```bash
-cd /opt/stacks   # Dockge stacks dizini (kuruluma göre değişebilir)
-git clone https://github.com/hamzakayici/kant.git kant
-cd kant
-cp .env.production.example .env
-# .env dosyasını düzenleyin
+```env
+AUTH_URL=https://zubi.noktafikir.com
+NEXTAUTH_URL=https://zubi.noktafikir.com
+NEXT_PUBLIC_APP_URL=https://zubi.noktafikir.com
+TELEGRAM_PUBLIC_APP_URL=https://zubi.noktafikir.com
+
+AUTH_SECRET=waE88UmOpSCeiqsTiQgkV1nGqgcnjL5sbnjSxM8sov0=
+
+POSTGRES_USER=kant_user
+POSTGRES_PASSWORD=kant_password
+POSTGRES_DB=kant_db
+DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+
+KANT_AUTO_SEED=true
+
+OPENCLOUD_ADMIN_PASSWORD=kant_opencloud_dev
+OPENCLOUD_PASSWORD=kant_opencloud_dev
+
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_BOT_USERNAME=...
+TELEGRAM_WEBHOOK_SECRET=...
+TELEGRAM_SUPERGROUP_ID=...
+TELEGRAM_DEFAULT_TOPIC_ID=1
+TELEGRAM_API_ID=...
+TELEGRAM_API_HASH=...
 ```
 
-Dockge'de stack path olarak `/opt/stacks/kant` gösterin.
+İlk kurulumdan sonra `KANT_AUTO_SEED=false` yapın.
 
----
+## 4. Erişim
 
-## Gerekli dosyalar (stack kökünde olmalı)
+- Kant: `http://SUNUCU_IP:3000` veya reverse proxy ile `https://zubi.noktafikir.com`
+- OpenCloud: dışarıdan kapalı (Kant üzerinden dosya erişimi)
 
-```
-kant/
-├── Dockerfile          ← build için zorunlu
-├── docker-compose.yml
-├── docker/entrypoint.sh
-├── package.json
-├── prisma/
-├── src/
-└── .env                ← Dockge Environment veya bu dosya
-```
+## 5. Güncelleme
 
----
-
-## İlk deploy
-
-```bash
-docker compose up -d --build
-```
-
-Log:
-
-```bash
-docker compose logs -f app
-```
-
-Beklenen:
-
-- `PostgreSQL hazır.`
-- `Veritabanı şeması uygulanıyor...`
-- `Kant başlatılıyor...`
-
----
+GitHub'a push → Actions image'ı günceller → Dockge'de stack **Redeploy** (pull_policy: always yeni image'ı çeker)
 
 ## Sorun giderme
 
-| Sorun | Çözüm |
-|-------|--------|
-| Dockerfile bulunamadı | Tüm repoyu clone edin, sadece compose değil |
-| DB bağlantı hatası | `POSTGRES_PASSWORD` = `DATABASE_URL` içindeki şifre |
-| Migration hatası | `docker compose down -v` sonra yeniden deploy (volume sıfırlar) |
-| Port çakışması | 3000 veya 9200 başka serviste kullanılıyor olabilir |
+| Hata | Çözüm |
+|------|--------|
+| `open Dockerfile: no such file` | `docker-compose.yml` yerine `compose.dockge.yml` kullanın |
+| `manifest unknown` / image pull failed | GitHub Actions workflow'unu çalıştırın |
+| `denied: permission` (GHCR) | Repo public değilse sunucuda `docker login ghcr.io` |
+| DB hatası | `POSTGRES_PASSWORD` ile `DATABASE_URL` şifresi aynı olmalı |
+| Eski bozuk DB | Stack durdur → volume sil → yeniden deploy |
 
----
+## docker-compose.yml vs compose.dockge.yml
 
-## Güncelleme
-
-```bash
-cd /opt/stacks/kant
-git pull
-docker compose up -d --build
-```
+| Dosya | Kullanım |
+|-------|----------|
+| `docker-compose.yml` | Sunucuda git clone + `docker compose build` |
+| `compose.dockge.yml` | Dockge'ye yapıştır, build yok, hazır image |

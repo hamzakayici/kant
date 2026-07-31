@@ -31,10 +31,13 @@ Tüm rehberler [`docs/`](./docs/README.md) klasöründe:
 # Geliştirme
 docker compose up -d --build
 
-# Production (zubi.noktafikir.com)
+# Production (zubi.noktafikir.com) — sunucuda git clone
 cp .env.production.example .env.production
-# .env.production içinde şifreleri doldurun
 npm run docker:prod
+
+# Dockge — yalnızca YAML yapıştır (build yok)
+# compose.dockge.yml içeriğini Dockge editörüne yapıştırın
+# Detay: docs/dockge.md
 ```
 
 Detaylar: [deployment.md](./docs/deployment.md) · Dockge: [dockge.md](./docs/dockge.md)

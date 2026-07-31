@@ -1,0 +1,118 @@
+# Dockge — yalnızca bu dosyayı yapıştırıp Deploy edin (git clone gerekmez)
+# Image: ghcr.io/hamzakayici/kant:latest (main branch push sonrası otomatik build)
+#
+# Dockge → Environment sekmesine ekleyin:
+#   AUTH_URL=https://zubi.noktafikir.com
+#   NEXTAUTH_URL=https://zubi.noktafikir.com
+#   NEXT_PUBLIC_APP_URL=https://zubi.noktafikir.com
+#   TELEGRAM_PUBLIC_APP_URL=https://zubi.noktafikir.com
+#   AUTH_SECRET=<openssl rand -base64 32>
+#   POSTGRES_PASSWORD=kant_password
+#   DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+#   KANT_AUTO_SEED=true
+#   OPENCLOUD_ADMIN_PASSWORD=kant_opencloud_dev
+#   OPENCLOUD_PASSWORD=kant_opencloud_dev
+#   TELEGRAM_BOT_TOKEN=...
+#   TELEGRAM_BOT_USERNAME=...
+#   TELEGRAM_WEBHOOK_SECRET=...
+#   TELEGRAM_SUPERGROUP_ID=...
+#   TELEGRAM_DEFAULT_TOPIC_ID=1
+#   TELEGRAM_API_ID=...
+#   TELEGRAM_API_HASH=...
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-kant_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kant_password}
+      POSTGRES_DB: ${POSTGRES_DB:-kant_db}
+    volumes:
+      - kant_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kant_user -d kant_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  opencloud:
+    image: opencloudeu/opencloud-rolling:7.3.0
+    restart: unless-stopped
+    expose:
+      - "9200"
+    environment:
+      OC_URL: https://opencloud:9200
+      PROXY_TLS: "true"
+      OC_INSECURE: "true"
+      PROXY_ENABLE_BASIC_AUTH: "true"
+      IDM_ADMIN_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
+      IDM_CREATE_DEMO_USERS: "false"
+      OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD: "false"
+      OC_PASSWORD_POLICY_DISABLED: "true"
+      OC_LOG_LEVEL: warn
+    volumes:
+      - kant_opencloud_config:/etc/opencloud
+      - kant_opencloud_data:/var/lib/opencloud
+    entrypoint: ["/bin/sh"]
+    command:
+      - -c
+      - opencloud init || true; opencloud server
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-check-certificate",
+          "-q",
+          "--spider",
+          "https://localhost:9200/status.php",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 45s
+
+  app:
+    image: ghcr.io/hamzakayici/kant:latest
+    pull_policy: always
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:-postgresql://kant_user:kant_password@db:5432/kant_db?schema=public}
+      AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-random-secret}
+      AUTH_URL: ${AUTH_URL:-}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-}
+      TELEGRAM_PUBLIC_APP_URL: ${TELEGRAM_PUBLIC_APP_URL:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
+      TELEGRAM_WEBHOOK_SECRET: ${TELEGRAM_WEBHOOK_SECRET:-}
+      TELEGRAM_SUPERGROUP_ID: ${TELEGRAM_SUPERGROUP_ID:-}
+      TELEGRAM_DEFAULT_TOPIC_ID: ${TELEGRAM_DEFAULT_TOPIC_ID:-}
+      TELEGRAM_API_ID: ${TELEGRAM_API_ID:-}
+      TELEGRAM_API_HASH: ${TELEGRAM_API_HASH:-}
+      OPENCLOUD_ENABLED: "true"
+      OPENCLOUD_URL: https://opencloud:9200
+      OPENCLOUD_USERNAME: admin
+      OPENCLOUD_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
+      OPENCLOUD_ROOT: Kant
+      STORAGE_MODE: opencloud
+      OPENCLOUD_PUBLIC_SHARES: "true"
+      OPENCLOUD_INSECURE: "true"
+      KANT_AUTO_SEED: ${KANT_AUTO_SEED:-true}
+    depends_on:
+      db:
+        condition: service_healthy
+      opencloud:
+        condition: service_healthy
+    volumes:
+      - kant_uploads:/app/uploads
+
+volumes:
+  kant_postgres_data:
+  kant_opencloud_config:
+  kant_opencloud_data:
+  kant_uploads:
