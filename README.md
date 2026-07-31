@@ -28,7 +28,13 @@ Tüm rehberler [`docs/`](./docs/README.md) klasöründe:
 ## Docker
 
 ```bash
+# Geliştirme
 docker compose up -d --build
+
+# Production (zubi.noktafikir.com)
+cp .env.production.example .env.production
+# .env.production içinde şifreleri doldurun
+npm run docker:prod
 ```
 
 Detaylar: [deployment.md](./docs/deployment.md)

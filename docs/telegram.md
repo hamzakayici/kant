@@ -28,6 +28,7 @@ TELEGRAM_BOT_TOKEN="123456:ABC..."
 TELEGRAM_BOT_USERNAME="kant_sohbet_bot"
 TELEGRAM_WEBHOOK_SECRET="rastgele-gizli-anahtar"
 AUTH_URL="https://siteniz.com"
+# Production: AUTH_URL="https://zubi.noktafikir.com"
 ```
 
 Geliştirme için: `AUTH_URL="http://localhost:3000"`

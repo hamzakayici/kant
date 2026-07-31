@@ -1,5 +1,81 @@
 # Dağıtım
 
+## Production — zubi.noktafikir.com
+
+Yayın adresi: **https://zubi.noktafikir.com**
+
+### 1. Ortam dosyası
+
+```bash
+cp .env.production.example .env.production
+```
+
+`.env.production` içinde mutlaka güncelleyin:
+
+| Değişken | Değer |
+|----------|--------|
+| `AUTH_URL` | `https://zubi.noktafikir.com` |
+| `NEXTAUTH_URL` | `https://zubi.noktafikir.com` |
+| `TELEGRAM_PUBLIC_APP_URL` | `https://zubi.noktafikir.com` |
+| `AUTH_SECRET` | `openssl rand -base64 32` çıktısı |
+| `DATABASE_URL` | Güçlü DB şifresi |
+| `KANT_AUTO_SEED` | `false` (ilk kurulumdan sonra) |
+
+### 2. Docker ile production
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml \
+  --env-file .env.production up -d --build
+```
+
+Bu komut:
+
+- Uygulamayı `app:3000` üzerinde çalıştırır (dışarı açılmaz)
+- `nginx` container'ı 80/443 portlarında `zubi.noktafikir.com` için proxy yapar
+- PostgreSQL ve OpenCloud portlarını dışarı kapatır
+
+### 3. SSL (Let's Encrypt)
+
+İlk kurulumda sertifika yoksa önce yalnızca HTTP ile certbot çalıştırın:
+
+```bash
+# DNS: zubi.noktafikir.com → sunucu IP
+docker run -it --rm \
+  -v certbot_www:/var/www/certbot \
+  -v certbot_certs:/etc/letsencrypt \
+  certbot/certbot certonly --webroot -w /var/www/certbot \
+  -d zubi.noktafikir.com
+```
+
+Ardından nginx container'ını yeniden başlatın:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml restart nginx
+```
+
+Nginx yapılandırması: `docker/nginx/zubi.noktafikir.com.conf`
+
+### 4. Sunucuda harici Nginx kullanıyorsanız
+
+`docker-compose.prod.yml` içindeki `nginx` servisini kaldırın; uygulamayı host'a bağlayın:
+
+```yaml
+# docker-compose.prod.yml — app servisi
+ports:
+  - "127.0.0.1:3000:3000"
+```
+
+Host nginx örneği (`server_name zubi.noktafikir.com`) aşağıdaki bölümde.
+
+### 5. Telegram webhook (production)
+
+```bash
+npm run telegram:setup
+# AUTH_URL=https://zubi.noktafikir.com olduğundan emin olun
+```
+
+---
+
 ## Docker ile Dağıtım
 
 Proje Docker ve Docker Compose desteği ile gelir.
@@ -198,10 +274,22 @@ npx tsx scripts/reset-passwords.ts
 ```nginx
 server {
     listen 80;
-    server_name kant.example.com;
+    server_name zubi.noktafikir.com;
 
     location / {
-        proxy_pass http://localhost:3000;
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name zubi.noktafikir.com;
+
+    ssl_certificate /etc/letsencrypt/live/zubi.noktafikir.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/zubi.noktafikir.com/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -213,6 +301,8 @@ server {
     }
 }
 ```
+
+> Production domain: **zubi.noktafikir.com** — tam Docker nginx yapılandırması: `docker/nginx/zubi.noktafikir.com.conf`
 
 > `client_max_body_size 50M` — Server Actions body limiti ile uyumlu olmalıdır.
 

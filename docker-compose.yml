@@ -91,6 +91,10 @@ services:
     environment:
       DATABASE_URL: postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
       AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-random-secret}
+      AUTH_URL: ${AUTH_URL:-}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-}
+      TELEGRAM_PUBLIC_APP_URL: ${TELEGRAM_PUBLIC_APP_URL:-}
       NODE_ENV: production
       OPENCLOUD_ENABLED: "true"
       OPENCLOUD_URL: https://opencloud:9200
