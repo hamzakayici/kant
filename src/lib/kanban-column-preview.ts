@@ -20,27 +20,26 @@ export function buildColumnDragCards<T extends { id: string }>(
   return hasSameOrder(cards, next) ? cards : next
 }
 
-/** Virtual row index for a drop-gap indicator (avoids arrayMove on large columns). */
+/** Map full-array insert index to virtual row index in the visible card list. */
 export function getColumnDropIndicatorIndex(
   visibleCards: { id: string }[],
   columnId: string,
   dragUi: ColumnDragUiSnapshot | null,
-  sourceCards: { id: string }[],
+  fullCards: { id: string }[],
 ): number | null {
   if (!dragUi || dragUi.dropHint.columnId !== columnId) return null
 
-  let index = dragUi.dropHint.index
+  const activeCardId =
+    dragUi.sourceColumnId === columnId ? dragUi.activeCardId : undefined
 
-  if (dragUi.sourceColumnId === columnId) {
-    const activeIndex = sourceCards.findIndex(
-      (card) => card.id === dragUi.activeCardId,
-    )
-    if (activeIndex !== -1 && index > activeIndex) {
-      index -= 1
+  let visibleInsert = 0
+  for (let i = 0; i < dragUi.dropHint.index; i++) {
+    if (fullCards[i]?.id !== activeCardId) {
+      visibleInsert += 1
     }
   }
 
-  return Math.max(0, Math.min(index, visibleCards.length))
+  return Math.max(0, Math.min(visibleInsert, visibleCards.length))
 }
 
 /** @deprecated Use buildColumnDragCards — kept for compatibility during migration */

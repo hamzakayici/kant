@@ -181,16 +181,30 @@ export default function KanbanBoard({
   )
 
   const updateCardDropTarget = useCallback(
-    (columnId: string, cardCount: number) => {
+    (columnId: string, fullCards: { id: string }[]) => {
       const scrollEl = columnScrollMapRef.current.get(columnId)
       let clientY = pointerRef.current.y
       if (scrollEl) {
         const rect = scrollEl.getBoundingClientRect()
         clientY = Math.max(rect.top, Math.min(clientY, rect.bottom))
       }
+
+      const drag = kanbanDragUiStore.get()
+      const activeCardId = drag?.activeCardId
+      const visibleCards =
+        drag?.sourceColumnId === columnId && activeCardId
+          ? fullCards.filter((card) => card.id !== activeCardId)
+          : fullCards
+
       const index = scrollEl
-        ? computeDropIndex(scrollEl, clientY, cardCount)
-        : cardCount
+        ? computeDropIndex(
+            scrollEl,
+            clientY,
+            fullCards,
+            visibleCards,
+            activeCardId,
+          )
+        : fullCards.length
 
       const prev = dropTargetRef.current
       if (prev?.columnId === columnId && prev.index === index) {
@@ -251,7 +265,7 @@ export default function KanbanBoard({
     const column = columnsRef.current.find((col: any) => col.id === hit.columnId)
     if (!column) return
 
-    updateCardDropTarget(hit.columnId, column.cards.length)
+    updateCardDropTarget(hit.columnId, column.cards)
   }, [findColumnAtPointer, resetDropTargetToSource, updateCardDropTarget])
 
   const trackPointer = useCallback(
@@ -495,19 +509,22 @@ export default function KanbanBoard({
 
   const pendingDropTargetRef = useRef<{
     columnId: string
-    cardCount: number
   } | null>(null)
   const dropTargetFrameRef = useRef<number | null>(null)
 
   const scheduleCardDropTarget = useCallback(
-    (columnId: string, cardCount: number) => {
-      pendingDropTargetRef.current = { columnId, cardCount }
+    (columnId: string) => {
+      pendingDropTargetRef.current = { columnId }
       if (dropTargetFrameRef.current !== null) return
       dropTargetFrameRef.current = requestAnimationFrame(() => {
         dropTargetFrameRef.current = null
         const pending = pendingDropTargetRef.current
         if (!pending) return
-        updateCardDropTarget(pending.columnId, pending.cardCount)
+        const column = columnsRef.current.find(
+          (col: any) => col.id === pending.columnId,
+        )
+        if (!column) return
+        updateCardDropTarget(pending.columnId, column.cards)
       })
     },
     [updateCardDropTarget],
@@ -545,7 +562,7 @@ export default function KanbanBoard({
     const column = currentColumns.find((col: any) => col.id === columnId)
     if (!column) return
 
-    scheduleCardDropTarget(columnId, column.cards.length)
+    scheduleCardDropTarget(columnId)
   }
 
   const flushPendingDropTarget = useCallback(() => {
@@ -556,7 +573,12 @@ export default function KanbanBoard({
     const pending = pendingDropTargetRef.current
     pendingDropTargetRef.current = null
     if (pending) {
-      updateCardDropTarget(pending.columnId, pending.cardCount)
+      const column = columnsRef.current.find(
+        (col: any) => col.id === pending.columnId,
+      )
+      if (column) {
+        updateCardDropTarget(pending.columnId, column.cards)
+      }
     }
   }, [updateCardDropTarget])
 
