@@ -196,6 +196,11 @@ export default function KanbanBoard({
           ? fullCards.filter((card) => card.id !== activeCardId)
           : fullCards
 
+      const dropIndicatorIndex =
+        drag?.dropHint.columnId === columnId
+          ? Math.min(drag.dropHint.index, visibleCards.length)
+          : null
+
       const index = scrollEl
         ? computeDropIndex(
             scrollEl,
@@ -203,6 +208,7 @@ export default function KanbanBoard({
             fullCards,
             visibleCards,
             activeCardId,
+            dropIndicatorIndex,
           )
         : fullCards.length
 
@@ -596,21 +602,14 @@ export default function KanbanBoard({
   const handleDragEnd = async (event: DragEndEvent) => {
     finalizeDragFrame()
 
-    const activator = event.activatorEvent
-    if (
-      activator &&
-      typeof activator === "object" &&
-      "clientX" in activator &&
-      "clientY" in activator
-    ) {
-      const pointer = activator as { clientX: number; clientY: number }
-      pointerRef.current = {
-        x: pointer.clientX,
-        y: pointer.clientY,
-      }
-    }
-
     if (event.active.data.current?.type === "Card") {
+      const translated = event.active.rect.current.translated
+      if (translated) {
+        pointerRef.current = {
+          x: translated.left + translated.width / 2,
+          y: translated.top + translated.height / 2,
+        }
+      }
       refreshDropTargetFromPointer()
     }
     flushPendingDropTarget()

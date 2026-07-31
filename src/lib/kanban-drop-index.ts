@@ -11,13 +11,19 @@ function computeVisibleInsertIndex(
   scrollEl: HTMLElement,
   clientY: number,
   visibleCount: number,
+  dropIndicatorIndex: number | null = null,
 ): number {
   if (visibleCount === 0) return 0
 
   const rect = scrollEl.getBoundingClientRect()
   const yInContent =
     clientY - rect.top + scrollEl.scrollTop - SCROLL_PADDING_TOP
-  const rawIndex = Math.floor((yInContent + rowHeight * 0.5) / rowHeight)
+  let rawIndex = Math.floor(yInContent / rowHeight)
+
+  // The dashed drop slot shifts cards below it down by one row in the virtual list.
+  if (dropIndicatorIndex !== null && rawIndex > dropIndicatorIndex) {
+    rawIndex -= 1
+  }
 
   return clampIndex(rawIndex, visibleCount)
 }
@@ -114,6 +120,7 @@ export function computeDropIndex<T extends { id: string }>(
   fullCards: T[],
   visibleCards: T[],
   activeCardId?: string,
+  dropIndicatorIndex: number | null = null,
 ): number {
   if (fullCards.length === 0) return 0
 
@@ -132,6 +139,7 @@ export function computeDropIndex<T extends { id: string }>(
     scrollEl,
     clientY,
     visibleCards.length,
+    dropIndicatorIndex,
   )
   return mapVisibleInsertToDropIndex(
     visibleInsert,
