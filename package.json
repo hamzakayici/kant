@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "predev": "prisma generate",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",

@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.production.example
+uploads
+graphify-out
+*.md
+!README.md
+.DS_Store
+coverage
+.cursor
+.claude

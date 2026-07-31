@@ -16,7 +16,7 @@ function formatBytes(bytes: number, decimals = 2) {
 export default async function PublicSharePage({
   params
 }: {
-  params: { token: string }
+  params: Promise<{ token: string }>
 }) {
   const { token } = await params;
 

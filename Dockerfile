@@ -1,23 +1,22 @@
-FROM node:20-alpine
+FROM node:20-bookworm-slim
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends openssl ca-certificates python3 make g++ \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install dependencies
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --ignore-scripts
 
-# Copy project files
 COPY . .
 
-# Generate Prisma Client
 RUN npx prisma generate
-
-# Build the Next.js app
 RUN npm run build
 
-# Expose the port
 EXPOSE 3000
 ENV PORT=3000
+ENV NODE_ENV=production
 
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
