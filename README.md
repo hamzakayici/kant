@@ -37,4 +37,4 @@ cp .env.production.example .env.production
 npm run docker:prod
 ```
 
-Detaylar: [deployment.md](./docs/deployment.md)
+Detaylar: [deployment.md](./docs/deployment.md) · Dockge: [dockge.md](./docs/dockge.md)
