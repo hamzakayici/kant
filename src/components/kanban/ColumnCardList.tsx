@@ -71,16 +71,17 @@ function ColumnCardListComponent({
     [baseOrderedCards, columnDragUi, columnId],
   )
 
-  const dropIndicatorIndex = useMemo(
-    () =>
-      getColumnDropIndicatorIndex(
-        orderedCards,
-        columnId,
-        columnDragUi,
-        baseOrderedCards,
-      ),
-    [orderedCards, columnId, columnDragUi, baseOrderedCards],
-  )
+  const dropIndicatorIndex = useMemo(() => {
+    if (!columnDragUi || columnDragUi.dropHint.columnId !== columnId) {
+      return null
+    }
+    return getColumnDropIndicatorIndex(
+      orderedCards,
+      columnId,
+      columnDragUi,
+      baseOrderedCards,
+    )
+  }, [orderedCards, columnId, columnDragUi, baseOrderedCards])
 
   const virtualCount =
     orderedCards.length + (dropIndicatorIndex !== null ? 1 : 0)

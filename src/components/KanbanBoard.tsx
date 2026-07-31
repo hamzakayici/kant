@@ -204,29 +204,38 @@ export default function KanbanBoard({
   )
 
   const findColumnAtPointer = useCallback((x: number, y: number) => {
-    let fallback: { columnId: string; scrollEl: HTMLElement } | null = null
-    let fallbackDistance = Infinity
+    const headerExtend = 72
 
     for (const [columnId, scrollEl] of columnScrollMapRef.current.entries()) {
       const rect = scrollEl.getBoundingClientRect()
-      if (x < rect.left || x > rect.right) continue
+      const top = rect.top - headerExtend
 
-      if (y >= rect.top && y <= rect.bottom) {
+      if (x >= rect.left && x <= rect.right && y >= top && y <= rect.bottom) {
         return { columnId, scrollEl }
       }
-
-      const distance = y < rect.top ? rect.top - y : y - rect.bottom
-      if (distance < fallbackDistance) {
-        fallbackDistance = distance
-        fallback = { columnId, scrollEl }
-      }
-    }
-
-    if (fallback && fallbackDistance <= 96) {
-      return fallback
     }
 
     return null
+  }, [])
+
+  const resetDropTargetToSource = useCallback(() => {
+    const drag = kanbanDragUiStore.get()
+    if (!drag) return
+
+    if (drag.dropHint.columnId === drag.sourceColumnId) return
+
+    const sourceColumn = columnsRef.current.find(
+      (col: any) => col.id === drag.sourceColumnId,
+    )
+    if (!sourceColumn) return
+
+    const sourceIndex = sourceColumn.cards.findIndex(
+      (card: any) => card.id === drag.activeCardId,
+    )
+    const index = sourceIndex === -1 ? drag.dropHint.index : sourceIndex
+
+    dropTargetRef.current = { columnId: drag.sourceColumnId, index }
+    kanbanDragUiStore.setDropHint({ columnId: drag.sourceColumnId, index })
   }, [])
 
   const refreshDropTargetFromPointer = useCallback(() => {
@@ -234,14 +243,16 @@ export default function KanbanBoard({
 
     const { x, y } = pointerRef.current
     const hit = findColumnAtPointer(x, y)
-    const columnId = hit?.columnId ?? dropTargetRef.current?.columnId
-    if (!columnId) return
+    if (!hit) {
+      resetDropTargetToSource()
+      return
+    }
 
-    const column = columnsRef.current.find((col: any) => col.id === columnId)
+    const column = columnsRef.current.find((col: any) => col.id === hit.columnId)
     if (!column) return
 
-    updateCardDropTarget(columnId, column.cards.length)
-  }, [findColumnAtPointer, updateCardDropTarget])
+    updateCardDropTarget(hit.columnId, column.cards.length)
+  }, [findColumnAtPointer, resetDropTargetToSource, updateCardDropTarget])
 
   const trackPointer = useCallback(
     (event: PointerEvent) => {

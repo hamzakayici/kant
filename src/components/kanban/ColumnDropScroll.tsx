@@ -1,13 +1,13 @@
 "use client"
 
-import { createContext, memo, useContext, useState, type ReactNode } from "react"
+import { createContext, memo, useContext, useEffect, useState, type ReactNode } from "react"
 import { useDroppable } from "@dnd-kit/core"
 import { KanbanDropSlot } from "@/components/kanban/KanbanDropIndicator"
 import { cn } from "@/lib/utils"
 import { hexToRgba } from "@/lib/kanban-utils"
 import {
   useColumnIsDragTarget,
-  useKanbanCardDragActive,
+  useColumnIsDragAffected,
 } from "@/components/kanban/useColumnDragUi"
 
 const ColumnScrollContext = createContext<HTMLDivElement | null>(null)
@@ -40,7 +40,16 @@ function ColumnDropScrollComponent({
     null,
   )
   const isDragTarget = useColumnIsDragTarget(columnId)
-  const isCardDragActive = useKanbanCardDragActive()
+  const isDragAffected = useColumnIsDragAffected(columnId)
+
+  useEffect(() => {
+    if (!scrollRootNode) return
+    if (isDragAffected) {
+      scrollRootNode.dataset.kanbanDragColumn = ""
+    } else {
+      delete scrollRootNode.dataset.kanbanDragColumn
+    }
+  }, [isDragAffected, scrollRootNode])
 
   return (
     <ColumnScrollContext.Provider value={scrollRootNode}>
@@ -54,7 +63,7 @@ function ColumnDropScrollComponent({
         }}
         className={cn(
           "custom-scrollbar mx-2 mb-2 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain rounded-xl border border-transparent p-1.5",
-          isCardDragActive ? "transition-none" : "transition-colors",
+          isDragAffected ? "transition-none" : "transition-colors",
           isDragTarget && "border-primary/20 bg-primary/5",
           isDragTarget && !hasCards && "min-h-[160px]",
         )}

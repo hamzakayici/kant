@@ -232,7 +232,7 @@ body.kanban-dragging [data-kanban-column-scroll] {
   scroll-behavior: auto;
 }
 
-body.kanban-dragging [data-kanban-column-scroll] {
+body.kanban-dragging [data-kanban-drag-column] {
   contain: layout style;
 }
 

@@ -70,3 +70,36 @@ export function useColumnIsDragTarget(columnId: string) {
 
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
 }
+
+export function useColumnIsDragSource(columnId: string) {
+  const getSnapshot = useCallback(
+    () => kanbanDragUiStore.get()?.sourceColumnId === columnId,
+    [columnId],
+  )
+
+  const subscribe = useCallback(
+    (listener: () => void) =>
+      kanbanDragUiStore.subscribeColumn(columnId, listener),
+    [columnId],
+  )
+
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
+}
+
+export function useColumnIsDragAffected(columnId: string) {
+  const getSnapshot = useCallback(() => {
+    const drag = kanbanDragUiStore.get()
+    if (!drag) return false
+    return (
+      drag.sourceColumnId === columnId || drag.dropHint.columnId === columnId
+    )
+  }, [columnId])
+
+  const subscribe = useCallback(
+    (listener: () => void) =>
+      kanbanDragUiStore.subscribeColumn(columnId, listener),
+    [columnId],
+  )
+
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
+}

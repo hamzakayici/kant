@@ -42,7 +42,10 @@ import {
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 import { getColumnCategoryLabel } from "@/lib/kanban-utils"
-import { useColumnIsDragTarget, useKanbanCardDragActive } from "@/components/kanban/useColumnDragUi"
+import {
+  useColumnIsDragTarget,
+  useColumnIsDragAffected,
+} from "@/components/kanban/useColumnDragUi"
 import { ColumnDropScroll } from "@/components/kanban/ColumnDropScroll"
 
 export { useColumnScrollRoot } from "@/components/kanban/ColumnDropScroll"
@@ -118,8 +121,8 @@ export default function Column({
   const categoryLabel = getColumnCategoryLabel(column.category)
   const hasCards = totalCount > 0
   const isDragTarget = useColumnIsDragTarget(column.id)
-  const isCardDragActive = useKanbanCardDragActive()
-  const showDropHighlight = !isDragging && isCardDragActive && isDragTarget
+  const isDragAffected = useColumnIsDragAffected(column.id)
+  const showDropHighlight = !isDragging && isDragTarget
 
   const columnStyle = sortableTranslateStyle(transform, transition)
 
@@ -134,7 +137,7 @@ export default function Column({
       ref={setSortableRef}
       className={cn(
         "flex h-full max-h-full min-h-0 w-[min(320px,85vw)] shrink-0 flex-col rounded-2xl border",
-        isCardDragActive ? "transition-none" : "transition-all duration-200",
+        isDragAffected ? "transition-none" : "transition-all duration-200",
         showDropHighlight
           ? "border-primary/50 bg-primary/5 shadow-lg shadow-primary/5"
           : "border-border/60 bg-card/40",
