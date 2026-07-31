@@ -8,9 +8,9 @@ services:
     container_name: kant-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: kant_user
-      POSTGRES_PASSWORD: kant_password
-      POSTGRES_DB: kant_db
+      POSTGRES_USER: ${POSTGRES_USER:-kant_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kant_password}
+      POSTGRES_DB: ${POSTGRES_DB:-kant_db}
     ports:
       - "5433:5432"
     volumes:
@@ -89,7 +89,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+      DATABASE_URL: ${DATABASE_URL:-postgresql://kant_user:kant_password@db:5432/kant_db?schema=public}
       AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-random-secret}
       AUTH_URL: ${AUTH_URL:-}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-}

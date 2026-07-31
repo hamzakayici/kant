@@ -17,8 +17,13 @@ if [ "$OPENCLOUD_ENABLED" = "true" ]; then
   npx tsx scripts/docker-opencloud-init.ts
 fi
 
-echo "Veritabanı migration'ları uygulanıyor..."
-npx prisma migrate deploy
+echo "Veritabanı şeması uygulanıyor..."
+if [ -d prisma/migrations ] && [ -n "$(ls -A prisma/migrations 2>/dev/null | grep -v migration_lock.toml)" ]; then
+  npx prisma migrate deploy
+else
+  echo "Migration bulunamadı, prisma db push kullanılıyor..."
+  npx prisma db push --skip-generate
+fi
 
 if [ "$KANT_AUTO_SEED" = "true" ]; then
   echo "Seed verileri yükleniyor..."
