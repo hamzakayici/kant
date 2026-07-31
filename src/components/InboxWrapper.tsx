@@ -1,27 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import InboxSidebar from "./InboxSidebar"
+import type { EnrichedChatGroup } from "@/lib/chat-types"
+import { getTotalUnreadCount } from "@/lib/chat-unread"
 
 export default function InboxWrapper({
   boardId,
-  userRole,
   currentUserId,
   allUsers = [],
   chatGroups = [],
   activities = [],
+  telegramEnabled = false,
 }: {
   boardId: string
-  userRole: string
   currentUserId: string
-  allUsers?: any[]
-  chatGroups?: any[]
+  allUsers?: {
+    id: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+  }[]
+  chatGroups?: EnrichedChatGroup[]
   activities?: any[]
+  telegramEnabled?: boolean
 }) {
   const [isOpen, setIsOpen] = useState(false)
-  const hasActivity = activities.length > 0
+
+  const unreadCount = useMemo(
+    () => getTotalUnreadCount(chatGroups),
+    [chatGroups],
+  )
+  const hasBadge = unreadCount > 0 || activities.length > 0
 
   return (
     <>
@@ -34,7 +46,7 @@ export default function InboxWrapper({
         onClick={() => setIsOpen(true)}
       >
         <Bell className="size-4" />
-        {hasActivity ? (
+        {hasBadge ? (
           <span className="absolute top-1 right-1 size-2 rounded-full border-2 border-background bg-primary" />
         ) : null}
       </Button>
@@ -43,11 +55,11 @@ export default function InboxWrapper({
         <InboxSidebar
           onClose={() => setIsOpen(false)}
           boardId={boardId}
-          userRole={userRole}
           currentUserId={currentUserId}
           allUsers={allUsers}
           chatGroups={chatGroups}
           activities={activities}
+          telegramEnabled={telegramEnabled}
         />
       ) : null}
     </>

@@ -8,6 +8,8 @@ import GlobalSearch from "@/components/GlobalSearch"
 import BoardTimelineView from "@/components/BoardTimelineView"
 import BoardFilter from "@/components/BoardFilter"
 import { BoardHeader } from "@/components/layout/board-header"
+import { getBoardChatGroups } from "@/app/actions/chatActions"
+import { isTelegramEnabled } from "@/lib/telegram/config"
 import type { Metadata } from "next"
 import { getCardOgImageUrl } from "@/lib/card-og"
 import {
@@ -165,21 +167,8 @@ export default async function BoardPage(props: {
     select: { id: true, email: true, firstName: true, lastName: true, role: true },
   })
 
-  const chatGroups = await prisma.chatGroup.findMany({
-    where: {
-      boardId: board.id,
-      ...(effectiveRole !== "ADMIN"
-        ? { members: { some: { userId: session.user.id } } }
-        : {}),
-    },
-    include: {
-      members: { include: { user: true } },
-      messages: {
-        include: { author: true },
-        orderBy: { createdAt: "asc" },
-      },
-    },
-  })
+  const chatGroups = await getBoardChatGroups(board.id)
+  const telegramEnabled = isTelegramEnabled()
 
   const activities = await prisma.activityLog.findMany({
     where: {
@@ -221,11 +210,11 @@ export default async function BoardPage(props: {
             <GlobalSearch boardId={board.id} />
             <InboxWrapper
               boardId={board.id}
-              userRole={effectiveRole}
               currentUserId={session.user.id}
               allUsers={allUsers}
               chatGroups={chatGroups}
               activities={activities}
+              telegramEnabled={telegramEnabled}
             />
           </>
         }
