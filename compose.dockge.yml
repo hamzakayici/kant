@@ -75,7 +75,7 @@ services:
 
   app:
     image: ghcr.io/hamzakayici/kant:latest
-    # ARM64 sunucu + latest hâlâ amd64 ise geçici: image: ghcr.io/hamzakayici/kant:arm64
+    platform: linux/arm64
     pull_policy: always
     restart: unless-stopped
     ports:
