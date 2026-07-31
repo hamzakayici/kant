@@ -24,6 +24,7 @@
     "db:push": "prisma db push && prisma generate",
     "db:generate": "prisma generate",
     "db:seed": "npx prisma db seed",
+    "db:normalize-orders": "tsx --env-file=.env scripts/normalize-card-orders.ts",
     "opencloud:sync": "tsx --env-file=.env scripts/sync-opencloud.ts",
     "opencloud:up": "docker compose up opencloud opencloud-redirect opencloud-gateway -d",
     "opencloud:down": "docker compose stop opencloud opencloud-redirect opencloud-gateway",

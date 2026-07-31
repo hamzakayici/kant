@@ -14,6 +14,10 @@ import {
 import { extractMentionedUserIds, normalizeMentionsInContent, stripMentionTokens } from "@/lib/chat-mentions"
 import { getUserDisplayName } from "@/lib/user"
 import { cardModalInclude } from "@/lib/card-modal-data"
+import {
+  buildMovedCardIds,
+  persistColumnCardOrder,
+} from "@/lib/card-order"
 
 export async function createCard(title: string, columnId: string, boardId: string) {
   const session = await auth()
@@ -109,12 +113,41 @@ export async function moveCard(cardId: string, newColumnId: string, newOrder: nu
       throw new Error("Bu sütuna kart taşıma yetkiniz bulunmuyor.")
     }
   }
-  await prisma.card.update({
-    where: { id: cardId },
-    data: {
-      columnId: newColumnId,
-      order: newOrder
+
+  const sourceColumnId = oldCard.columnId
+  const isSameColumn = sourceColumnId === newColumnId
+
+  await prisma.$transaction(async (tx) => {
+    const [sourceCards, targetCards] = await Promise.all([
+      tx.card.findMany({
+        where: { columnId: sourceColumnId },
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+        select: { id: true },
+      }),
+      isSameColumn
+        ? Promise.resolve(null)
+        : tx.card.findMany({
+            where: { columnId: newColumnId },
+            orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+            select: { id: true },
+          }),
+    ])
+
+    const sourceIds = sourceCards.map((card) => card.id)
+
+    if (isSameColumn) {
+      const nextIds = buildMovedCardIds(sourceIds, cardId, newOrder)
+      await persistColumnCardOrder(tx, newColumnId, nextIds)
+      return
     }
+
+    const nextSourceIds = sourceIds.filter((id) => id !== cardId)
+    const targetIds = (targetCards ?? []).map((card) => card.id)
+    const insertAt = Math.max(0, Math.min(newOrder, targetIds.length))
+    targetIds.splice(insertAt, 0, cardId)
+
+    await persistColumnCardOrder(tx, sourceColumnId, nextSourceIds)
+    await persistColumnCardOrder(tx, newColumnId, targetIds)
   })
 
   if (oldCard.columnId !== newColumnId) {

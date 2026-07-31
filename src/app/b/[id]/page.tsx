@@ -105,7 +105,7 @@ export default async function BoardPage(props: {
         orderBy: { order: "asc" },
         include: {
           cards: {
-            orderBy: { order: "asc" },
+            orderBy: [{ order: "asc" }, { createdAt: "asc" }],
             include: {
               assignees: true,
               creator: true,
