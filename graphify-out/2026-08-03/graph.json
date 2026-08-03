@@ -744,8 +744,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "package_dependencies_base_ui_react",
-      "community": 83,
-      "community_name": "@base-ui/react",
+      "community": 108,
+      "community_name": "@dnd-kit/sortable",
       "norm_label": "@base-ui/react"
     },
     {
@@ -755,8 +755,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "base_ui_react",
-      "community": 83,
-      "community_name": "@base-ui/react",
+      "community": 108,
+      "community_name": "@dnd-kit/sortable",
       "norm_label": "@base-ui/react"
     },
     {
@@ -1228,8 +1228,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "package_dependencies_file_saver",
-      "community": 108,
-      "community_name": "@dnd-kit/sortable",
+      "community": 53,
+      "community_name": "prisma migrate diff",
       "norm_label": "file-saver"
     },
     {
@@ -1239,8 +1239,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "file_saver",
-      "community": 108,
-      "community_name": "@dnd-kit/sortable",
+      "community": 53,
+      "community_name": "prisma migrate diff",
       "norm_label": "file-saver"
     },
     {
@@ -1976,8 +1976,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "prisma_mock_card_content",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mock-card-content.ts"
     },
     {
@@ -1987,8 +1987,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "prisma_mock_card_content_enrichedchecklistitem",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "enrichedchecklistitem"
     },
     {
@@ -1998,8 +1998,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "prisma_mock_card_content_enrichedcardcontent",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "enrichedcardcontent"
     },
     {
@@ -2020,8 +2020,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "prisma_mock_card_content_enriched_card_content",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "enriched_card_content"
     },
     {
@@ -2031,8 +2031,8 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "prisma_mock_card_content_mergecardcontent",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mergecardcontent()"
     },
     {
@@ -2042,8 +2042,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "prisma_seed",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "seed.ts"
     },
     {
@@ -2053,8 +2053,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "prisma_seed_default_columns",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "default_columns"
     },
     {
@@ -2064,8 +2064,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "prisma_seed_cover_presets",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "cover_presets"
     },
     {
@@ -2075,8 +2075,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "prisma_seed_mock_image_urls",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mock_image_urls"
     },
     {
@@ -2086,8 +2086,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "prisma_seed_mock_pdf_attachment",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mock_pdf_attachment"
     },
     {
@@ -2097,8 +2097,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "prisma_seed_mockattachment",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mockattachment"
     },
     {
@@ -2108,8 +2108,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "prisma_seed_mockcard",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mockcard"
     },
     {
@@ -2119,8 +2119,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "prisma_seed_mockproject",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mockproject"
     },
     {
@@ -2130,8 +2130,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "prisma_seed_mock_projects",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mock_projects"
     },
     {
@@ -2141,8 +2141,8 @@
       "source_location": "L585",
       "_origin": "ast",
       "id": "prisma_seed_adddays",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "adddays()"
     },
     {
@@ -2152,8 +2152,8 @@
       "source_location": "L592",
       "_origin": "ast",
       "id": "prisma_seed_mock_card_attachments",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "mock_card_attachments"
     },
     {
@@ -2163,8 +2163,8 @@
       "source_location": "L602",
       "_origin": "ast",
       "id": "prisma_seed_comment_authors",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "comment_authors"
     },
     {
@@ -2174,8 +2174,8 @@
       "source_location": "L610",
       "_origin": "ast",
       "id": "prisma_seed_applyenrichedcontenttocard",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "applyenrichedcontenttocard()"
     },
     {
@@ -2185,8 +2185,8 @@
       "source_location": "L661",
       "_origin": "ast",
       "id": "prisma_seed_enrichmockprojectcontent",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "enrichmockprojectcontent()"
     },
     {
@@ -2196,8 +2196,8 @@
       "source_location": "L705",
       "_origin": "ast",
       "id": "prisma_seed_createcardattachments",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "createcardattachments()"
     },
     {
@@ -2207,8 +2207,8 @@
       "source_location": "L740",
       "_origin": "ast",
       "id": "prisma_seed_enrichmockprojectmedia",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "enrichmockprojectmedia()"
     },
     {
@@ -2218,8 +2218,8 @@
       "source_location": "L777",
       "_origin": "ast",
       "id": "prisma_seed_seedmockprojects",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "seedmockprojects()"
     },
     {
@@ -2229,8 +2229,8 @@
       "source_location": "L907",
       "_origin": "ast",
       "id": "prisma_seed_main",
-      "community": 45,
-      "community_name": "Prisma Compute Framework Readiness",
+      "community": 85,
+      "community_name": "page.tsx",
       "norm_label": "main()"
     },
     {
@@ -2812,8 +2812,8 @@
       "source_location": "L414",
       "_origin": "ast",
       "id": "src_app_actions_updatecolumn",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "updatecolumn()"
     },
     {
@@ -2856,8 +2856,8 @@
       "source_location": "L510",
       "_origin": "ast",
       "id": "src_app_actions_createcolumn",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 43,
+      "community_name": "KanbanBoard.tsx",
       "norm_label": "createcolumn()"
     },
     {
@@ -2867,8 +2867,8 @@
       "source_location": "L530",
       "_origin": "ast",
       "id": "src_app_actions_deletecolumn",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "deletecolumn()"
     },
     {
@@ -3010,8 +3010,8 @@
       "source_location": "L767",
       "_origin": "ast",
       "id": "src_app_actions_createsharelink",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "createsharelink()"
     },
     {
@@ -3109,8 +3109,8 @@
       "source_location": "L1236",
       "_origin": "ast",
       "id": "src_app_actions_getchatmessages",
-      "community": 31,
-      "community_name": "page.tsx",
+      "community": 34,
+      "community_name": "prisma init",
       "norm_label": "getchatmessages()"
     },
     {
@@ -3120,8 +3120,8 @@
       "source_location": "L1249",
       "_origin": "ast",
       "id": "src_app_actions_updateboard",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "updateboard()"
     },
     {
@@ -3923,8 +3923,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_api_share_route",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "route.ts"
     },
     {
@@ -3934,8 +3934,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_app_api_share_route_post",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "post()"
     },
     {
@@ -3989,8 +3989,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_b_id_loading",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "loading.tsx"
     },
     {
@@ -4000,8 +4000,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_app_b_id_loading_boardloading",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "boardloading()"
     },
     {
@@ -4044,8 +4044,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_b_id_settings_processstatesclient",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "processstatesclient.tsx"
     },
     {
@@ -4055,8 +4055,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_app_b_id_settings_processstatesclient_categories",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "categories"
     },
     {
@@ -4066,8 +4066,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_app_b_id_settings_processstatesclient_category_labels",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "category_labels"
     },
     {
@@ -4077,8 +4077,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_app_b_id_settings_processstatesclient_colors",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "colors"
     },
     {
@@ -4088,8 +4088,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_app_b_id_settings_processstatesclient_processstatesclient",
-      "community": 61,
-      "community_name": "Column.tsx",
+      "community": 15,
+      "community_name": "Query Options",
       "norm_label": "processstatesclient()"
     },
     {
@@ -4286,8 +4286,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_loading",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "loading.tsx"
     },
     {
@@ -4297,8 +4297,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_app_loading_loading",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "loading()"
     },
     {
@@ -4803,7 +4803,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_boardcard",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "boardcard.tsx"
     },
@@ -4814,7 +4814,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_components_boardcard_icons",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "icons"
     },
@@ -4825,8 +4825,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_components_boardcard_boardcard",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "boardcard()"
     },
     {
@@ -4847,8 +4847,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_components_boardfilter_boardfilter",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "boardfilter()"
     },
     {
@@ -4935,8 +4935,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_boardtimelineview",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "boardtimelineview.tsx"
     },
     {
@@ -4946,8 +4946,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_components_boardtimelineview_timelinecard",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "timelinecard"
     },
     {
@@ -4957,8 +4957,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_components_boardtimelineview_todate",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "todate()"
     },
     {
@@ -4968,8 +4968,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_components_boardtimelineview_startofday",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "startofday()"
     },
     {
@@ -4979,8 +4979,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "src_components_boardtimelineview_daydiff",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "daydiff()"
     },
     {
@@ -4990,8 +4990,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "src_components_boardtimelineview_getbarmetrics",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "getbarmetrics()"
     },
     {
@@ -5001,8 +5001,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "src_components_boardtimelineview_boardtimelineview",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 103,
+      "community_name": "DatePickerPopover.tsx",
       "norm_label": "boardtimelineview()"
     },
     {
@@ -5166,8 +5166,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_createprojectmodal",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 32,
+      "community_name": "useModal",
       "norm_label": "createprojectmodal.tsx"
     },
     {
@@ -5177,8 +5177,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_components_createprojectmodal_icons",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 32,
+      "community_name": "useModal",
       "norm_label": "icons"
     },
     {
@@ -5199,8 +5199,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_createprojectwrapper",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 61,
+      "community_name": "Column.tsx",
       "norm_label": "createprojectwrapper.tsx"
     },
     {
@@ -5221,7 +5221,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_datepickerpopover",
-      "community": 82,
+      "community": 103,
       "community_name": "DatePickerPopover.tsx",
       "norm_label": "datepickerpopover.tsx"
     },
@@ -5232,7 +5232,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_datepickerpopover_datepickerpopoverprops",
-      "community": 82,
+      "community": 103,
       "community_name": "DatePickerPopover.tsx",
       "norm_label": "datepickerpopoverprops"
     },
@@ -5243,7 +5243,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_datepickerpopover_datepickerpopover",
-      "community": 82,
+      "community": 103,
       "community_name": "DatePickerPopover.tsx",
       "norm_label": "datepickerpopover()"
     },
@@ -5287,8 +5287,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_components_editboardmodal_editboardmodal",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "editboardmodal()"
     },
     {
@@ -5405,7 +5405,7 @@
       "label": "KanbanBoard()",
       "file_type": "code",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L46",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "src_components_kanbanboard_kanbanboard",
       "community": 43,
@@ -5683,8 +5683,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_card_modal_card_modal_checklist",
-      "community": 96,
-      "community_name": "page.tsx",
+      "community": 25,
+      "community_name": "actions.ts",
       "norm_label": "card-modal-checklist.tsx"
     },
     {
@@ -5694,8 +5694,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_card_modal_card_modal_checklist_cardmodalchecklistprops",
-      "community": 96,
-      "community_name": "page.tsx",
+      "community": 25,
+      "community_name": "actions.ts",
       "norm_label": "cardmodalchecklistprops"
     },
     {
@@ -5705,8 +5705,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_card_modal_card_modal_checklist_cardmodalchecklist",
-      "community": 96,
-      "community_name": "page.tsx",
+      "community": 25,
+      "community_name": "actions.ts",
       "norm_label": "cardmodalchecklist()"
     },
     {
@@ -5947,8 +5947,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_chat_chatmessagebubble",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "chatmessagebubble.tsx"
     },
     {
@@ -5958,8 +5958,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_chat_chatmessagebubble_chatmessageitem",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "chatmessageitem"
     },
     {
@@ -5969,8 +5969,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_components_chat_chatmessagebubble_chatmessagebubbleprops",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "chatmessagebubbleprops"
     },
     {
@@ -5980,8 +5980,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "src_components_chat_chatmessagebubble_chatmessagebubble",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "chatmessagebubble()"
     },
     {
@@ -6057,8 +6057,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "src_components_chat_chatpageclient_chatpageclient",
-      "community": 31,
-      "community_name": "page.tsx",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "chatpageclient()"
     },
     {
@@ -6101,8 +6101,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_chat_chatquotedmessage",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chatquotedmessage.tsx"
     },
     {
@@ -6112,8 +6112,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_chat_chatquotedmessage_quotedmessage",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "quotedmessage"
     },
     {
@@ -6123,8 +6123,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_chat_chatquotedmessage_chatquotedmessage",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chatquotedmessage()"
     },
     {
@@ -6134,8 +6134,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_chat_chatreplybar",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chatreplybar.tsx"
     },
     {
@@ -6255,8 +6255,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_chat_chatunreadbadge",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chatunreadbadge.tsx"
     },
     {
@@ -6266,8 +6266,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_chat_chatunreadbadge_chatunreadbadge",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chatunreadbadge()"
     },
     {
@@ -6343,8 +6343,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_data_table",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "data-table.tsx"
     },
     {
@@ -6354,8 +6354,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "src_components_data_table_schema",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "schema"
     },
     {
@@ -6365,8 +6365,8 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "src_components_data_table_draghandle",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "draghandle()"
     },
     {
@@ -6376,8 +6376,8 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "src_components_data_table_columns",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "columns"
     },
     {
@@ -6387,8 +6387,8 @@
       "source_location": "L309",
       "_origin": "ast",
       "id": "src_components_data_table_draggablerow",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "draggablerow()"
     },
     {
@@ -6409,8 +6409,8 @@
       "source_location": "L638",
       "_origin": "ast",
       "id": "src_components_data_table_chartdata",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "chartdata"
     },
     {
@@ -6673,8 +6673,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_kanban_kanbanboardskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbanboardskeleton.tsx"
     },
     {
@@ -6684,8 +6684,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_kanban_kanbanboardskeleton_kanbanboardskeletonprops",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbanboardskeletonprops"
     },
     {
@@ -6695,8 +6695,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_kanban_kanbanboardskeleton_kanbanboardskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbanboardskeleton()"
     },
     {
@@ -6761,8 +6761,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_kanban_kanbancardskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbancardskeleton.tsx"
     },
     {
@@ -6772,8 +6772,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_kanban_kanbancardskeleton_kanbancardskeletonprops",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbancardskeletonprops"
     },
     {
@@ -6783,8 +6783,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_kanban_kanbancardskeleton_kanbancardskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbancardskeleton()"
     },
     {
@@ -6794,8 +6794,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_kanban_kanbancolumnskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbancolumnskeleton.tsx"
     },
     {
@@ -6805,8 +6805,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_kanban_kanbancolumnskeleton_kanbancolumnskeletonprops",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbancolumnskeletonprops"
     },
     {
@@ -6816,8 +6816,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_kanban_kanbancolumnskeleton_kanbancolumnskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "kanbancolumnskeleton()"
     },
     {
@@ -7113,74 +7113,74 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_layout_board_header",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "board-header.tsx"
     },
     {
       "label": "ICONS",
       "file_type": "code",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L27",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "src_components_layout_board_header_icons",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "icons"
     },
     {
       "label": "tabs",
       "file_type": "code",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L40",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "src_components_layout_board_header_tabs",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "tabs"
     },
     {
       "label": "BoardMember",
       "file_type": "code",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L45",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "src_components_layout_board_header_boardmember",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "boardmember"
     },
     {
       "label": "BoardUser",
       "file_type": "code",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L49",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "src_components_layout_board_header_boarduser",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "boarduser"
     },
     {
       "label": "BoardHeaderProps",
       "file_type": "code",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L56",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "src_components_layout_board_header_boardheaderprops",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "boardheaderprops"
     },
     {
       "label": "BoardHeader()",
       "file_type": "code",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L72",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "src_components_layout_board_header_boardheader",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "boardheader()"
     },
     {
@@ -7212,8 +7212,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_components_layout_dashboard_shell_dashboardshell",
-      "community": 34,
-      "community_name": "prisma init",
+      "community": 38,
+      "community_name": "ESM and CommonJS Support",
       "norm_label": "dashboardshell()"
     },
     {
@@ -7333,8 +7333,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_nav_chat",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "nav-chat.tsx"
     },
     {
@@ -7344,8 +7344,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_components_nav_chat_navchat",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "navchat()"
     },
     {
@@ -7355,8 +7355,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_nav_documents",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "nav-documents.tsx"
     },
     {
@@ -7366,8 +7366,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_components_nav_documents_navdocuments",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "navdocuments()"
     },
     {
@@ -7421,8 +7421,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_nav_user",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "nav-user.tsx"
     },
     {
@@ -7432,8 +7432,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_components_nav_user_navuser",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "navuser()"
     },
     {
@@ -7487,7 +7487,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_planner_planner_day_schedule",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "planner-day-schedule.tsx"
     },
@@ -7498,7 +7498,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_planner_planner_day_schedule_hours",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "hours"
     },
@@ -7520,7 +7520,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_components_planner_planner_day_schedule_schedulecard",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "schedulecard()"
     },
@@ -7531,7 +7531,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_components_planner_planner_day_schedule_plannerdayscheduleprops",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "plannerdayscheduleprops"
     },
@@ -7586,7 +7586,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_planner_planner_stats",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "planner-stats.tsx"
     },
@@ -7663,7 +7663,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_projects_boardcardskeleton",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "boardcardskeleton.tsx"
     },
@@ -7674,8 +7674,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_projects_boardcardskeleton_boardcardskeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "boardcardskeleton()"
     },
     {
@@ -7707,7 +7707,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_projects_projects_stats",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "projects-stats.tsx"
     },
@@ -7718,7 +7718,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_components_projects_projects_stats_projectsstats",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "projectsstats()"
     },
@@ -7850,8 +7850,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "src_components_providers_chatprovider_usechat",
-      "community": 31,
-      "community_name": "page.tsx",
+      "community": 38,
+      "community_name": "ESM and CommonJS Support",
       "norm_label": "usechat()"
     },
     {
@@ -7927,7 +7927,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_section_cards",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "section-cards.tsx"
     },
@@ -8202,7 +8202,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_card",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "card.tsx"
     },
@@ -8213,7 +8213,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_ui_card_card",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "card()"
     },
@@ -8224,7 +8224,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_components_ui_card_cardheader",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "cardheader()"
     },
@@ -8235,7 +8235,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_components_ui_card_cardtitle",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "cardtitle()"
     },
@@ -8246,7 +8246,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_components_ui_card_carddescription",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "carddescription()"
     },
@@ -8257,7 +8257,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "src_components_ui_card_cardaction",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "cardaction()"
     },
@@ -8268,7 +8268,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "src_components_ui_card_cardcontent",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "cardcontent()"
     },
@@ -8279,7 +8279,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_components_ui_card_cardfooter",
-      "community": 85,
+      "community": 100,
       "community_name": "page.tsx",
       "norm_label": "cardfooter()"
     },
@@ -8576,8 +8576,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_drawer",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawer.tsx"
     },
     {
@@ -8587,8 +8587,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawercontextprops",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawercontextprops"
     },
     {
@@ -8598,8 +8598,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawercontext",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawercontext"
     },
     {
@@ -8609,8 +8609,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_ui_drawer_usedrawer",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "usedrawer()"
     },
     {
@@ -8620,8 +8620,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawer",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawer()"
     },
     {
@@ -8631,8 +8631,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawertrigger",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawertrigger()"
     },
     {
@@ -8642,8 +8642,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawerportal",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawerportal()"
     },
     {
@@ -8653,8 +8653,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawerclose",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawerclose()"
     },
     {
@@ -8664,8 +8664,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "src_components_ui_drawer_draweroverlay",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "draweroverlay()"
     },
     {
@@ -8675,8 +8675,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawerswipehandle",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawerswipehandle()"
     },
     {
@@ -8686,8 +8686,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawercontent",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawercontent()"
     },
     {
@@ -8697,8 +8697,8 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawerheader",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawerheader()"
     },
     {
@@ -8708,8 +8708,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawerfooter",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawerfooter()"
     },
     {
@@ -8719,8 +8719,8 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawertitle",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawertitle()"
     },
     {
@@ -8730,8 +8730,8 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "src_components_ui_drawer_drawerdescription",
-      "community": 100,
-      "community_name": "page.tsx",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "drawerdescription()"
     },
     {
@@ -8741,8 +8741,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdown-menu.tsx"
     },
     {
@@ -8752,8 +8752,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenu",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenu()"
     },
     {
@@ -8763,8 +8763,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenuportal",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenuportal()"
     },
     {
@@ -8774,8 +8774,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenutrigger",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenutrigger()"
     },
     {
@@ -8785,8 +8785,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenucontent",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenucontent()"
     },
     {
@@ -8796,8 +8796,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenugroup",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenugroup()"
     },
     {
@@ -8807,8 +8807,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenulabel",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenulabel()"
     },
     {
@@ -8818,8 +8818,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenuitem",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenuitem()"
     },
     {
@@ -8829,8 +8829,8 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenusub",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenusub()"
     },
     {
@@ -8840,8 +8840,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenusubtrigger",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenusubtrigger()"
     },
     {
@@ -8851,8 +8851,8 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenusubcontent",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenusubcontent()"
     },
     {
@@ -8862,8 +8862,8 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenucheckboxitem",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 119,
+      "community_name": "react",
       "norm_label": "dropdownmenucheckboxitem()"
     },
     {
@@ -8873,8 +8873,8 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenuradiogroup",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenuradiogroup()"
     },
     {
@@ -8884,8 +8884,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenuradioitem",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenuradioitem()"
     },
     {
@@ -8895,8 +8895,8 @@
       "source_location": "L223",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenuseparator",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenuseparator()"
     },
     {
@@ -8906,8 +8906,8 @@
       "source_location": "L236",
       "_origin": "ast",
       "id": "src_components_ui_dropdown_menu_dropdownmenushortcut",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "dropdownmenushortcut()"
     },
     {
@@ -9049,8 +9049,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_input",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 32,
+      "community_name": "useModal",
       "norm_label": "input.tsx"
     },
     {
@@ -9060,8 +9060,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_ui_input_input",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 32,
+      "community_name": "useModal",
       "norm_label": "input()"
     },
     {
@@ -9071,8 +9071,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_label",
-      "community": 49,
-      "community_name": "prisma db execute",
+      "community": 37,
+      "community_name": "Prisma Accelerate Users",
       "norm_label": "label.tsx"
     },
     {
@@ -9082,8 +9082,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_ui_label_label",
-      "community": 49,
-      "community_name": "prisma db execute",
+      "community": 37,
+      "community_name": "Prisma Accelerate Users",
       "norm_label": "label()"
     },
     {
@@ -9489,8 +9489,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_components_ui_sidebar_usesidebar",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "usesidebar()"
     },
     {
@@ -9533,8 +9533,8 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "src_components_ui_sidebar_sidebarrail",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "sidebarrail()"
     },
     {
@@ -9621,8 +9621,8 @@
       "source_location": "L396",
       "_origin": "ast",
       "id": "src_components_ui_sidebar_sidebargrouplabel",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "sidebargrouplabel()"
     },
     {
@@ -9698,8 +9698,8 @@
       "source_location": "L556",
       "_origin": "ast",
       "id": "src_components_ui_sidebar_sidebarmenuaction",
-      "community": 13,
-      "community_name": "Client Methods",
+      "community": 2,
+      "community_name": "Prisma 7 Driver Adapter Implementation Guide",
       "norm_label": "sidebarmenuaction()"
     },
     {
@@ -9764,8 +9764,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_skeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "skeleton.tsx"
     },
     {
@@ -9775,8 +9775,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_components_ui_skeleton_skeleton",
-      "community": 85,
-      "community_name": "page.tsx",
+      "community": 13,
+      "community_name": "Client Methods",
       "norm_label": "skeleton()"
     },
     {
@@ -9808,8 +9808,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_switch",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 32,
+      "community_name": "useModal",
       "norm_label": "switch.tsx"
     },
     {
@@ -9819,8 +9819,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_ui_switch_switch",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 32,
+      "community_name": "useModal",
       "norm_label": "switch()"
     },
     {
@@ -10017,8 +10017,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_toggle_group",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "toggle-group.tsx"
     },
     {
@@ -10028,8 +10028,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_components_ui_toggle_group_togglegroupcontext",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "togglegroupcontext"
     },
     {
@@ -10039,8 +10039,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_components_ui_toggle_group_togglegroup",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "togglegroup()"
     },
     {
@@ -10050,8 +10050,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_components_ui_toggle_group_togglegroupitem",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "togglegroupitem()"
     },
     {
@@ -10061,8 +10061,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_ui_toggle",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "toggle.tsx"
     },
     {
@@ -10072,8 +10072,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_ui_toggle_togglevariants",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "togglevariants"
     },
     {
@@ -10083,8 +10083,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_components_ui_toggle_toggle",
-      "community": 81,
-      "community_name": "toggle-group.tsx",
+      "community": 96,
+      "community_name": "page.tsx",
       "norm_label": "toggle()"
     },
     {
@@ -10215,8 +10215,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "src_hooks_usechatgroupslive_usemarkchatgroupread",
-      "community": 31,
-      "community_name": "page.tsx",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "usemarkchatgroupread()"
     },
     {
@@ -10391,8 +10391,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_lib_attachment_url_iskantshareorproxyurl",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "iskantshareorproxyurl()"
     },
     {
@@ -10457,8 +10457,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_board_icons",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "board-icons.ts"
     },
     {
@@ -10468,8 +10468,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_board_icons_resolveboardiconid",
-      "community": 78,
-      "community_name": "board-header.tsx",
+      "community": 14,
+      "community_name": "Filter Conditions and Operators",
       "norm_label": "resolveboardiconid()"
     },
     {
@@ -10699,8 +10699,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "src_lib_card_share_cardsharesnapshot",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "cardsharesnapshot"
     },
     {
@@ -11029,8 +11029,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_lib_chat_live_shouldreplacechatmessages",
-      "community": 31,
-      "community_name": "page.tsx",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "shouldreplacechatmessages()"
     },
     {
@@ -11062,8 +11062,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_lib_chat_mentions_buildmentiontoken",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "buildmentiontoken()"
     },
     {
@@ -11106,8 +11106,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_lib_chat_mentions_normalizementionsincontent",
-      "community": 31,
-      "community_name": "page.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "normalizementionsincontent()"
     },
     {
@@ -11249,8 +11249,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_chat_notifications",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "chat-notifications.ts"
     },
     {
@@ -11260,8 +11260,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_notifiablechatmessage",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "notifiablechatmessage"
     },
     {
@@ -11271,8 +11271,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_notifiablechatgroup",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "notifiablechatgroup"
     },
     {
@@ -11282,8 +11282,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_arechatnotificationsenabled",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "arechatnotificationsenabled()"
     },
     {
@@ -11293,8 +11293,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_setchatnotificationsenabled",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "setchatnotificationsenabled()"
     },
     {
@@ -11304,8 +11304,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_getchatnotificationpermission",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "getchatnotificationpermission()"
     },
     {
@@ -11315,8 +11315,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_requestchatnotificationpermission",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "requestchatnotificationpermission()"
     },
     {
@@ -11326,8 +11326,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_enablechatnotifications",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "enablechatnotifications()"
     },
     {
@@ -11337,8 +11337,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_disablechatnotifications",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "disablechatnotifications()"
     },
     {
@@ -11348,8 +11348,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_messagepreview",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "messagepreview()"
     },
     {
@@ -11359,8 +11359,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "src_lib_chat_notifications_showchatnotification",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 17,
+      "community_name": "prisma db push",
       "norm_label": "showchatnotification()"
     },
     {
@@ -11381,8 +11381,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_chat_preview",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chat-preview.ts"
     },
     {
@@ -11392,8 +11392,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_lib_chat_preview_formatchatmessagepreview",
-      "community": 53,
-      "community_name": "prisma migrate diff",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "formatchatmessagepreview()"
     },
     {
@@ -11403,8 +11403,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_chat_types",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 34,
+      "community_name": "prisma init",
       "norm_label": "chat-types.ts"
     },
     {
@@ -11414,8 +11414,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_lib_chat_types_chatmessagewithrelations",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 34,
+      "community_name": "prisma init",
       "norm_label": "chatmessagewithrelations"
     },
     {
@@ -11425,8 +11425,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_lib_chat_types_chatgroupboard",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 34,
+      "community_name": "prisma init",
       "norm_label": "chatgroupboard"
     },
     {
@@ -11436,8 +11436,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_lib_chat_types_chatgroupmemberwithuser",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 34,
+      "community_name": "prisma init",
       "norm_label": "chatgroupmemberwithuser"
     },
     {
@@ -11458,8 +11458,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_lib_chat_types_chatmessagepreviewinput",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 34,
+      "community_name": "prisma init",
       "norm_label": "chatmessagepreviewinput"
     },
     {
@@ -11469,8 +11469,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_chat_unread",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "chat-unread.ts"
     },
     {
@@ -11513,8 +11513,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_lib_chat_unread_formatunreadcount",
-      "community": 17,
-      "community_name": "prisma db push",
+      "community": 31,
+      "community_name": "page.tsx",
       "norm_label": "formatunreadcount()"
     },
     {
@@ -11986,8 +11986,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "kanban-drop-index.ts"
     },
     {
@@ -11997,8 +11997,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index_clampindex",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "clampindex()"
     },
     {
@@ -12008,8 +12008,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index_computevisibleinsertindex",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "computevisibleinsertindex()"
     },
     {
@@ -12019,8 +12019,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index_mapvisibleinserttodropindex",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "mapvisibleinserttodropindex()"
     },
     {
@@ -12030,8 +12030,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index_countrenderedvisiblecards",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "countrenderedvisiblecards()"
     },
     {
@@ -12041,8 +12041,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index_computefromdom",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "computefromdom()"
     },
     {
@@ -12052,8 +12052,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "src_lib_kanban_drop_index_computedropindex",
-      "community": 43,
-      "community_name": "KanbanBoard.tsx",
+      "community": 45,
+      "community_name": "Prisma Compute Framework Readiness",
       "norm_label": "computedropindex()"
     },
     {
@@ -12569,8 +12569,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_storage_config",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "config.ts"
     },
     {
@@ -12580,8 +12580,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_storage_config_storageprovider",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "storageprovider"
     },
     {
@@ -12591,8 +12591,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_lib_storage_config_isopencloudenabled",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "isopencloudenabled()"
     },
     {
@@ -12613,8 +12613,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_lib_storage_config_normalizewebdavbase",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "normalizewebdavbase()"
     },
     {
@@ -12624,8 +12624,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_lib_storage_config_getopencloudconfig",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "getopencloudconfig()"
     },
     {
@@ -12635,8 +12635,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_lib_storage_config_getopencloudpublicurl",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "getopencloudpublicurl()"
     },
     {
@@ -12646,8 +12646,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_lib_storage_config_getstorageprovider",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "getstorageprovider()"
     },
     {
@@ -12767,8 +12767,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "src_lib_storage_index_resolvepublicurl",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "resolvepublicurl()"
     },
     {
@@ -12811,8 +12811,8 @@
       "source_location": "L263",
       "_origin": "ast",
       "id": "src_lib_storage_index_getattachmentopencloudurl",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "getattachmentopencloudurl()"
     },
     {
@@ -12822,8 +12822,8 @@
       "source_location": "L287",
       "_origin": "ast",
       "id": "src_lib_storage_index_getattachmentcopyurl",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "getattachmentcopyurl()"
     },
     {
@@ -12976,8 +12976,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "src_lib_storage_opencloud_uploadtoopencloud",
-      "community": 12,
-      "community_name": "Prisma CLI Reference",
+      "community": 18,
+      "community_name": "prisma dev",
       "norm_label": "uploadtoopencloud()"
     },
     {
@@ -13163,8 +13163,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_storage_urls",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "urls.ts"
     },
     {
@@ -13174,8 +13174,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_lib_storage_urls_buildopenclouddavurl",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "buildopenclouddavurl()"
     },
     {
@@ -13185,8 +13185,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_lib_storage_urls_buildopencloudfilesappurl",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "buildopencloudfilesappurl()"
     },
     {
@@ -13196,8 +13196,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_lib_storage_urls_buildopencloudfileurl",
-      "community": 18,
-      "community_name": "prisma dev",
+      "community": 47,
+      "community_name": "Core Workflows",
       "norm_label": "buildopencloudfileurl()"
     },
     {
@@ -13207,8 +13207,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_lib_storage_urls_resolveremotepath",
-      "community": 80,
-      "community_name": "getAttachmentOpenCloudUrl",
+      "community": 24,
+      "community_name": "prisma.ts",
       "norm_label": "resolveremotepath()"
     },
     {
@@ -14736,8 +14736,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_user",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "user.ts"
     },
     {
@@ -14758,8 +14758,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_lib_user_getuserdisplayname",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "getuserdisplayname()"
     },
     {
@@ -14780,8 +14780,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_lib_user_getuserlabel",
-      "community": 103,
-      "community_name": "DatePickerPopover.tsx",
+      "community": 21,
+      "community_name": "Prisma Client API Reference",
       "norm_label": "getuserlabel()"
     },
     {
@@ -14791,8 +14791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_utils",
-      "community": 44,
-      "community_name": "auth.ts",
+      "community": 37,
+      "community_name": "Prisma Accelerate Users",
       "norm_label": "utils.ts"
     },
     {
@@ -19850,7 +19850,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L328",
+      "source_location": "L329",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "prisma_mock_card_content_card"
@@ -22472,7 +22472,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L770",
+      "source_location": "L771",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_app_actions_createcard"
@@ -22538,7 +22538,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L733",
+      "source_location": "L734",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_app_actions_movecard"
@@ -22582,7 +22582,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L933",
+      "source_location": "L953",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_app_actions_deletecard"
@@ -22879,7 +22879,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L641",
+      "source_location": "L642",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_app_actions_reordercolumns"
@@ -22923,7 +22923,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L945",
+      "source_location": "L965",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_app_actions_createcolumn"
@@ -32366,7 +32366,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L23",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_boardmemberspopover",
@@ -35617,7 +35617,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanban_kanbanboarddndcontext",
@@ -35628,7 +35628,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanban_kanbanboarddndcontext_kanbanboarddndcontext",
@@ -35639,7 +35639,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanban_kanbancolumnslot",
@@ -35650,7 +35650,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanban_kanbancolumnslot_kanbancolumnslot",
@@ -35661,7 +35661,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanban_kanbandragoverlay",
@@ -35672,7 +35672,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanban_kanbandragoverlay_kanbandragoverlay",
@@ -35682,7 +35682,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L46",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_components_kanbanboard_kanbanboard",
@@ -35726,6 +35726,28 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "src_components_kanbanboard",
+      "target": "src_components_ui_badge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/KanbanBoard.tsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "src_components_kanbanboard",
+      "target": "src_components_ui_badge_badge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/KanbanBoard.tsx",
       "source_location": "L32",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
@@ -35748,7 +35770,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drag",
@@ -35759,7 +35781,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drag_applycardmoveatindex",
@@ -35770,7 +35792,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drag_applycolumnreorder",
@@ -35781,7 +35803,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drag_getcolumndropid",
@@ -35792,7 +35814,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drag_ui_store",
@@ -35803,7 +35825,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drag_ui_store_kanbandraguistore",
@@ -35814,7 +35836,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drop_index",
@@ -35825,7 +35847,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_drop_index_computedropindex",
@@ -35836,7 +35858,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_utils",
@@ -35847,7 +35869,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_kanban_utils_buildboardcolumnssignature",
@@ -35858,7 +35880,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_utils",
@@ -35869,7 +35891,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "src_components_kanbanboard",
       "target": "src_lib_utils_cn",
@@ -35881,7 +35903,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L59",
+      "source_location": "L60",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_components_providers_modalprovider_usemodal"
@@ -35892,7 +35914,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L671",
+      "source_location": "L672",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_lib_kanban_drag_applycardmoveatindex"
@@ -35903,7 +35925,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L553",
+      "source_location": "L554",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_lib_kanban_drag_applycolumnreorder"
@@ -35914,7 +35936,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L633",
+      "source_location": "L634",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_lib_kanban_drag_getcolumndropid"
@@ -35925,7 +35947,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L204",
+      "source_location": "L205",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_lib_kanban_drop_index_computedropindex"
@@ -35936,7 +35958,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L361",
+      "source_location": "L362",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_lib_kanban_utils_buildboardcolumnssignature"
@@ -35947,7 +35969,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/KanbanBoard.tsx",
-      "source_location": "L873",
+      "source_location": "L893",
       "weight": 1.0,
       "source": "src_components_kanbanboard_kanbanboard",
       "target": "src_lib_utils_cn"
@@ -43158,7 +43180,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L72",
+      "source_location": "L80",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_layout_board_header_boardheader",
@@ -43168,7 +43190,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L56",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_layout_board_header_boardheaderprops",
@@ -43178,7 +43200,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L45",
+      "source_location": "L53",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_layout_board_header_boardmember",
@@ -43188,7 +43210,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L49",
+      "source_location": "L57",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_layout_board_header_boarduser",
@@ -43198,7 +43220,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L27",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_layout_board_header_icons",
@@ -43208,7 +43230,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L40",
+      "source_location": "L48",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_layout_board_header_tabs",
@@ -43219,7 +43241,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L20",
+      "source_location": "L27",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_ui_badge",
@@ -43230,7 +43252,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L20",
+      "source_location": "L27",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_ui_badge_badge",
@@ -43241,7 +43263,84 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L21",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb_breadcrumb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb_breadcrumbitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb_breadcrumblink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb_breadcrumblist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb_breadcrumbpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_breadcrumb_breadcrumbseparator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L28",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_ui_button",
@@ -43252,7 +43351,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L21",
+      "source_location": "L28",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_ui_button_button",
@@ -43263,7 +43362,29 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L22",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_separator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "src_components_layout_board_header",
+      "target": "src_components_ui_separator_separator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layout/board-header.tsx",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_ui_sidebar",
@@ -43274,7 +43395,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L22",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_components_ui_sidebar_sidebartrigger",
@@ -43285,7 +43406,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L25",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_lib_board_icons",
@@ -43296,7 +43417,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L25",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_lib_board_icons_resolveboardiconid",
@@ -43307,7 +43428,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L24",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_lib_utils",
@@ -43318,7 +43439,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L24",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "src_components_layout_board_header",
       "target": "src_lib_utils_cn",
@@ -43330,7 +43451,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L87",
+      "source_location": "L96",
       "weight": 1.0,
       "source": "src_components_layout_board_header_boardheader",
       "target": "src_lib_board_icons_resolveboardiconid"
@@ -43341,7 +43462,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/board-header.tsx",
-      "source_location": "L157",
+      "source_location": "L187",
       "weight": 1.0,
       "source": "src_components_layout_board_header_boardheader",
       "target": "src_lib_utils_cn"

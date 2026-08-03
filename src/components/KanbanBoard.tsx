@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useId, useEffect, useMemo, useRef, useCallback } from "react"
-import { Plus, LayoutGrid, Filter } from "lucide-react"
+import { Plus } from "lucide-react"
 import {
   DndContext,
   DragOverlay,
@@ -30,7 +30,6 @@ import { ShareCardToChatDialog } from "@/components/chat/ShareCardToChatDialog"
 import { createCard, moveCard, deleteCard, createColumn, reorderColumns } from "@/app/actions"
 import { useModal } from "@/components/providers/ModalProvider"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { buildBoardColumnsSignature } from "@/lib/kanban-utils"
 import {
@@ -147,24 +146,6 @@ export default function KanbanBoard({
     noMembersFilter,
     initialBoard.identifier,
   ])
-
-  const totalCards = useMemo(
-    () =>
-      columns.reduce(
-        (sum: number, col: any) => sum + (col.cards?.length || 0),
-        0,
-      ),
-    [columns],
-  )
-
-  const visibleCards = useMemo(
-    () =>
-      filteredColumns.reduce(
-        (sum: number, col: any) => sum + (col.cards?.length || 0),
-        0,
-      ),
-    [filteredColumns],
-  )
 
   const canCreateCard = userRole === "REQUESTER" || userRole === "ADMIN"
   const canReorderColumns = userRole === "ADMIN"
@@ -388,7 +369,9 @@ export default function KanbanBoard({
         prev.title === updatedCard.title &&
         prev.description === updatedCard.description &&
         prev.updatedAt === updatedCard.updatedAt &&
-        prev.columnId === updatedCard.columnId
+        prev.columnId === updatedCard.columnId &&
+        prev.coverAttachmentId === updatedCard.coverAttachmentId &&
+        (prev.attachments?.length ?? 0) === (updatedCard.attachments?.length ?? 0)
       ) {
         return prev
       }
@@ -811,26 +794,7 @@ export default function KanbanBoard({
   const dndId = useId()
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-4">
-      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 px-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline" className="gap-1.5 px-2.5 py-1">
-            <LayoutGrid className="size-3.5" />
-            {filteredColumns.length} sütun
-          </Badge>
-          <Badge variant="outline" className="gap-1.5 px-2.5 py-1 tabular-nums">
-            {visibleCards}
-            {hasActiveFilters ? ` / ${totalCards}` : ""} görev
-          </Badge>
-          {hasActiveFilters ? (
-            <Badge variant="secondary" className="gap-1.5 px-2.5 py-1">
-              <Filter className="size-3.5" />
-              Filtre aktif
-            </Badge>
-          ) : null}
-        </div>
-      </div>
-
+    <div className="flex h-full min-h-0 flex-col">
       <div className="kanban-scroll custom-scrollbar min-h-0 flex-1 overflow-x-auto overflow-y-hidden">
         <div className="flex h-full min-h-0 items-stretch gap-4 px-1 pb-1">
           <KanbanBoardDndContext.Provider value={dndContextValue}>

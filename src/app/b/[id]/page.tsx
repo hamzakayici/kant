@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import KanbanBoard from "@/components/KanbanBoard"
 import { redirect } from "next/navigation"
 import InboxWrapper from "@/components/InboxWrapper"
-import { canAssignAssignees, getUserPermissions } from "@/lib/permissions"
+import { canAssignAssignees, getUserPermissions, hasPermission } from "@/lib/permissions"
 import GlobalSearch from "@/components/GlobalSearch"
 import BoardTimelineView from "@/components/BoardTimelineView"
 import BoardFilter from "@/components/BoardFilter"
@@ -177,6 +177,20 @@ export default async function BoardPage(props: {
 
   const permissions = await getUserPermissions(session.user.id)
   const canAssign = canAssignAssignees(permissions)
+  const canManageMembers =
+    hasPermission(permissions, "MANAGE_BOARDS") || membership?.role === "ADMIN"
+
+  const allUsers = await prisma.user.findMany({
+    where: { isActive: true },
+    select: {
+      id: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      color: true,
+    },
+    orderBy: [{ firstName: "asc" }, { email: "asc" }],
+  })
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -190,6 +204,8 @@ export default async function BoardPage(props: {
         cardCount={totalCards}
         memberCount={board.members.length}
         members={board.members}
+        allUsers={allUsers}
+        canManageMembers={canManageMembers}
         filterSlot={
           <BoardFilter
             members={board.members}
@@ -205,7 +221,7 @@ export default async function BoardPage(props: {
       />
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden">
-        <div className="custom-scrollbar kanban-scroll flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-4 md:px-6">
+        <div className="custom-scrollbar kanban-scroll flex min-h-0 flex-1 flex-col overflow-hidden px-3 py-2 md:px-4">
           {view === "kanban" ? (
             <KanbanBoard
               initialBoard={board}

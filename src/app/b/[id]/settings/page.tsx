@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Send, Settings } from "lucide-react"
-import ProcessStatesClient from "./ProcessStatesClient"
 
 export default async function SettingsPage({
   params,
@@ -16,11 +15,6 @@ export default async function SettingsPage({
 
   const board = await prisma.board.findUnique({
     where: { id },
-    include: {
-      columns: {
-        orderBy: { order: "asc" },
-      },
-    },
   })
 
   if (!board) redirect("/")
@@ -48,11 +42,6 @@ export default async function SettingsPage({
 
       <main className="flex-1 overflow-auto p-8">
         <div className="mx-auto flex max-w-6xl flex-col gap-10">
-          <section>
-            <h1 className="mb-8 text-2xl font-bold">Süreç Durumları</h1>
-            <ProcessStatesClient boardId={board.id} initialColumns={board.columns} />
-          </section>
-
           {session.user.role === "ADMIN" ? (
             <section className="rounded-xl border border-border bg-card p-6">
               <div className="flex items-start gap-3">

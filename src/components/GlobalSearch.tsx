@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 import { getUserDisplayName, getUserInitial } from "@/lib/user"
-import { getAttachmentUrl } from "@/lib/attachment-url"
+import { getAttachmentExternalUrl } from "@/lib/attachment-url"
 
 export default function GlobalSearch({ boardId }: { boardId?: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -78,14 +78,18 @@ export default function GlobalSearch({ boardId }: { boardId?: string }) {
 
   const getCoverUrl = (card: any) => {
     if (!card.attachments) return null
-    const coverImage = card.coverAttachmentId
-      ? card.attachments.find((a: any) => a.id === card.coverAttachmentId)
-      : card.attachments.find(
-          (att: any) =>
-            att.mimeType?.startsWith("image/") ||
-            att.filename?.match(/\.(jpg|jpeg|png|gif|webp)$/i),
-        )
-    if (coverImage) return getAttachmentUrl(coverImage)
+    let coverImage = null
+    if (card.coverAttachmentId) {
+      coverImage = card.attachments.find((a: any) => a.id === card.coverAttachmentId)
+    }
+    if (!coverImage) {
+      coverImage = card.attachments.find(
+        (att: any) =>
+          att.mimeType?.startsWith("image/") ||
+          /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(att.filename ?? ""),
+      )
+    }
+    if (coverImage) return getAttachmentExternalUrl(coverImage)
     return null
   }
 

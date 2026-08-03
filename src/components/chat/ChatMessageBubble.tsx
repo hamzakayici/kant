@@ -8,7 +8,11 @@ import { Input } from "@/components/ui/input"
 import { ChatMessageAttachments } from "@/components/chat/ChatMessageAttachments"
 import { ChatQuotedMessage } from "@/components/chat/ChatQuotedMessage"
 import { ChatSharedCard } from "@/components/chat/ChatSharedCard"
-import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import {
+  getUserDisplayName,
+  getUserInitial,
+  getUserColorStylesWithOpacity,
+} from "@/lib/user"
 import type { CardShareSnapshot } from "@/lib/card-share"
 import { ChatMessageContent } from "@/components/chat/ChatMessageContent"
 import { stripMentionTokens } from "@/lib/chat-mentions"
@@ -128,7 +132,10 @@ export function ChatMessageBubble({
     >
       {!isMe && isGroupEnd ? (
         <Avatar className="size-8 shrink-0">
-          <AvatarFallback className="bg-muted text-xs font-semibold">
+          <AvatarFallback
+            className="text-xs font-semibold"
+            style={getUserColorStylesWithOpacity(msg.author.color)}
+          >
             {getUserInitial(msg.author)}
           </AvatarFallback>
         </Avatar>

@@ -59,6 +59,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
     email: string
     name?: string | null
     avatarUrl?: string | null
+    color?: string | null
   }
 }
 
@@ -67,6 +68,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
     email: "demo@kant.app",
     name: "Demo",
     avatarUrl: null,
+    color: null,
   }
   const displayName =
     resolvedUser.name?.trim() ||
@@ -101,6 +103,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
             name: displayName,
             email: resolvedUser.email,
             avatar: resolvedUser.avatarUrl ?? "",
+            color: resolvedUser.color,
           }}
         />
       </SidebarFooter>

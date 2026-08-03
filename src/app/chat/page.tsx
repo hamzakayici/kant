@@ -33,7 +33,7 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
     }),
     prisma.user.findMany({
       where: { isActive: true },
-      select: { id: true, email: true, firstName: true, lastName: true, role: true },
+      select: { id: true, email: true, firstName: true, lastName: true, role: true, color: true },
     }),
     telegramEnabled ? getTelegramDefaultChatGroupId() : Promise.resolve(null),
   ])

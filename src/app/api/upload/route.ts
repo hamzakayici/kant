@@ -76,6 +76,18 @@ export async function POST(request: Request) {
       },
     })
 
+    if (cardId) {
+      const updateData: any = { updatedAt: new Date() }
+      // Resim yüklendiğinde otomatik olarak kapak görseli yap
+      if (file.type.startsWith("image/")) {
+        updateData.coverAttachmentId = attachment.id
+      }
+      await prisma.card.update({
+        where: { id: cardId },
+        data: updateData,
+      })
+    }
+
     const url = getAttachmentUrl(attachment)
 
     return NextResponse.json({

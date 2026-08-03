@@ -14,7 +14,7 @@ const cardShareRelations = {
     },
   },
   assignees: {
-    select: { firstName: true, lastName: true, email: true },
+    select: { firstName: true, lastName: true, email: true, color: true },
   },
   checklists: {
     select: { isDone: true },

@@ -756,6 +756,10 @@ export async function deleteAttachment(attachmentId: string) {
   })
   
   if (attachment.cardId) {
+    await prisma.card.update({
+      where: { id: attachment.cardId },
+      data: { updatedAt: new Date() },
+    })
     await prisma.activityLog.create({
       data: { action: `'${attachment.filename}' adlı dosyayı sildi`, cardId: attachment.cardId, userId: session.user.id }
     })
@@ -931,7 +935,7 @@ export async function sendChatMessage(
 
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { firstName: true, lastName: true, email: true },
+    select: { firstName: true, lastName: true, email: true, color: true },
   })
 
   const groupMembers = await prisma.chatGroupMember.findMany({
@@ -943,6 +947,7 @@ export async function sendChatMessage(
           firstName: true,
           lastName: true,
           email: true,
+          color: true,
         },
       },
     },
@@ -1004,6 +1009,7 @@ export async function editChatMessage(messageId: string, content: string) {
           firstName: true,
           lastName: true,
           email: true,
+          color: true,
         },
       },
     },
@@ -1099,48 +1105,138 @@ export async function searchCards(query: string, boardId?: string) {
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
 
-  // Check if query looks like a card ID (e.g. "ATF-14" or "ATF14" or "atf 14")
-  const idMatch = query.replace(/\s+/g, '').match(/^([a-zA-Z]+)-?(\d+)$/);
+  const trimmed = query.trim()
+  if (trimmed.length < 2) return []
 
-  let exactCard: any = null;
-  if (idMatch) {
-    exactCard = await prisma.card.findFirst({
-      where: {
-        sequenceId: parseInt(idMatch[2]),
-        column: { board: { identifier: { equals: idMatch[1], mode: 'insensitive' } } },
-        ...(boardId ? { column: { boardId } } : {})
-      },
-      include: {
-        column: { include: { board: true } },
-        creator: true,
-        assignees: true,
-        attachments: true
-      }
-    });
-    if (exactCard) return [exactCard];
+  const include = {
+    column: { include: { board: true } },
+    creator: true,
+    assignees: true,
+    attachments: true,
   }
 
-  // Fallback to fuzzy search via match-sorter
-  const { matchSorter } = require('match-sorter')
-  
-  // Fetch a broad set of recent cards
+  const boardScope = boardId ? { column: { boardId } } : {}
+
+  // Kart ID yalnızca ayırıcı ile: "ATF-490" veya "ATF 490" (ATF490 başlık aramasıdır)
+  const idMatch = trimmed.match(/^([a-zA-Z]{1,12})[-\s](\d+)$/i)
+  if (idMatch) {
+    const exactCard = await prisma.card.findFirst({
+      where: {
+        sequenceId: parseInt(idMatch[2], 10),
+        column: {
+          ...(boardId ? { boardId } : {}),
+          board: { identifier: { equals: idMatch[1], mode: "insensitive" } },
+        },
+      },
+      include,
+    })
+    if (exactCard) return [exactCard]
+  }
+
+  const textFilter = {
+    OR: [
+      { title: { contains: trimmed, mode: "insensitive" as const } },
+      { description: { contains: trimmed, mode: "insensitive" as const } },
+      { comments: { some: { content: { contains: trimmed, mode: "insensitive" as const } } } },
+      { checklists: { some: { content: { contains: trimmed, mode: "insensitive" as const } } } },
+    ],
+  }
+
+  const dbResults = await prisma.card.findMany({
+    where: { ...boardScope, ...textFilter },
+    include,
+    take: 30,
+    orderBy: { updatedAt: "desc" },
+  })
+
+  if (dbResults.length >= 15) return dbResults.slice(0, 15)
+
+  const { matchSorter } = await import("match-sorter")
   const candidateCards = await prisma.card.findMany({
-    where: boardId ? { column: { boardId } } : {},
-    include: {
-      column: { include: { board: true } },
-      creator: true,
-      assignees: true,
-      attachments: true
-    },
+    where: boardScope,
+    include,
     take: 2000,
-    orderBy: { updatedAt: 'desc' }
-  });
+    orderBy: { updatedAt: "desc" },
+  })
 
-  const results = matchSorter(candidateCards, query, {
-    keys: ['title', 'sequenceId', 'column.board.identifier', 'description', 'tags']
-  });
+  const fuzzyResults = matchSorter(candidateCards, trimmed, {
+    keys: [
+      "title",
+      { key: (card) => `${card.column.board.identifier}-${card.sequenceId}` },
+      "description",
+      { key: "tags", threshold: matchSorter.rankings.CONTAINS },
+    ],
+  })
 
-  return results.slice(0, 15);
+  const seen = new Set<string>()
+  const merged = []
+  for (const card of [...dbResults, ...fuzzyResults]) {
+    if (seen.has(card.id)) continue
+    seen.add(card.id)
+    merged.push(card)
+    if (merged.length >= 15) break
+  }
+
+  return merged
+}
+
+async function canManageBoardMembers(userId: string, boardId: string) {
+  const perms = await getUserPermissions(userId)
+  if (hasPermission(perms, "MANAGE_BOARDS")) return true
+
+  const membership = await prisma.boardMember.findUnique({
+    where: { userId_boardId: { userId, boardId } },
+  })
+  return membership?.role === "ADMIN"
+}
+
+export async function addBoardMember(boardId: string, userId: string) {
+  const session = await auth()
+  if (!session) throw new Error("Yetkisiz")
+
+  if (!(await canManageBoardMembers(session.user.id, boardId))) {
+    throw new Error("Üye ekleme yetkiniz yok")
+  }
+
+  const user = await prisma.user.findFirst({
+    where: { id: userId, isActive: true },
+  })
+  if (!user) throw new Error("Kullanıcı bulunamadı")
+
+  const existing = await prisma.boardMember.findUnique({
+    where: { userId_boardId: { userId, boardId } },
+  })
+  if (existing) return existing
+
+  const member = await prisma.boardMember.create({
+    data: { boardId, userId, role: "REQUESTER" },
+    include: { user: true },
+  })
+
+  revalidatePath(`/b/${boardId}`)
+  revalidatePath("/")
+  return member
+}
+
+export async function removeBoardMember(boardId: string, userId: string) {
+  const session = await auth()
+  if (!session) throw new Error("Yetkisiz")
+
+  if (!(await canManageBoardMembers(session.user.id, boardId))) {
+    throw new Error("Üye kaldırma yetkiniz yok")
+  }
+
+  const memberCount = await prisma.boardMember.count({ where: { boardId } })
+  if (memberCount <= 1) {
+    throw new Error("Panoda en az bir üye kalmalıdır")
+  }
+
+  await prisma.boardMember.delete({
+    where: { userId_boardId: { userId, boardId } },
+  })
+
+  revalidatePath(`/b/${boardId}`)
+  revalidatePath("/")
 }
 
 export async function getChatMessages(chatGroupId: string) {

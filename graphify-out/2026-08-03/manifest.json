@@ -110,8 +110,8 @@
     "semantic_hash": ""
   },
   "src/app/b/[id]/page.tsx": {
-    "mtime": 1785742975.0285642,
-    "ast_hash": "40108647a01d9b98cf3af867fe978a63",
+    "mtime": 1785742805.9429717,
+    "ast_hash": "398128c5b05f64a345b3692fcdd414b2",
     "semantic_hash": ""
   },
   "src/app/b/[id]/settings/ProcessStatesClient.tsx": {
@@ -275,8 +275,8 @@
     "semantic_hash": ""
   },
   "src/components/KanbanBoard.tsx": {
-    "mtime": 1785742985.345179,
-    "ast_hash": "042b65409ae703b698ad52c17391210e",
+    "mtime": 1785501899.5080724,
+    "ast_hash": "63c764db09577286261cd7b23b82b88b",
     "semantic_hash": ""
   },
   "src/components/PromptModal.tsx": {
@@ -1220,8 +1220,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/board-header.tsx": {
-    "mtime": 1785742970.8469267,
-    "ast_hash": "dfdb7f800376e02156ad7d8f70438bec",
+    "mtime": 1785742802.9439652,
+    "ast_hash": "17229192a6332e0f9b9d7d9f7b8b0557",
     "semantic_hash": ""
   },
   "src/components/layout/dashboard-shell.tsx": {

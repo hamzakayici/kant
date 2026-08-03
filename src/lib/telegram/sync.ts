@@ -983,7 +983,7 @@ export async function createChatMessageWithTelegram(params: {
       replyTo: {
         include: {
           author: {
-            select: { id: true, email: true, firstName: true, lastName: true },
+            select: { id: true, email: true, firstName: true, lastName: true, color: true },
           },
           attachments: true,
         },
@@ -1009,7 +1009,7 @@ export async function createChatMessageWithTelegram(params: {
       replyTo: {
         include: {
           author: {
-            select: { id: true, email: true, firstName: true, lastName: true },
+            select: { id: true, email: true, firstName: true, lastName: true, color: true },
           },
           attachments: true,
         },

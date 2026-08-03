@@ -2,6 +2,7 @@ export type UserNameFields = {
   firstName?: string | null
   lastName?: string | null
   email?: string | null
+  color?: string | null
 }
 
 export function getUserDisplayName(
@@ -58,4 +59,20 @@ export function getUserLabel(
 ): string {
   if (typeof user === "string") return user || fallback
   return getUserDisplayName(user, fallback)
+}
+
+export function getUserColorStyles(color?: string | null): import("react").CSSProperties {
+  const hex = color || "#3b82f6"
+  return {
+    backgroundColor: hex,
+    color: "#ffffff",
+  }
+}
+
+export function getUserColorStylesWithOpacity(color?: string | null): import("react").CSSProperties {
+  const hex = color || "#3b82f6"
+  return {
+    backgroundColor: `${hex}26`, // 15% opacity
+    color: hex,
+  }
 }

@@ -22,7 +22,7 @@ import {
 } from "@/lib/card-styles"
 import { getUserDisplayName, getUserInitial } from "@/lib/user"
 import { cn } from "@/lib/utils"
-import { getAttachmentUrl } from "@/lib/attachment-url"
+import { getAttachmentUrl, getAttachmentExternalUrl } from "@/lib/attachment-url"
 
 const PRIORITY_BORDER: Record<string, string> = {
   LOW: "border-l-blue-400",
@@ -91,13 +91,18 @@ function Card({
     )
   }
 
-  const coverImage = card.coverAttachmentId
-    ? card.attachments?.find((a: any) => a.id === card.coverAttachmentId)
-    : card.attachments?.find(
-        (att: any) =>
-          att.mimeType?.startsWith("image/") ||
-          att.filename?.match(/\.(jpg|jpeg|png|gif|webp)$/i),
-      )
+  const isImageAttachment = (att: any) =>
+    att.mimeType?.startsWith("image/") ||
+    /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(att.filename ?? "")
+
+  const coverImage = (() => {
+    if (card.coverAttachmentId) {
+      const found = card.attachments?.find((a: any) => a.id === card.coverAttachmentId)
+      if (found) return found
+    }
+    // Son eklenen resim ekini kapak olarak kullan (attachments desc sıralı)
+    return card.attachments?.find(isImageAttachment) ?? null
+  })()
 
   const checklistTotal = card.checklists?.length ?? 0
   const checklistDone =
@@ -150,7 +155,7 @@ function Card({
           )}
         >
           <img
-            src={getAttachmentUrl(coverImage)}
+            src={getAttachmentExternalUrl(coverImage)}
             alt=""
             className={cn(
               "h-auto max-h-28 w-full",

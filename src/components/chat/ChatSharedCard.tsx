@@ -23,7 +23,11 @@ import {
 } from "@/lib/card-share"
 import { getAttachmentUrl } from "@/lib/attachment-url"
 import { useOptionalCardModal } from "@/components/providers/CardModalProvider"
-import { getUserInitial } from "@/lib/user"
+import {
+  getUserDisplayName,
+  getUserInitial,
+  getUserColorStylesWithOpacity,
+} from "@/lib/user"
 import { cn } from "@/lib/utils"
 
 const PRIORITY_BORDER: Record<string, string> = {
@@ -230,7 +234,10 @@ export function ChatSharedCard({
                     key={`${user.email ?? "user"}-${index}`}
                     className="size-5 border border-card"
                   >
-                    <AvatarFallback className="bg-muted text-[9px] font-semibold">
+                    <AvatarFallback
+                      className="text-[9px] font-semibold"
+                      style={getUserColorStylesWithOpacity(user.color)}
+                    >
                       {getUserInitial(user)}
                     </AvatarFallback>
                   </Avatar>

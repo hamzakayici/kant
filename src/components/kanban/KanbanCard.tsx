@@ -19,9 +19,14 @@ import {
   getPriorityBadgeClass,
   getPriorityLabel,
 } from "@/lib/card-styles"
-import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import {
+  getUserDisplayName,
+  getUserInitial,
+  getUserColorStylesWithOpacity,
+} from "@/lib/user"
 import { KANBAN_CARD_ESTIMATE_HEIGHT } from "@/lib/kanban-utils"
 import { cn } from "@/lib/utils"
+import { getAttachmentExternalUrl } from "@/lib/attachment-url"
 
 const PRIORITY_BORDER: Record<string, string> = {
   LOW: "border-l-blue-400",
@@ -89,6 +94,18 @@ function KanbanCardComponent({
     commentCount > 0 ||
     checklistTotal > 0
 
+  const isImageAttachment = (att: any) =>
+    att.mimeType?.startsWith("image/") ||
+    /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(att.filename ?? "")
+
+  const coverImage = (() => {
+    if (card.coverAttachmentId) {
+      const found = card.attachments?.find((a: any) => a.id === card.coverAttachmentId)
+      if (found) return found
+    }
+    return card.attachments?.find(isImageAttachment) ?? null
+  })()
+
   const priorityBorder =
     card.priority && card.priority !== "NONE"
       ? PRIORITY_BORDER[card.priority]
@@ -113,6 +130,28 @@ function KanbanCardComponent({
           : "cursor-grab hover:border-border hover:shadow-md active:cursor-grabbing",
       )}
     >
+      {coverImage ? (
+        <div
+          className={cn(
+            "relative flex w-full items-center justify-center overflow-hidden",
+            card.coverMode === "CONTAIN"
+              ? "border-b border-border/50 bg-muted/30 p-1.5"
+              : "bg-black/40",
+          )}
+        >
+          <img
+            src={getAttachmentExternalUrl(coverImage)}
+            alt=""
+            className={cn(
+              "h-auto max-h-28 w-full",
+              card.coverMode === "CONTAIN" ? "object-contain" : "object-cover",
+            )}
+            onError={(e) => {
+              ;(e.target as HTMLImageElement).style.display = "none"
+            }}
+          />
+        </div>
+      ) : null}
       <div className="relative p-3">
         <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
           {onShareCard && !isOverlay ? (
@@ -198,7 +237,10 @@ function KanbanCardComponent({
                     className="size-5 border-2 border-card"
                     title={getUserDisplayName(user)}
                   >
-                    <AvatarFallback className="bg-primary/20 text-[8px] font-bold text-primary">
+                    <AvatarFallback
+                      className="text-[8px] font-bold"
+                      style={getUserColorStylesWithOpacity(user.color)}
+                    >
                       {getUserInitial(user)}
                     </AvatarFallback>
                   </Avatar>

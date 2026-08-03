@@ -1,11 +1,15 @@
 "use server"
 
-import { randomBytes } from "crypto"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import bcrypt from "bcryptjs"
 import { revalidatePath } from "next/cache"
 import { getUserPermissions, hasPermission } from "@/lib/permissions"
+import { resolveResetPassword } from "@/lib/reset-password"
+
+export type ResetPasswordResult =
+  | { ok: true; temporaryPassword: string }
+  | { ok: false; error: string }
 
 export async function getRoles() {
   const session = await auth()
@@ -286,32 +290,46 @@ export async function changeMyPassword(newPassword: string) {
   return true
 }
 
-function generateTemporaryPassword(length = 12): string {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789"
-  const bytes = randomBytes(length)
-  return Array.from(bytes, (byte) => chars[byte % chars.length]).join("")
-}
-
-export async function resetUserPassword(userId: string) {
+export async function resetUserPassword(userId: string): Promise<ResetPasswordResult> {
   const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
-
-  const perms = await getUserPermissions(session.user.id)
-  if (!hasPermission(perms, "MANAGE_ROLES")) throw new Error("Yetkisiz işlem")
-
-  if (session.user.id === userId) {
-    throw new Error("Kendi şifrenizi bu ekrandan sıfırlayamazsınız!")
+  if (!session?.user?.id) {
+    return { ok: false, error: "Oturum bulunamadı. Lütfen tekrar giriş yapın." }
   }
 
-  const temporaryPassword = generateTemporaryPassword()
+  const perms = await getUserPermissions(session.user.id)
+  if (!hasPermission(perms, "MANAGE_ROLES")) {
+    return { ok: false, error: "Bu işlem için yetkiniz yok." }
+  }
 
-  await prisma.user.update({
+  if (session.user.id === userId) {
+    return {
+      ok: false,
+      error: "Kendi şifrenizi bu ekrandan sıfırlayamazsınız.",
+    }
+  }
+
+  const target = await prisma.user.findUnique({
     where: { id: userId },
-    data: {
-      password: await bcrypt.hash(temporaryPassword, 10),
-      mustChangePassword: true,
-    },
+    select: { id: true, email: true },
   })
+  if (!target) {
+    return { ok: false, error: "Kullanıcı bulunamadı." }
+  }
 
-  return { temporaryPassword }
+  const temporaryPassword = resolveResetPassword()
+
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: await bcrypt.hash(temporaryPassword, 10),
+        mustChangePassword: true,
+      },
+    })
+
+    revalidatePath("/settings/roles")
+    return { ok: true, temporaryPassword }
+  } catch {
+    return { ok: false, error: "Şifre güncellenirken bir hata oluştu." }
+  }
 }

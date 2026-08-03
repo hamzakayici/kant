@@ -23,7 +23,8 @@ import {
 import { EllipsisVertical, LogOut, Send, Settings2 } from "lucide-react"
 import Link from "next/link"
 import { signOut } from "next-auth/react"
-import { getUserInitial } from "@/lib/user"
+import { getUserInitial, getUserColorStylesWithOpacity } from "@/lib/user"
+import { cn } from "@/lib/utils"
 
 export function NavUser({
   user,
@@ -32,6 +33,7 @@ export function NavUser({
     name: string
     email: string
     avatar: string
+    color?: string | null
   }
 }) {
   const { isMobile } = useSidebar()
@@ -47,7 +49,10 @@ export function NavUser({
           >
             <Avatar className="size-8 rounded-lg">
               <AvatarImage src={user.avatar || undefined} alt={user.name} />
-              <AvatarFallback className="rounded-lg">
+              <AvatarFallback
+                className="rounded-lg font-semibold"
+                style={getUserColorStylesWithOpacity(user.color)}
+              >
                 {getUserInitial(user.name)}
               </AvatarFallback>
             </Avatar>
@@ -70,7 +75,10 @@ export function NavUser({
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="size-8">
                     <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">
+                    <AvatarFallback
+                      className="rounded-lg font-semibold"
+                      style={getUserColorStylesWithOpacity(user.color)}
+                    >
                       {getUserInitial(user.name)}
                     </AvatarFallback>
                   </Avatar>

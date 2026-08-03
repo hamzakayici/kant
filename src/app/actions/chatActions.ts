@@ -114,7 +114,7 @@ export async function getUserChatGroups(): Promise<EnrichedChatGroup[]> {
       members: {
         include: {
           user: {
-            select: { id: true, email: true, firstName: true, lastName: true },
+            select: { id: true, email: true, firstName: true, lastName: true, color: true },
           },
         },
       },
@@ -291,7 +291,7 @@ export async function shareCardToChat(
 
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { firstName: true, lastName: true, email: true },
+    select: { firstName: true, lastName: true, email: true, color: true },
   })
 
   await createChatMessageWithTelegram({

@@ -2,7 +2,7 @@ import { cardShareSelect } from "@/lib/card-share"
 
 export const chatMessageInclude = {
   author: {
-    select: { id: true, email: true, firstName: true, lastName: true },
+    select: { id: true, email: true, firstName: true, lastName: true, color: true },
   },
   attachments: true,
   card: {
@@ -11,7 +11,7 @@ export const chatMessageInclude = {
   replyTo: {
     include: {
       author: {
-        select: { id: true, email: true, firstName: true, lastName: true },
+        select: { id: true, email: true, firstName: true, lastName: true, color: true },
       },
       attachments: true,
       card: {

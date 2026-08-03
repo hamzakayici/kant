@@ -4,7 +4,7 @@ import { Clock, MessageSquare, Send } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import { getUserDisplayName, getUserInitial, getUserColorStylesWithOpacity } from "@/lib/user"
 import { cn } from "@/lib/utils"
 
 type CardModalActivityProps = {
@@ -57,7 +57,10 @@ export function CardModalActivity({
             items.map((item) => (
               <div key={`${item.type}-${item.id}`} className="flex gap-3">
                 <Avatar className="size-8 shrink-0">
-                  <AvatarFallback className="bg-primary/15 text-xs font-bold text-primary">
+                  <AvatarFallback
+                    className="text-xs font-bold"
+                    style={getUserColorStylesWithOpacity(item.user?.color)}
+                  >
                     {getUserInitial(item.user)}
                   </AvatarFallback>
                 </Avatar>

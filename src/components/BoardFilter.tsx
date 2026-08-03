@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { Filter, X } from "lucide-react"
-import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import { getUserDisplayName, getUserInitial, getUserColorStylesWithOpacity } from "@/lib/user"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -169,8 +169,11 @@ export default function BoardFilter({
                   onCheckedChange={() => toggleAssignee(currentUserId)}
                 />
                 <Avatar className="size-6">
-                  <AvatarFallback className="bg-primary/20 text-[10px] font-bold text-primary">
-                    BEN
+                  <AvatarFallback
+                    className="text-[10px] font-bold"
+                    style={getUserColorStylesWithOpacity(members.find((m) => m.userId === currentUserId)?.user?.color)}
+                  >
+                    {getUserInitial(members.find((m) => m.user.id === currentUserId)?.user || "?")}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm text-muted-foreground">
@@ -190,7 +193,10 @@ export default function BoardFilter({
                       onCheckedChange={() => toggleAssignee(member.user.id)}
                     />
                     <Avatar className="size-6">
-                      <AvatarFallback className="bg-primary/20 text-[10px] font-bold text-primary">
+                      <AvatarFallback
+                        className="text-[10px] font-bold"
+                        style={getUserColorStylesWithOpacity(member.user.color)}
+                      >
                         {getUserInitial(member.user)}
                       </AvatarFallback>
                     </Avatar>

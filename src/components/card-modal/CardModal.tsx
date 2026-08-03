@@ -19,6 +19,7 @@ import {
   moveCard,
   toggleCardAssignee,
   updateCardPriority,
+  updateCardTags,
   addChecklistItem,
   toggleChecklistItem,
   deleteChecklistItem,
@@ -215,6 +216,11 @@ export default function CardModal({
     router.refresh()
   }
 
+  const handleTagsChange = async (tags: string[]) => {
+    await updateCardTags(card.id, tags)
+    router.refresh()
+  }
+
   const handleAddChecklist = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && newChecklistItem.trim()) {
       await addChecklistItem(card.id, newChecklistItem.trim())
@@ -346,7 +352,9 @@ export default function CardModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 backdrop-blur-sm sm:p-6"
-      onClick={onClose}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose()
+      }}
     >
       <FileUploader
         cardId={card.id}
@@ -421,6 +429,7 @@ export default function CardModal({
                   onPriorityChange={handlePriorityChange}
                   onDateSave={handleAdvancedDateSave}
                   onDateRemove={handleAdvancedDateRemove}
+                  onTagsChange={handleTagsChange}
                   canAssignAssignees={canAssignAssignees}
                 />
 
@@ -506,7 +515,9 @@ export default function CardModal({
       {previewImage ? (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90"
-          onClick={() => setPreviewImage(null)}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setPreviewImage(null)
+          }}
         >
           <Button
             type="button"
@@ -594,7 +605,9 @@ export default function CardModal({
       {showHistory ? (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
-          onClick={() => setShowHistory(false)}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowHistory(false)
+          }}
         >
           <div
             className="flex max-h-[80vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"

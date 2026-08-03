@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import {
   AlertCircle,
   ArrowUp,
@@ -9,14 +10,17 @@ import {
   LayoutGrid,
   Minus,
   Plus,
+  Tag,
   User,
+  X,
   Zap,
 } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { format } from "date-fns"
 import { tr } from "date-fns/locale"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
-import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import { getUserDisplayName, getUserInitial, getUserColorStylesWithOpacity } from "@/lib/user"
 import DatePickerPopover from "@/components/DatePickerPopover"
 
 const priorities = [
@@ -38,6 +42,7 @@ type CardModalPropertiesProps = {
   onPriorityChange: (priority: string) => void
   onDateSave: (data: any) => void
   onDateRemove: () => void
+  onTagsChange: (tags: string[]) => void
   canAssignAssignees?: boolean
 }
 
@@ -69,17 +74,60 @@ export function CardModalProperties({
   onPriorityChange,
   onDateSave,
   onDateRemove,
+  onTagsChange,
   canAssignAssignees = false,
 }: CardModalPropertiesProps) {
+  const [newTag, setNewTag] = useState("")
   const currentPriority =
     priorities.find((p) => p.value === card.priority) || priorities[0]
   const PriorityIcon = currentPriority.icon
   const currentColumn = boardColumns.find((c) => c.id === card.columnId)
+  const tags: string[] = card.tags ?? []
+
+  const addTag = () => {
+    const trimmed = newTag.trim()
+    if (!trimmed) return
+    const normalized = trimmed.toLowerCase()
+    if (tags.some((t) => t.toLowerCase() === normalized)) {
+      setNewTag("")
+      return
+    }
+    onTagsChange([...tags, trimmed])
+    setNewTag("")
+  }
+
+  const removeTag = (index: number) => {
+    onTagsChange(tags.filter((_, i) => i !== index))
+  }
+
+  useEffect(() => {
+    if (!openDropdown) return
+
+    const handlePointerDown = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      if (target.closest("[data-property-dropdown]")) return
+      setOpenDropdown(null)
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return
+      event.stopPropagation()
+      setOpenDropdown(null)
+    }
+
+    document.addEventListener("mousedown", handlePointerDown)
+    document.addEventListener("keydown", handleKeyDown, true)
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown)
+      document.removeEventListener("keydown", handleKeyDown, true)
+    }
+  }, [openDropdown, setOpenDropdown])
 
   return (
+    <div className="space-y-3">
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       <PropertyCell label="Durum">
-        <div className="relative">
+        <div className="relative" data-property-dropdown>
           <button
             type="button"
             onClick={() =>
@@ -111,7 +159,7 @@ export function CardModalProperties({
       </PropertyCell>
 
       <PropertyCell label="Sorumlular">
-        <div className="relative">
+        <div className="relative" data-property-dropdown>
           {canAssignAssignees ? (
             <button
               type="button"
@@ -128,7 +176,10 @@ export function CardModalProperties({
                       className="size-6 border-2 border-card"
                       title={getUserDisplayName(user)}
                     >
-                      <AvatarFallback className="bg-primary/20 text-[10px] font-bold text-primary">
+                      <AvatarFallback
+                        className="text-[10px] font-bold"
+                        style={getUserColorStylesWithOpacity(user.color)}
+                      >
                         {getUserInitial(user)}
                       </AvatarFallback>
                     </Avatar>
@@ -154,7 +205,10 @@ export function CardModalProperties({
                       className="size-6 border-2 border-card"
                       title={getUserDisplayName(user)}
                     >
-                      <AvatarFallback className="bg-primary/20 text-[10px] font-bold text-primary">
+                      <AvatarFallback
+                        className="text-[10px] font-bold"
+                        style={getUserColorStylesWithOpacity(user.color)}
+                      >
                         {getUserInitial(user)}
                       </AvatarFallback>
                     </Avatar>
@@ -192,7 +246,7 @@ export function CardModalProperties({
       </PropertyCell>
 
       <PropertyCell label="Tarihler">
-        <div className="relative">
+        <div className="relative" data-property-dropdown>
           <button
             type="button"
             onClick={() =>
@@ -241,7 +295,7 @@ export function CardModalProperties({
       </PropertyCell>
 
       <PropertyCell label="Öncelik">
-        <div className="relative">
+        <div className="relative" data-property-dropdown>
           <button
             type="button"
             onClick={() =>
@@ -277,6 +331,50 @@ export function CardModalProperties({
               })}
             </div>
           ) : null}
+        </div>
+      </PropertyCell>
+    </div>
+
+      <PropertyCell label="Etiketler">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {tags.length > 0 ? (
+            tags.map((tag, index) => (
+              <Badge
+                key={`${tag}-${index}`}
+                variant="outline"
+                className="h-6 gap-1 border-orange-500/20 bg-orange-500/10 pr-1 pl-2 text-xs text-orange-300"
+              >
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => removeTag(index)}
+                  className="rounded p-0.5 hover:bg-orange-500/20"
+                  aria-label={`${tag} etiketini kaldır`}
+                >
+                  <X className="size-3" />
+                </button>
+              </Badge>
+            ))
+          ) : (
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Tag className="size-4" />
+              Etiket yok
+            </span>
+          )}
+          <input
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault()
+                addTag()
+              }
+            }}
+            onBlur={addTag}
+            placeholder="Etiket ekle..."
+            className="min-w-[100px] flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+          />
         </div>
       </PropertyCell>
     </div>

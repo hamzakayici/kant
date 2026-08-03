@@ -22,13 +22,13 @@ export function hexToRgba(hex: string, alpha: number) {
 
 export function buildBoardColumnsSignature(
   boardId: string,
-  columns: { id: string; cards: { id: string }[] }[],
+  columns: { id: string; cards: { id: string; coverAttachmentId?: string | null; updatedAt?: any; attachments?: any[] }[] }[],
 ) {
   let signature = boardId
   for (const column of columns) {
     signature += `|${column.id}:${column.cards.length}`
     for (const card of column.cards) {
-      signature += `,${card.id}`
+      signature += `,${card.id}:${card.attachments?.length ?? 0}:${card.coverAttachmentId ?? ""}:${card.updatedAt ?? ""}`
     }
   }
   return signature

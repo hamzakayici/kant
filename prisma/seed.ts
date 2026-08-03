@@ -1,6 +1,7 @@
 import { prisma } from "../src/lib/prisma"
 import bcrypt from "bcryptjs"
 import type { Priority, Role } from "../src/generated/prisma/client/enums"
+import { mergeCardContent } from "./mock-card-content"
 
 const DEFAULT_COLUMNS = [
   { name: "Bekleyen", order: 0, category: "BACKLOG", color: "#94a3b8" },
@@ -67,6 +68,9 @@ type MockCard = {
   assigneeEmails?: string[]
   checklist?: { content: string; isDone: boolean }[]
   comment?: string
+  comments?: string[]
+  descriptionHistory?: string[]
+  reminderMinutes?: number
   attachments?: MockAttachment[]
 }
 
@@ -588,9 +592,113 @@ function addDays(base: Date, days: number) {
 const MOCK_CARD_ATTACHMENTS = new Map<string, MockAttachment[]>()
 for (const project of MOCK_PROJECTS) {
   for (const card of project.cards) {
-    if (card.attachments?.length) {
-      MOCK_CARD_ATTACHMENTS.set(card.title, card.attachments)
+    const enriched = mergeCardContent(card)
+    if (enriched.attachments?.length) {
+      MOCK_CARD_ATTACHMENTS.set(card.title, enriched.attachments)
     }
+  }
+}
+
+const COMMENT_AUTHORS = [
+  "admin@kant.com",
+  "tasarim@kant.com",
+  "editor@kant.com",
+  "talep@kant.com",
+  "hamzakayc@gmail.com",
+] as const
+
+async function applyEnrichedContentToCard(
+  cardId: string,
+  mockCard: MockCard,
+  usersByEmail: Record<string, { id: string }>,
+  defaultAuthorId: string
+) {
+  const enriched = mergeCardContent(mockCard)
+
+  await prisma.card.update({
+    where: { id: cardId },
+    data: {
+      description: enriched.description,
+      reminderMinutes: enriched.reminderMinutes ?? null,
+    },
+  })
+
+  await prisma.checklistItem.deleteMany({ where: { cardId } })
+  if (enriched.checklist?.length) {
+    await prisma.checklistItem.createMany({
+      data: enriched.checklist.map((item) => ({
+        cardId,
+        content: item.content,
+        isDone: item.isDone,
+      })),
+    })
+  }
+
+  await prisma.comment.deleteMany({ where: { cardId } })
+  const commentBodies =
+    enriched.comments ?? (enriched.comment ? [enriched.comment] : [])
+  for (const [index, content] of commentBodies.entries()) {
+    const authorEmail = COMMENT_AUTHORS[index % COMMENT_AUTHORS.length]
+    const authorId = usersByEmail[authorEmail]?.id ?? defaultAuthorId
+    await prisma.comment.create({
+      data: { cardId, content, authorId },
+    })
+  }
+
+  await prisma.cardDescriptionHistory.deleteMany({ where: { cardId } })
+  for (const [index, content] of (enriched.descriptionHistory ?? []).entries()) {
+    await prisma.cardDescriptionHistory.create({
+      data: {
+        cardId,
+        content,
+        userId: defaultAuthorId,
+        createdAt: new Date(Date.now() - (index + 1) * 86_400_000),
+      },
+    })
+  }
+}
+
+async function enrichMockProjectContent(
+  usersByEmail: Record<string, { id: string }>
+) {
+  const boards = await prisma.board.findMany({
+    where: { identifier: { in: MOCK_PROJECTS.map((p) => p.identifier) } },
+    include: {
+      columns: { include: { cards: true } },
+    },
+  })
+
+  const mockByTitle = new Map<string, MockCard>()
+  for (const project of MOCK_PROJECTS) {
+    for (const card of project.cards) {
+      mockByTitle.set(card.title, card)
+    }
+  }
+
+  const defaultAuthorId = usersByEmail["admin@kant.com"]?.id
+  if (!defaultAuthorId) return
+
+  let enrichedCount = 0
+
+  for (const board of boards) {
+    for (const column of board.columns) {
+      for (const card of column.cards) {
+        const mockCard = mockByTitle.get(card.title)
+        if (!mockCard) continue
+
+        await applyEnrichedContentToCard(
+          card.id,
+          mockCard,
+          usersByEmail,
+          defaultAuthorId
+        )
+        enrichedCount++
+      }
+    }
+  }
+
+  if (enrichedCount > 0) {
+    console.log(`✓ ${enrichedCount} kart içeriği zenginleştirildi.`)
   }
 }
 
@@ -672,7 +780,8 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
   })
 
   if (existing) {
-    console.log("Mock projeler zaten mevcut, atlanıyor.")
+    console.log("Mock projeler zaten mevcut, içerik zenginleştiriliyor...")
+    await enrichMockProjectContent(usersByEmail)
     await enrichMockProjectMedia()
     return
   }
@@ -705,13 +814,17 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
       include: { columns: { orderBy: { order: "asc" } } },
     })
 
-    for (const [cardIndex, mockCard] of project.cards.entries()) {
+    for (const [cardIndex, rawCard] of project.cards.entries()) {
+      const mockCard = mergeCardContent(rawCard)
       const column = board.columns[mockCard.columnIndex]
       if (!column) continue
 
       const assigneeIds = (mockCard.assigneeEmails ?? [])
         .map((email) => usersByEmail[email]?.id)
         .filter(Boolean)
+
+      const commentBodies =
+        mockCard.comments ?? (mockCard.comment ? [mockCard.comment] : [])
 
       const card = await prisma.card.create({
         data: {
@@ -723,6 +836,7 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
           tags: mockCard.tags ?? [],
           columnId: column.id,
           creatorId: adminUser.id,
+          reminderMinutes: mockCard.reminderMinutes ?? null,
           startDate:
             mockCard.daysFromStart !== undefined
               ? addDays(now, mockCard.daysFromStart)
@@ -743,14 +857,27 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
                 })),
               }
             : undefined,
-          comments: mockCard.comment
-            ? {
-                create: {
-                  content: mockCard.comment,
-                  authorId: adminUser.id,
-                },
-              }
-            : undefined,
+          comments:
+            commentBodies.length > 0
+              ? {
+                  create: commentBodies.map((content, index) => ({
+                    content,
+                    authorId:
+                      usersByEmail[COMMENT_AUTHORS[index % COMMENT_AUTHORS.length]]
+                        ?.id ?? adminUser.id,
+                  })),
+                }
+              : undefined,
+          descriptionHistories:
+            mockCard.descriptionHistory && mockCard.descriptionHistory.length > 0
+              ? {
+                  create: mockCard.descriptionHistory.map((content, index) => ({
+                    content,
+                    userId: adminUser.id,
+                    createdAt: new Date(Date.now() - (index + 1) * 86_400_000),
+                  })),
+                }
+              : undefined,
           activities: {
             create: {
               action: "Kart oluşturuldu (mock veri)",

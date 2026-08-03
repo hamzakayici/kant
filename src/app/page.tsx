@@ -38,7 +38,7 @@ export default async function Dashboard() {
   const boards = userMemberships.map((m) => m.board)
 
   const allUsers = await prisma.user.findMany({
-    select: { id: true, email: true, firstName: true, lastName: true, role: true },
+    select: { id: true, email: true, firstName: true, lastName: true, role: true, color: true },
   })
 
   const totalCards = boards.reduce(

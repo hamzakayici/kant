@@ -68,7 +68,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getUserDisplayName, getUserInitial } from "@/lib/user"
+import { getUserDisplayName, getUserInitial, getUserColorStyles } from "@/lib/user"
+import { resetPasswordHint } from "@/lib/reset-password"
 import { cn } from "@/lib/utils"
 
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -357,9 +358,10 @@ export default function RolesClient({
   }
 
   const handleResetPassword = async (user: UserRow) => {
+    const temporaryPassword = resetPasswordHint()
     if (
       !(await showConfirm(
-        `${getUserDisplayName(user)} için yeni geçici şifre oluşturulsun mu? Kullanıcı bir sonraki girişte şifresini değiştirmek zorunda kalacak.`,
+        `${getUserDisplayName(user)} için şifre sıfırlansın mı?\n\nGeçici şifre: ${temporaryPassword}\n\nBu şifreyi kullanıcıya iletin. İlk girişte yeni şifre belirlemesi istenecek.`,
       ))
     ) {
       return
@@ -367,12 +369,16 @@ export default function RolesClient({
 
     setResettingUserId(user.id)
     try {
-      const { temporaryPassword } = await resetUserPassword(user.id)
+      const result = await resetUserPassword(user.id)
+      if (!result.ok) {
+        await showAlert(result.error)
+        return
+      }
       await showAlert(
-        `Şifre sıfırlandı.\n\nGeçici şifre: ${temporaryPassword}\n\nBu şifreyi kullanıcıya iletin. İlk girişte yeni şifre belirlemesi istenecek.`,
+        `Şifre sıfırlandı.\n\nGeçici şifre: ${result.temporaryPassword}\n\nKullanıcı: ${user.email}`,
       )
-    } catch (e: unknown) {
-      await showAlert(e instanceof Error ? e.message : "Şifre sıfırlanamadı")
+    } catch {
+      await showAlert("Şifre sıfırlanamadı. Lütfen tekrar deneyin.")
     } finally {
       setResettingUserId(null)
     }
@@ -612,10 +618,8 @@ export default function RolesClient({
                                 />
                               ) : null}
                               <AvatarFallback
-                                className="text-xs font-semibold text-white"
-                                style={{
-                                  backgroundColor: user.color || "#3b82f6",
-                                }}
+                                className="text-xs font-semibold"
+                                style={getUserColorStyles(user.color)}
                               >
                                 {getUserInitial(user)}
                               </AvatarFallback>
@@ -928,8 +932,8 @@ export default function RolesClient({
                     />
                   ) : null}
                   <AvatarFallback
-                    className="font-semibold text-white"
-                    style={{ backgroundColor: userForm.color }}
+                    className="text-xl font-semibold"
+                    style={getUserColorStyles(userForm.color)}
                   >
                     {getUserInitial(userForm)}
                   </AvatarFallback>
