@@ -1,8 +1,7 @@
 import { LoginForm } from "@/components/login-form"
 import { GalleryVerticalEndIcon } from "lucide-react"
 
-const LOGIN_IMAGE_URL =
-  "https://www.basaksehir.bel.tr/Content/images/IMG_7097.JPG"
+const LOGIN_IMAGE_URL = "/login-bg.jpg"
 
 export default function LoginPage() {
   return (
