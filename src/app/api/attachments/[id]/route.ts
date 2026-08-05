@@ -72,6 +72,12 @@ export async function GET(
       } catch {
         // fall through
       }
+    } else if (
+      attachment.path.startsWith("http://") ||
+      attachment.path.startsWith("https://")
+    ) {
+      // Mock data from seed script (like Unsplash images) which are external URLs
+      return NextResponse.redirect(attachment.path, 302)
     }
 
     return NextResponse.json({ error: "Dosya bulunamadı" }, { status: 404 })
