@@ -4,7 +4,9 @@ set -e
 echo "PostgreSQL bekleniyor..."
 until node -e "
 const net = require('net');
-const socket = net.createConnection(5432, 'db');
+const host = process.env.PGHOST || 'db';
+const port = parseInt(process.env.PGPORT || '5432', 10);
+const socket = net.createConnection(port, host);
 socket.on('connect', () => { socket.end(); process.exit(0); });
 socket.on('error', () => process.exit(1));
 " 2>/dev/null; do
