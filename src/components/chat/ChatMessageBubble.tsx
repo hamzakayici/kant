@@ -134,9 +134,8 @@ export function ChatMessageBubble({
         <Avatar className="size-8 shrink-0">
           <AvatarFallback
             className="text-xs font-semibold"
-            style={getUserColorStylesWithOpacity(msg.author.color)}
           >
-            {getUserInitial(msg.author)}
+            {msg.author ? getUserInitial(msg.author) : "?"}
           </AvatarFallback>
         </Avatar>
       ) : !isMe && !isGroupEnd ? (
@@ -151,7 +150,7 @@ export function ChatMessageBubble({
       >
         {!isMe && isGroupStart ? (
           <span className="px-1 text-xs text-muted-foreground">
-            {getUserDisplayName(msg.author)}
+            {msg.author ? getUserDisplayName(msg.author) : "Bilinmeyen Kullanıcı"}
             {fromTelegram ? " · Telegram" : ""}
           </span>
         ) : null}

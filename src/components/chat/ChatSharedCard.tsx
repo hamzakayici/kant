@@ -235,8 +235,7 @@ export function ChatSharedCard({
                     className="size-5 border border-card"
                   >
                     <AvatarFallback
-                      className="text-[9px] font-semibold"
-                      style={getUserColorStylesWithOpacity(user.color)}
+                      className="text-[10px] font-semibold"
                     >
                       {getUserInitial(user)}
                     </AvatarFallback>

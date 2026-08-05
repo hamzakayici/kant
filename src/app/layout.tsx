@@ -86,7 +86,6 @@ export default async function RootLayout({
                   email: shellUser.email,
                   name: getUserDisplayName(shellUser),
                   avatarUrl: shellUser.avatarUrl,
-                  color: shellUser.color,
                 }}
                 currentUserId={shellUser.id}
                 chatGroups={chatGroups}
