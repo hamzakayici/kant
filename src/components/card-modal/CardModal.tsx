@@ -539,7 +539,7 @@ export default function CardModal({
 
       {previewImage ? (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/90 p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setPreviewImage(null)
           }}
@@ -548,7 +548,7 @@ export default function CardModal({
             type="button"
             variant="secondary"
             size="icon"
-            className="absolute top-4 right-4 rounded-full"
+            className="absolute top-4 right-4 z-20 rounded-full"
             onClick={(e) => {
               e.stopPropagation()
               setPreviewImage(null)
@@ -556,7 +556,7 @@ export default function CardModal({
           >
             <X className="size-5" />
           </Button>
-          <p className="absolute top-4 left-4 rounded-lg bg-black/50 px-4 py-2 text-sm font-medium backdrop-blur-md">
+          <p className="absolute top-4 left-4 z-20 max-w-[calc(100vw-5rem)] truncate rounded-lg bg-black/50 px-4 py-2 text-sm font-medium backdrop-blur-md">
             {previewImage.name}
           </p>
           {(() => {
@@ -569,13 +569,13 @@ export default function CardModal({
               (f: any) => f.id === previewImage.id,
             )
             return (
-              <>
+              <div className="relative flex h-full w-full items-center justify-center pt-16 pb-4">
                 {hasMultiple ? (
                   <Button
                     type="button"
                     variant="secondary"
                     size="icon"
-                    className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full"
+                    className="absolute top-1/2 left-2 z-20 -translate-y-1/2 rounded-full md:left-4"
                     onClick={(e) => {
                       e.stopPropagation()
                       const prev =
@@ -593,18 +593,22 @@ export default function CardModal({
                     <ChevronLeft className="size-6" />
                   </Button>
                 ) : null}
-                <img
-                  src={previewImage.url}
-                  alt={previewImage.name}
-                  className="max-h-[90vh] max-w-[90vw] rounded object-contain shadow-2xl"
-                  onClick={(e) => e.stopPropagation()}
-                />
+                
+                <div className="flex h-full max-h-[85vh] w-full max-w-[90vw] items-center justify-center px-8 md:px-12">
+                  <img
+                    src={previewImage.url}
+                    alt={previewImage.name}
+                    className="max-h-full max-w-full rounded object-contain shadow-2xl"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+
                 {hasMultiple ? (
                   <Button
                     type="button"
                     variant="secondary"
                     size="icon"
-                    className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full"
+                    className="absolute top-1/2 right-2 z-20 -translate-y-1/2 rounded-full md:right-4"
                     onClick={(e) => {
                       e.stopPropagation()
                       const next =
@@ -621,7 +625,7 @@ export default function CardModal({
                     <ChevronRight className="size-6" />
                   </Button>
                 ) : null}
-              </>
+              </div>
             )
           })()}
         </div>
