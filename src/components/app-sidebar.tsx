@@ -38,6 +38,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
     name?: string | null
     avatarUrl?: string | null
     color?: string | null
+    isSuperAdmin?: boolean
   }
 }
 
@@ -81,6 +82,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
             email: resolvedUser.email,
             avatar: resolvedUser.avatarUrl ?? "",
             color: resolvedUser.color,
+            isSuperAdmin: resolvedUser.isSuperAdmin,
           }}
         />
       </SidebarFooter>

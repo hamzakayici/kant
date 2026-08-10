@@ -14,6 +14,7 @@ export const authConfig = {
         token.lastName = user.lastName
         token.id = user.id
         token.mustChangePassword = user.mustChangePassword
+        token.isSuperAdmin = user.isSuperAdmin
       }
       return token
     },
@@ -25,6 +26,7 @@ export const authConfig = {
         session.user.lastName = token.lastName as string | null | undefined
         session.user.id = token.id as string
         session.user.mustChangePassword = token.mustChangePassword as boolean
+        session.user.isSuperAdmin = (token.isSuperAdmin as boolean) ?? false
       }
       return session
     },

@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import bcrypt from "bcryptjs"
 import { revalidatePath } from "next/cache"
-import { getUserPermissions, hasPermission } from "@/lib/permissions"
+import { getUserPermissions, hasPermission, checkIsSuperAdmin } from "@/lib/permissions"
 import { resolveResetPassword } from "@/lib/reset-password"
 
 export type ResetPasswordResult =
@@ -337,4 +337,31 @@ export async function resetUserPassword(userId: string): Promise<ResetPasswordRe
   } catch {
     return { ok: false, error: "Şifre güncellenirken bir hata oluştu." }
   }
+}
+
+export async function toggleSuperAdmin(userId: string) {
+  const session = await auth()
+  if (!session) throw new Error("Yetkisiz")
+
+  // Sadece süper admin bu işlemi yapabilir
+  const isCaller = await checkIsSuperAdmin(session.user.id)
+  if (!isCaller) throw new Error("Bu işlem için süper admin yetkiniz gerekiyor.")
+
+  if (session.user.id === userId) {
+    throw new Error("Kendi süper admin yetkinizi kaldıramazsınız!")
+  }
+
+  const target = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isSuperAdmin: true },
+  })
+  if (!target) throw new Error("Kullanıcı bulunamadı")
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { isSuperAdmin: !target.isSuperAdmin },
+  })
+
+  revalidatePath("/settings/roles")
+  return { isSuperAdmin: !target.isSuperAdmin }
 }

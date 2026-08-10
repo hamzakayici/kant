@@ -31,12 +31,24 @@ export async function getUserPermissions(userId: string): Promise<string[]> {
     include: { customRole: true }
   })
   
+  if (user?.isSuperAdmin) {
+    return ["SUPER_ADMIN"]
+  }
+
   if (user?.role === "ADMIN") {
-    // Legacy super admin gets everything
+    // Legacy admin gets everything
     return ["SUPER_ADMIN"]
   }
 
   return user?.customRole?.permissions || []
+}
+
+export async function checkIsSuperAdmin(userId: string): Promise<boolean> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isSuperAdmin: true, role: true }
+  })
+  return user?.isSuperAdmin === true
 }
 
 export function hasPermission(permissions: string[], required: string): boolean {

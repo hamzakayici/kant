@@ -31,6 +31,7 @@ import {
   deleteRole,
   deleteUserAction,
   resetUserPassword,
+  toggleSuperAdmin,
   toggleUserStatus,
   updateRole,
   updateUser,
@@ -125,6 +126,7 @@ type UserRow = {
   avatarUrl?: string | null
   color?: string | null
   isActive: boolean
+  isSuperAdmin?: boolean
   telegramUserId?: string | null
   telegramUsername?: string | null
 }
@@ -152,10 +154,12 @@ export default function RolesClient({
   roles,
   availablePermissions,
   users = [],
+  callerIsSuperAdmin = false,
 }: {
   roles: Role[]
   availablePermissions: Permission[]
   users?: UserRow[]
+  callerIsSuperAdmin?: boolean
 }) {
   const { showAlert, showConfirm } = useModal()
   const [activeTab, setActiveTab] = useState("roles")
@@ -182,6 +186,8 @@ export default function RolesClient({
     isActive: true,
   })
   const [resettingUserId, setResettingUserId] = useState<string | null>(null)
+
+  const editingUser = editingUserId ? users.find((u) => u.id === editingUserId) : null
 
   const filteredUsers = useMemo(() => {
     const query = userSearch.trim().toLowerCase()
@@ -645,6 +651,13 @@ export default function RolesClient({
                                   Askıda
                                 </Badge>
                               ) : null}
+                              {user.isSuperAdmin ? (
+                                <Badge
+                                  className="mt-1 h-5 border-amber-500/30 bg-amber-500/10 text-[10px] text-amber-400"
+                                >
+                                  <Crown className="mr-1 size-3" /> Süper Admin
+                                </Badge>
+                              ) : null}
                             </div>
                           </div>
                         </TableCell>
@@ -973,6 +986,34 @@ export default function RolesClient({
                   Sil
                 </Button>
               </div>
+            ) : null}
+            {!isNewUser && callerIsSuperAdmin ? (
+              <Button
+                type="button"
+                variant="outline"
+                className={cn(
+                  "w-full",
+                  editingUser?.isSuperAdmin
+                    ? "border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20"
+                    : "border-border"
+                )}
+                onClick={async () => {
+                  if (!editingUserId) return
+                  const action = editingUser?.isSuperAdmin ? "kaldırmak" : "yapmak"
+                  const ok = await showConfirm(`Bu kullanıcıyı süper admin ${action} istediğinize emin misiniz?`)
+                  if (!ok) return
+                  try {
+                    await toggleSuperAdmin(editingUserId)
+                    await showAlert(editingUser?.isSuperAdmin ? "Süper admin yetkisi kaldırıldı." : "Süper admin yetkisi verildi.")
+                    window.location.reload()
+                  } catch (err: any) {
+                    await showAlert(err.message ?? "İşlem başarısız")
+                  }
+                }}
+              >
+                <Crown className="size-4" />
+                {editingUser?.isSuperAdmin ? "Süper Admin Kaldır" : "Süper Admin Yap"}
+              </Button>
             ) : null}
             <div className="grid w-full grid-cols-2 gap-2">
               <Button

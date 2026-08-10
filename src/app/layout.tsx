@@ -47,6 +47,7 @@ export default async function RootLayout({
           lastName: true,
           avatarUrl: true,
           color: true,
+          isSuperAdmin: true,
           telegramUserId: true,
         },
       })
@@ -86,6 +87,7 @@ export default async function RootLayout({
                   email: shellUser.email,
                   name: getUserDisplayName(shellUser),
                   avatarUrl: shellUser.avatarUrl,
+                  isSuperAdmin: shellUser.isSuperAdmin,
                 }}
                 currentUserId={shellUser.id}
                 chatGroups={chatGroups}

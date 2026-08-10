@@ -20,7 +20,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { EllipsisVertical, LogOut, Send, Settings2 } from "lucide-react"
+import { Crown, EllipsisVertical, LogOut, Send, Settings2 } from "lucide-react"
 import Link from "next/link"
 import { signOut } from "next-auth/react"
 import { getUserInitial, getUserColorStylesWithOpacity } from "@/lib/user"
@@ -34,6 +34,7 @@ export function NavUser({
     email: string
     avatar: string
     color?: string | null
+    isSuperAdmin?: boolean
   }
 }) {
   const { isMobile } = useSidebar()
@@ -57,7 +58,12 @@ export function NavUser({
               </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{user.name}</span>
+              <span className="flex items-center gap-1 truncate font-medium">
+                {user.name}
+                {user.isSuperAdmin ? (
+                  <Crown className="size-3 text-amber-400" />
+                ) : null}
+              </span>
               <span className="truncate text-xs text-foreground/70">
                 {user.email}
               </span>

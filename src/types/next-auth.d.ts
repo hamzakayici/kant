@@ -9,6 +9,7 @@ declare module "next-auth" {
       firstName?: string | null
       lastName?: string | null
       mustChangePassword: boolean
+      isSuperAdmin: boolean
     } & DefaultSession["user"]
   }
 
@@ -19,6 +20,7 @@ declare module "next-auth" {
     lastName?: string | null
     role: string
     mustChangePassword: boolean
+    isSuperAdmin: boolean
   }
 }
 
@@ -29,5 +31,6 @@ declare module "next-auth/jwt" {
     firstName?: string | null
     lastName?: string | null
     mustChangePassword?: boolean
+    isSuperAdmin?: boolean
   }
 }

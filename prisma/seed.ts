@@ -918,6 +918,7 @@ async function main() {
         role: "ADMIN",
         mustChangePassword: false,
         isActive: true,
+        isSuperAdmin: true,
         password: adminPassword,
       },
       create: {
@@ -959,6 +960,7 @@ async function main() {
       role: "ADMIN",
       mustChangePassword: false,
       isActive: true,
+      isSuperAdmin: true,
       ...(ownerPasswordPlain
         ? { password: await bcrypt.hash(ownerPasswordPlain, 10) }
         : {}),
@@ -971,6 +973,7 @@ async function main() {
       role: "ADMIN",
       mustChangePassword: false,
       isActive: true,
+      isSuperAdmin: true,
     },
   })
 

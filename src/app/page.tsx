@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
-import { canCreateBoard, getUserPermissions } from "@/lib/permissions"
+import { canCreateBoard, getUserPermissions, checkIsSuperAdmin } from "@/lib/permissions"
 import BoardListDnd from "@/components/BoardListDnd"
 import { ProjectsHeader } from "@/components/projects/projects-header"
 import { ProjectsStats } from "@/components/projects/projects-stats"
@@ -13,46 +13,65 @@ export default async function Dashboard() {
     redirect("/login")
   }
 
-  const userMemberships = await prisma.boardMember.findMany({
-    where: { userId: session.user.id },
-    include: {
-      board: {
-        include: {
-          columns: {
-            select: {
-              _count: {
-                select: { cards: true },
+  const superAdmin = await checkIsSuperAdmin(session.user.id)
+
+  let boards: any[]
+
+  if (superAdmin) {
+    // Süper admin tüm board'ları görür
+    boards = await prisma.board.findMany({
+      include: {
+        columns: {
+          select: {
+            _count: {
+              select: { cards: true },
+            },
+          },
+        },
+      },
+      orderBy: { order: "asc" },
+    })
+  } else {
+    const userMemberships = await prisma.boardMember.findMany({
+      where: { userId: session.user.id },
+      include: {
+        board: {
+          include: {
+            columns: {
+              select: {
+                _count: {
+                  select: { cards: true },
+                },
               },
             },
           },
         },
       },
-    },
-    orderBy: {
-      board: {
-        order: "asc",
+      orderBy: {
+        board: {
+          order: "asc",
+        },
       },
-    },
-  })
-
-  const boards = userMemberships.map((m) => m.board)
+    })
+    boards = userMemberships.map((m) => m.board)
+  }
 
   const allUsers = await prisma.user.findMany({
     select: { id: true, email: true, firstName: true, lastName: true, role: true, color: true },
   })
 
   const totalCards = boards.reduce(
-    (sum, board) =>
+    (sum: number, board: any) =>
       sum +
       board.columns.reduce(
-        (colSum, col) => colSum + (col._count?.cards || 0),
+        (colSum: number, col: any) => colSum + (col._count?.cards || 0),
         0,
       ),
     0,
   )
 
-  const activeBoards = boards.filter((board) =>
-    board.columns.some((col) => (col._count?.cards || 0) > 0),
+  const activeBoards = boards.filter((board: any) =>
+    board.columns.some((col: any) => (col._count?.cards || 0) > 0),
   ).length
 
   const permissions = await getUserPermissions(session.user.id)

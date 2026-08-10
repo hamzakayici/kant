@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import KanbanBoard from "@/components/KanbanBoard"
 import { redirect } from "next/navigation"
 import InboxWrapper from "@/components/InboxWrapper"
-import { canAssignAssignees, getUserPermissions, hasPermission } from "@/lib/permissions"
+import { canAssignAssignees, getUserPermissions, hasPermission, checkIsSuperAdmin } from "@/lib/permissions"
 import GlobalSearch from "@/components/GlobalSearch"
 import BoardTimelineView from "@/components/BoardTimelineView"
 import BoardFilter from "@/components/BoardFilter"
@@ -130,6 +130,8 @@ export default async function BoardPage(props: {
     redirect("/")
   }
 
+  const superAdmin = await checkIsSuperAdmin(session.user.id)
+
   const membership = await prisma.boardMember.findUnique({
     where: {
       userId_boardId: {
@@ -143,7 +145,9 @@ export default async function BoardPage(props: {
     where: { id: session.user.id },
   })
   let currentUserRole = "system_requester"
-  if (dbUser?.customRoleId) {
+  if (superAdmin) {
+    currentUserRole = "system_admin"
+  } else if (dbUser?.customRoleId) {
     currentUserRole = dbUser.customRoleId
   } else if (dbUser?.role) {
     if (dbUser.role === "ADMIN") currentUserRole = "system_admin"
@@ -159,7 +163,7 @@ export default async function BoardPage(props: {
     isSystem: r.id.startsWith("system_"),
   }))
 
-  const effectiveRole = membership ? membership.role : session.user.role
+  const effectiveRole = superAdmin ? "ADMIN" : (membership ? membership.role : session.user.role)
 
   const activities = await prisma.activityLog.findMany({
     where: {
@@ -178,7 +182,7 @@ export default async function BoardPage(props: {
   const permissions = await getUserPermissions(session.user.id)
   const canAssign = canAssignAssignees(permissions)
   const canManageMembers =
-    hasPermission(permissions, "MANAGE_BOARDS") || membership?.role === "ADMIN"
+    superAdmin || hasPermission(permissions, "MANAGE_BOARDS") || membership?.role === "ADMIN"
 
   const allUsers = await prisma.user.findMany({
     where: { isActive: true },

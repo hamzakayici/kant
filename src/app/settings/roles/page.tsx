@@ -1,5 +1,5 @@
 import { getRoles } from "@/app/actions/roleActions"
-import { AVAILABLE_PERMISSIONS, getUserPermissions, hasPermission } from "@/lib/permissions"
+import { AVAILABLE_PERMISSIONS, getUserPermissions, hasPermission, checkIsSuperAdmin } from "@/lib/permissions"
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import RolesClient from "./RolesClient"
@@ -18,6 +18,8 @@ export default async function RolesPage() {
     )
   }
 
+  const callerIsSuperAdmin = await checkIsSuperAdmin(session.user.id)
+
   const roles = await getRoles()
   const users = await prisma.user.findMany({
     select: {
@@ -31,6 +33,7 @@ export default async function RolesPage() {
       avatarUrl: true,
       color: true,
       isActive: true,
+      isSuperAdmin: true,
       telegramUserId: true,
       telegramUsername: true,
     },
@@ -48,6 +51,7 @@ export default async function RolesPage() {
         roles={roles}
         availablePermissions={AVAILABLE_PERMISSIONS}
         users={users}
+        callerIsSuperAdmin={callerIsSuperAdmin}
       />
     </div>
   )

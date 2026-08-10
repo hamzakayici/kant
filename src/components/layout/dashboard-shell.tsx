@@ -13,6 +13,7 @@ type DashboardShellProps = {
     email: string
     name?: string | null
     avatarUrl?: string | null
+    isSuperAdmin?: boolean
   }
   currentUserId: string
   chatGroups: any[]

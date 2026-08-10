@@ -25,6 +25,7 @@ model User {
   password      String
   mustChangePassword Boolean @default(true)
   isActive      Boolean   @default(true)
+  isSuperAdmin  Boolean   @default(false)
   avatarUrl     String?
   color         String?
   
