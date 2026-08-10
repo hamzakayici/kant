@@ -55,7 +55,7 @@ TELEGRAM_API_HASH=...
 ## 4. Erişim
 
 - Kant: `http://SUNUCU_IP:3000` veya reverse proxy ile `https://zubi.noktafikir.com`
-- OpenCloud: dışarıdan kapalı (Kant üzerinden dosya erişimi)
+- OpenCloud: dışarıdan kapalı (Zubee üzerinden dosya erişimi)
 
 ## 5. Güncelleme
 

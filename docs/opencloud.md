@@ -1,6 +1,6 @@
 # OpenCloud Depolama
 
-Kant, tüm dosya yönetimini **OpenCloud** üzerinden yapar. Yüklenen dosyalar OpenCloud'a kaydedilir ve uygulamadaki tüm linkler OpenCloud URL'leridir.
+Zubee, tüm dosya yönetimini **OpenCloud** üzerinden yapar. Yüklenen dosyalar OpenCloud'a kaydedilir ve uygulamadaki tüm linkler OpenCloud URL'leridir.
 
 ## Klasör Yapısı
 

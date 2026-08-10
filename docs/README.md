@@ -1,6 +1,6 @@
-# Kant Dokümantasyonu
+# Zubee Dokümantasyonu
 
-**Kant**, ekipler için geliştirilmiş gelişmiş bir Kanban proje yönetim uygulamasıdır. Trello/Linear tarzı panolar, kartlar, sohbet, dosya paylaşımı ve Trello JSON içe/dışa aktarım özellikleri sunar.
+**Zubee**, ekipler için geliştirilmiş gelişmiş bir Kanban proje yönetim uygulamasıdır. Trello/Linear tarzı panolar, kartlar, sohbet, dosya paylaşımı ve Trello JSON içe/dışa aktarım özellikleri sunar.
 
 ## İçindekiler
 

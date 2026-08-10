@@ -1,6 +1,6 @@
 # Başlangıç Rehberi
 
-Bu rehber, Kant projesini yerel ortamda çalıştırmak için gereken adımları açıklar.
+Bu rehber, Zubee projesini yerel ortamda çalıştırmak için gereken adımları açıklar.
 
 ## Gereksinimler
 
@@ -42,7 +42,7 @@ AUTH_SECRET="your-secret-key-here"
 
 ## Docker ile Tam Stack
 
-PostgreSQL, OpenCloud ve Kant uygulamasını tek komutla başlatmak için:
+PostgreSQL, OpenCloud ve Zubee uygulamasını tek komutla başlatmak için:
 
 ```bash
 # İlk kurulum (build + seed dahil)

@@ -1,6 +1,6 @@
 # Veritabanı
 
-Kant, **PostgreSQL** veritabanı ve **Prisma 7** ORM kullanır. Prisma Client çıktısı `src/generated/prisma/client` dizininde oluşturulur.
+Zubee, **PostgreSQL** veritabanı ve **Prisma 7** ORM kullanır. Prisma Client çıktısı `src/generated/prisma/client` dizininde oluşturulur.
 
 ## Bağlantı
 

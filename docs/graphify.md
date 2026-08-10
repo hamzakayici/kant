@@ -1,6 +1,6 @@
 # Graphify — Kod Tabanı Bilgi Grafiği
 
-Kant projesi [Graphify](https://github.com/safishamsi/graphify) ile kod tabanının sorgulanabilir bir bilgi grafiğine dönüştürülmesini destekler. Graphify; dosyalar, fonksiyonlar, bileşenler ve dokümantasyon arasındaki ilişkileri otomatik çıkarır.
+Zubee projesi [Graphify](https://github.com/safishamsi/graphify) ile kod tabanının sorgulanabilir bir bilgi grafiğine dönüştürülmesini destekler. Graphify; dosyalar, fonksiyonlar, bileşenler ve dokümantasyon arasındaki ilişkileri otomatik çıkarır.
 
 ## Kurulum
 

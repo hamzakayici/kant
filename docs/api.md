@@ -1,6 +1,6 @@
 # API ve Server Actions
 
-Kant'ta iş mantığının büyük kısmı **Server Actions** ile, dosya ve dışa aktarım işlemleri **API Routes** ile yönetilir.
+Zubee'de iş mantığının büyük kısmı **Server Actions** ile, dosya ve dışa aktarım işlemleri **API Routes** ile yönetilir.
 
 ## API Routes
 

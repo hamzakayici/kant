@@ -160,8 +160,8 @@ Board'u Trello uyumlu JSON formatında indirir.
 
 `importTrelloBoard(trelloJsonString)` server action:
 
-- Trello listeleri → Kant kolonları
-- Trello kartları → Kant kartları
+- Trello listeleri → Zubee kolonları
+- Trello kartları → Zubee kartları
 - Checklist'ler ve yorumlar aktarılır
 - `CreateProjectModal` içinde import UI mevcuttur
 

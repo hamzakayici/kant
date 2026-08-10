@@ -1,16 +1,16 @@
 # Telegram Sohbet Entegrasyonu
 
-Kant sohbet grupları, Telegram forum konularıyla çift yönlü senkronize çalışır.
+Zubee sohbet grupları, Telegram forum konularıyla çift yönlü senkronize çalışır.
 
 ## Mimari
 
 ```
-Kant Web (ChatPanel)  ←→  PostgreSQL  ←→  Telegram Bot API
+Zubee Web (ChatPanel)  ←→  PostgreSQL  ←→  Telegram Bot API
                               ↑
                     Webhook (/api/telegram/webhook)
 ```
 
-- Tüm **Kant projesi** tek bir Telegram **süper grup** kullanır
+- Tüm **Zubee projesi** tek bir Telegram **süper grup** kullanır
 - Her **sohbet grubu** (hangi panoda olursa olsun) bu grupta ayrı bir **forum konusu** olur
 - Web'den gönderilen mesajlar Telegram'a, Telegram'dan gelen mesajlar siteye yazılır
 
@@ -39,7 +39,7 @@ Geliştirme için: `AUTH_URL="http://localhost:3000"`
 2. Grup ayarlarından **Konular (Topics)** özelliğini açın
 3. Botu gruba ekleyin ve **yönetici** yapın (mesaj gönderme + konu yönetimi yetkisi)
 4. Grup ID'sini alın (ör. `@userinfobot` veya `getUpdates` ile, genelde `-100...` formatında)
-5. Kant'ta **Ayarlar → Telegram** sayfasından süper grup ID'sini girin
+5. Zubee'de **Ayarlar → Telegram** sayfasından süper grup ID'sini girin
 
 ### 3. Webhook Kaydı
 
@@ -96,14 +96,14 @@ Yeni alanlar:
 ### Web'den mesaj
 `sendChatMessage` → DB'ye kayıt → Telegram konusuna gönderim
 
-**Gönderen adı:** Telegram Bot API mesajları her zaman bot adıyla gönderir. Kant'tan kendi adınızla göndermek için MTProto oturumu gerekir:
+**Gönderen adı:** Telegram Bot API mesajları her zaman bot adıyla gönderir. Zubee'den kendi adınızla göndermek için MTProto oturumu gerekir:
 
 ```bash
 # .env: TELEGRAM_API_ID ve TELEGRAM_API_HASH (https://my.telegram.org/apps)
 npm run telegram:user-session -- kullanici@email.com
 ```
 
-Oturum olmadan Kant'tan giden mesajlarda yalnızca metin görünür (bot adı gönderen olarak kalır).
+Oturum olmadan Zubee'den giden mesajlarda yalnızca metin görünür (bot adı gönderen olarak kalır).
 
 ### Telegram'dan mesaj
 Webhook → konu ID ile grup bulunur → bağlı kullanıcı doğrulanır → DB'ye kayıt
