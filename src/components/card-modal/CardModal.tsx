@@ -70,6 +70,7 @@ export default function CardModal({
 
   const [desc, setDesc] = useState(card.description || "")
   const [title, setTitle] = useState(card.title || "")
+  const [localAssignees, setLocalAssignees] = useState<any[]>(card.assignees ?? [])
   const [isSaving, setIsSaving] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [newChecklistItem, setNewChecklistItem] = useState("")
@@ -187,6 +188,18 @@ export default function CardModal({
       await showAlert("Sorumlu atama yetkiniz yok")
       return
     }
+
+    // Optimistic UI: anında güncelle
+    const isCurrentlyAssigned = localAssignees.some((a: any) => a.id === userId)
+    if (isCurrentlyAssigned) {
+      setLocalAssignees((prev) => prev.filter((a: any) => a.id !== userId))
+    } else {
+      const member = boardMembers.find((m) => m.user?.id === userId || m.userId === userId)
+      if (member?.user) {
+        setLocalAssignees((prev) => [...prev, member.user])
+      }
+    }
+
     await toggleCardAssignee(card.id, userId)
     router.refresh()
   }
@@ -419,7 +432,7 @@ export default function CardModal({
                 </div>
 
                 <CardModalProperties
-                  card={card}
+                  card={{ ...card, assignees: localAssignees }}
                   boardColumns={boardColumns}
                   boardMembers={boardMembers}
                   openDropdown={openDropdown}
