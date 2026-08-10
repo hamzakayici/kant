@@ -1,5 +1,5 @@
 /**
- * Kant'tan Telegram'a kendi adınızla mesaj göndermek için MTProto oturumu oluşturur.
+ * Zubee'tan Telegram'a kendi adınızla mesaj göndermek için MTProto oturumu oluşturur.
  *
  * Önkoşullar:
  * 1. https://my.telegram.org → API development tools → api_id + api_hash
@@ -67,7 +67,7 @@ async function main() {
   rl.close()
 
   console.log("\n✅ MTProto oturumu kaydedildi.")
-  console.log("Artık Kant'tan gönderdiğiniz mesajlar Telegram'da kendi adınızla görünür.")
+  console.log("Artık Zubee'tan gönderdiğiniz mesajlar Telegram'da kendi adınızla görünür.")
   await prisma.$disconnect()
 }
 

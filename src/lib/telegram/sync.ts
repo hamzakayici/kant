@@ -252,7 +252,7 @@ export async function ensureTelegramTopicImported(
       !isPlaceholderTopicName(name, topicId) &&
       (existing.name !== name || isPlaceholderTopicName(existing.name, topicId))
     ) {
-      await importTelegramTopicToKant(topicId, name)
+      await importTelegramTopicToZubee(topicId, name)
       return prisma.chatGroup.findFirst({
         where: { id: existing.id },
         include: { board: true },
@@ -265,7 +265,7 @@ export async function ensureTelegramTopicImported(
     return null
   }
 
-  const groupId = await importTelegramTopicToKant(topicId, name)
+  const groupId = await importTelegramTopicToZubee(topicId, name)
   if (!groupId) return null
 
   return prisma.chatGroup.findFirst({
@@ -282,7 +282,7 @@ export async function ensureGeneralForumTopicImported(chatTitle?: string) {
   )
 }
 
-export async function importTelegramTopicToKant(
+export async function importTelegramTopicToZubee(
   topicId: number,
   name: string,
 ) {
@@ -351,7 +351,7 @@ export async function importTelegramTopicsFromUpdates(chatId?: string) {
     const existing = await prisma.chatGroup.findFirst({
       where: { telegramTopicId: topicId },
     })
-    await importTelegramTopicToKant(topicId, name)
+    await importTelegramTopicToZubee(topicId, name)
     if (existing) updated++
     else imported++
   }
@@ -361,7 +361,7 @@ export async function importTelegramTopicsFromUpdates(chatId?: string) {
     const existing = await prisma.chatGroup.findFirst({
       where: { telegramTopicId: GENERAL_FORUM_TOPIC_ID },
     })
-    await importTelegramTopicToKant(GENERAL_FORUM_TOPIC_ID, generalName)
+    await importTelegramTopicToZubee(GENERAL_FORUM_TOPIC_ID, generalName)
     if (existing) updated++
     else imported++
   }
@@ -373,7 +373,7 @@ export async function importTelegramTopicsFromUpdates(chatId?: string) {
     const existing = await prisma.chatGroup.findFirst({
       where: { telegramTopicId: topicId },
     })
-    await importTelegramTopicToKant(topicId, name)
+    await importTelegramTopicToZubee(topicId, name)
     if (existing) updated++
     else imported++
   }
@@ -462,7 +462,7 @@ export async function ensureTelegramTopicForGroup(chatGroupId: string) {
   }
 }
 
-export async function createTelegramTopicForKantGroup(
+export async function createTelegramTopicForZubeeGroup(
   name: string,
   boardId?: string,
 ) {
@@ -513,7 +513,7 @@ export async function pullTelegramTopicNameForGroup(chatGroupId: string) {
 
   const topic = await getForumTopic(supergroupId, group.telegramTopicId)
   if (topic?.name && !isPlaceholderTopicName(topic.name, group.telegramTopicId)) {
-    await importTelegramTopicToKant(group.telegramTopicId, topic.name)
+    await importTelegramTopicToZubee(group.telegramTopicId, topic.name)
   }
 }
 
@@ -589,7 +589,7 @@ export async function discoverTelegramTopicIds(chatId?: string) {
     .sort((a, b) => a.topicId - b.topicId)
 }
 
-async function resolveKantReplyToId(
+async function resolveZubeeReplyToId(
   chatGroupId: string,
   telegramMessageId: number | null | undefined,
 ): Promise<string | null> {
@@ -612,7 +612,7 @@ export async function resolveInboundReplyToId(
   message: TelegramMessage,
 ): Promise<string | null> {
   const telegramReplyId = resolveUserReplyTelegramMessageId(message)
-  return resolveKantReplyToId(chatGroupId, telegramReplyId)
+  return resolveZubeeReplyToId(chatGroupId, telegramReplyId)
 }
 
 async function resolveOutboundReplyTelegramMessageId(

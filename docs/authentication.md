@@ -1,6 +1,6 @@
 # Kimlik Doğrulama ve Yetkiler
 
-Kant, **NextAuth v5** ile credentials (kullanıcı adı + şifre) tabanlı kimlik doğrulama kullanır.
+Zubee, **NextAuth v5** ile credentials (kullanıcı adı + şifre) tabanlı kimlik doğrulama kullanır.
 
 ## Kimlik Doğrulama Akışı
 
@@ -65,7 +65,7 @@ JWT tabanlı session kullanılır (`strategy: "jwt"`). Session alanları:
 
 ## Rol Sistemi
 
-Kant iki katmanlı rol sistemi kullanır:
+Zubee iki katmanlı rol sistemi kullanır:
 
 ### 1. Legacy Enum Rolleri
 

@@ -2,7 +2,7 @@
 
 ## Genel Bakış
 
-Kant, Next.js App Router mimarisi üzerine kurulu full-stack bir uygulamadır. İş mantığının büyük kısmı **Server Actions** ile, dosya işlemleri ve dışa aktarım ise **API Routes** ile yönetilir.
+Zubee, Next.js App Router mimarisi üzerine kurulu full-stack bir uygulamadır. İş mantığının büyük kısmı **Server Actions** ile, dosya işlemleri ve dışa aktarım ise **API Routes** ile yönetilir.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -39,7 +39,7 @@ Kant, Next.js App Router mimarisi üzerine kurulu full-stack bir uygulamadır. �
 ## Dizin Yapısı
 
 ```
-kant/
+zubee/
 ├── prisma/
 │   ├── schema.prisma          # Veritabanı şeması
 │   ├── seed.ts                # Başlangıç verileri

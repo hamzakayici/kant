@@ -5,7 +5,7 @@ Zubee, tüm dosya yönetimini **OpenCloud** üzerinden yapar. Yüklenen dosyalar
 ## Klasör Yapısı
 
 ```
-Kant/
+Zubee/
 └── boards/
     └── {identifier}-{pano-adi}/
         ├── cards/
@@ -36,7 +36,7 @@ npm run opencloud:logs    # Container logları
 npm run opencloud:down    # Durdur
 ```
 
-Yerel container `PROXY_TLS=true` ile HTTPS sunar. Tarayıcıda **http://localhost:9200** veya **https://localhost:9200** açabilirsiniz — HTTP otomatik olarak HTTPS'e yönlendirilir. İlk açılışta self-signed sertifika uyarısını kabul edin. Kant API bağlantısı için `OPENCLOUD_INSECURE=true` kullanılır.
+Yerel container `PROXY_TLS=true` ile HTTPS sunar. Tarayıcıda **http://localhost:9200** veya **https://localhost:9200** açabilirsiniz — HTTP otomatik olarak HTTPS'e yönlendirilir. İlk açılışta self-signed sertifika uyarısını kabul edin. Zubee API bağlantısı için `OPENCLOUD_INSECURE=true` kullanılır.
 
 ### Yerel giriş bilgileri
 
@@ -44,7 +44,7 @@ Yerel container `PROXY_TLS=true` ile HTTPS sunar. Tarayıcıda **http://localhos
 |------|--------|
 | Adres | https://localhost:9200 |
 | Kullanıcı | `admin` |
-| Şifre | `kant_opencloud_dev` |
+| Şifre | `zubee_opencloud_dev` |
 
 Şifre yöneticisi (1Password vb.) farklı bir şifre dolduruyorsa devre dışı bırakıp şifreyi elle yazın.
 
@@ -53,9 +53,9 @@ Yerel container `PROXY_TLS=true` ile HTTPS sunar. Tarayıcıda **http://localhos
 ```env
 OPENCLOUD_ENABLED=true
 OPENCLOUD_URL=https://cloud.example.com
-OPENCLOUD_USERNAME=kant
+OPENCLOUD_USERNAME=zubee
 OPENCLOUD_PASSWORD=your-app-password
-OPENCLOUD_ROOT=Kant
+OPENCLOUD_ROOT=Zubee
 STORAGE_MODE=opencloud
 ```
 
@@ -65,7 +65,7 @@ STORAGE_MODE=opencloud
 | `OPENCLOUD_URL` | OpenCloud sunucu adresi |
 | `OPENCLOUD_USERNAME` | WebDAV kullanıcı adı |
 | `OPENCLOUD_PASSWORD` | Uygulama şifresi |
-| `OPENCLOUD_ROOT` | Kök klasör adı (varsayılan: `Kant`) |
+| `OPENCLOUD_ROOT` | Kök klasör adı (varsayılan: `Zubee`) |
 | `OPENCLOUD_WEBDAV_BASE` | Özel WebDAV yolu (opsiyonel) |
 | `STORAGE_MODE` | `opencloud` (varsayılan), `dual` veya `local` |
 | `OPENCLOUD_LINK_MODE` | `dav` (WebDAV URL) veya `files` (Files uygulaması) |
@@ -120,7 +120,7 @@ Bu komut:
 
 ### Giriş başarısız (Logon failed)
 
-- Kullanıcı: `admin`, şifre: `kant_opencloud_dev` (1Password otomatik doldurmasını kapatın)
+- Kullanıcı: `admin`, şifre: `zubee_opencloud_dev` (1Password otomatik doldurmasını kapatın)
 - Volume/config uyumsuzluğunda: `npm run opencloud:reset`
 
 ### Görseller yüklenmiyor

@@ -21,7 +21,7 @@ import {
   uploadToOpenCloud,
 } from "./opencloud"
 import { deleteLocalFile, readLocalFile, saveLocalFile } from "./local"
-import { isKantShareOrProxyUrl } from "@/lib/attachment-url"
+import { isZubeeShareOrProxyUrl } from "@/lib/attachment-url"
 import { buildOpenCloudFileUrl, resolveRemotePath } from "./urls"
 
 export type UploadContext =
@@ -270,7 +270,7 @@ export async function getAttachmentOpenCloudUrl(attachment: {
     attachment.path.startsWith("http://") ||
     attachment.path.startsWith("https://")
   ) {
-    if (!isKantShareOrProxyUrl(attachment.path)) {
+    if (!isZubeeShareOrProxyUrl(attachment.path)) {
       return attachment.path
     }
   }

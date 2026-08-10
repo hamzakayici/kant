@@ -7,7 +7,7 @@ import { getAttachmentCopyUrl, getAttachmentOpenCloudUrl } from "@/lib/storage"
 import { isOpenCloudEnabled } from "@/lib/storage/config"
 import {
   getAttachmentUrl,
-  isKantShareOrProxyUrl,
+  isZubeeShareOrProxyUrl,
   isOpenCloudHttpUrl,
 } from "@/lib/attachment-url"
 
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     }
 
     const existingUrl = getAttachmentUrl(attachment)
-    if (isOpenCloudHttpUrl(existingUrl) && !isKantShareOrProxyUrl(existingUrl)) {
+    if (isOpenCloudHttpUrl(existingUrl) && !isZubeeShareOrProxyUrl(existingUrl)) {
       return NextResponse.json({
         success: true,
         link: existingUrl,

@@ -19,7 +19,7 @@ cp .env.production.example .env.production
 | `TELEGRAM_PUBLIC_APP_URL` | `https://zubi.noktafikir.com` |
 | `AUTH_SECRET` | `openssl rand -base64 32` çıktısı |
 | `DATABASE_URL` | Güçlü DB şifresi |
-| `KANT_AUTO_SEED` | `false` (ilk kurulumdan sonra) |
+| `ZUBEE_AUTO_SEED` | `false` (ilk kurulumdan sonra) |
 
 ### 2. Docker ile production
 
@@ -110,14 +110,14 @@ docker compose logs -f app
 
 ```yaml
 environment:
-  - DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+  - DATABASE_URL=postgresql://zubee_user:zubee_password@db:5432/zubee_db?schema=public
 ```
 
 Production için `AUTH_SECRET` eklenmelidir:
 
 ```yaml
 environment:
-  - DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+  - DATABASE_URL=postgresql://zubee_user:zubee_password@db:5432/zubee_db?schema=public
   - AUTH_SECRET=your-production-secret
 ```
 
@@ -163,7 +163,7 @@ docker compose exec app npx prisma db seed
 
 ```bash
 # Production ortam değişkenleri
-export DATABASE_URL="postgresql://user:pass@host:5432/kant_db?schema=public"
+export DATABASE_URL="postgresql://user:pass@host:5432/zubee_db?schema=public"
 export AUTH_SECRET="$(openssl rand -base64 32)"
 export NODE_ENV=production
 ```
@@ -182,7 +182,7 @@ npm run build
 ```bash
 npm start
 # veya PM2 ile:
-pm2 start npm --name kant -- start
+pm2 start npm --name zubee -- start
 ```
 
 ---
@@ -203,10 +203,10 @@ npx prisma migrate deploy
 
 ```bash
 # PostgreSQL dump
-pg_dump -h localhost -U kant_user kant_db > backup.sql
+pg_dump -h localhost -U zubee_user zubee_db > backup.sql
 
 # Restore
-psql -h localhost -U kant_user kant_db < backup.sql
+psql -h localhost -U zubee_user zubee_db < backup.sql
 ```
 
 ### Prisma Studio

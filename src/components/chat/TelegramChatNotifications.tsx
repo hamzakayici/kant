@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
-import { CHAT_GROUPS_POLL_MS, getVisibilityAwarePollMs, KANT_OPEN_MINI_CHAT_EVENT, KANT_OPEN_MINI_CHAT_KEY } from "@/lib/chat-live"
+import { CHAT_GROUPS_POLL_MS, getVisibilityAwarePollMs, ZUBEE_OPEN_MINI_CHAT_EVENT, ZUBEE_OPEN_MINI_CHAT_KEY } from "@/lib/chat-live"
 import { fetchChatGroups } from "@/lib/chat-groups-api"
 import { recoverFromStaleServerAction } from "@/lib/server-action-error"
 import type { EnrichedChatGroup } from "@/lib/chat-types"
@@ -64,10 +64,10 @@ export function ChatNotifications({ currentUserId }: ChatNotificationsProps) {
                 window.location.href = `/chat?group=${encodeURIComponent(groupId)}`
                 return
               }
-              sessionStorage.setItem(KANT_OPEN_MINI_CHAT_KEY, groupId)
+              sessionStorage.setItem(ZUBEE_OPEN_MINI_CHAT_KEY, groupId)
               openMiniChat()
               window.dispatchEvent(
-                new CustomEvent(KANT_OPEN_MINI_CHAT_EVENT, {
+                new CustomEvent(ZUBEE_OPEN_MINI_CHAT_EVENT, {
                   detail: { groupId },
                 }),
               )

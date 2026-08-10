@@ -13,6 +13,7 @@ type KanbanColumnSlotProps = {
   allRoles: any[]
   canReorderColumn: boolean
   canAddCard: boolean
+  canDeleteCard?: boolean
   isAdding: boolean
   isCreating: boolean
   newCardTitle: string
@@ -34,6 +35,7 @@ function KanbanColumnSlotComponent({
   allRoles,
   canReorderColumn,
   canAddCard,
+  canDeleteCard = false,
   isAdding,
   isCreating,
   newCardTitle,
@@ -73,6 +75,7 @@ function KanbanColumnSlotComponent({
         userRole={userRole}
         boardIdentifier={boardIdentifier}
         isCreatingCard={isCreating}
+        canDeleteCard={canDeleteCard}
         onDeleteCard={onDeleteCard}
         onShareCard={onShareCard}
         onOpenCard={onOpenCard}
@@ -92,6 +95,7 @@ export const KanbanColumnSlot = memo(
     prev.allRoles === next.allRoles &&
     prev.canReorderColumn === next.canReorderColumn &&
     prev.canAddCard === next.canAddCard &&
+    prev.canDeleteCard === next.canDeleteCard &&
     prev.isAdding === next.isAdding &&
     prev.isCreating === next.isCreating &&
     prev.newCardTitle === next.newCardTitle &&

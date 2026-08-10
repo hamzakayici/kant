@@ -6,16 +6,16 @@ Dockge'de **git clone gerekmez**. Hazır Docker image + bu compose dosyası yete
 
 `main` branch'e push edildiğinde GitHub Actions otomatik image üretir:
 
-`ghcr.io/hamzakayici/kant:latest`
+`ghcr.io/hamzakayici/zubee:latest`
 
-İlk kez deploy etmeden önce [Actions](https://github.com/hamzakayici/kant/actions) sekmesinden **Publish Docker image** workflow'unun yeşil olduğundan emin olun.
+İlk kez deploy etmeden önce [Actions](https://github.com/hamzakayici/zubee/actions) sekmesinden **Publish Docker image** workflow'unun yeşil olduğundan emin olun.
 
 Manuel tetiklemek için: Actions → Publish Docker image → **Run workflow**
 
 ## 2. Dockge'de stack oluştur
 
 1. **+ Compose**
-2. Stack adı: `kant`
+2. Stack adı: `zubee`
 3. Web editörüne `compose.dockge.yml` dosyasının **tüm içeriğini** yapıştırın  
    (repo'daki `docker-compose.yml` değil — o build gerektirir)
 4. **Environment** sekmesine değişkenleri ekleyin (aşağıda)
@@ -31,15 +31,15 @@ TELEGRAM_PUBLIC_APP_URL=https://zubi.noktafikir.com
 
 AUTH_SECRET=waE88UmOpSCeiqsTiQgkV1nGqgcnjL5sbnjSxM8sov0=
 
-POSTGRES_USER=kant_user
-POSTGRES_PASSWORD=kant_password
-POSTGRES_DB=kant_db
-DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
+POSTGRES_USER=zubee_user
+POSTGRES_PASSWORD=zubee_password
+POSTGRES_DB=zubee_db
+DATABASE_URL=postgresql://zubee_user:zubee_password@db:5432/zubee_db?schema=public
 
-KANT_AUTO_SEED=true
+ZUBEE_AUTO_SEED=true
 
-OPENCLOUD_ADMIN_PASSWORD=kant_opencloud_dev
-OPENCLOUD_PASSWORD=kant_opencloud_dev
+OPENCLOUD_ADMIN_PASSWORD=zubee_opencloud_dev
+OPENCLOUD_PASSWORD=zubee_opencloud_dev
 
 TELEGRAM_BOT_TOKEN=...
 TELEGRAM_BOT_USERNAME=...
@@ -50,11 +50,11 @@ TELEGRAM_API_ID=...
 TELEGRAM_API_HASH=...
 ```
 
-İlk kurulumdan sonra `KANT_AUTO_SEED=false` yapın.
+İlk kurulumdan sonra `ZUBEE_AUTO_SEED=false` yapın.
 
 ## 4. Erişim
 
-- Kant: `http://SUNUCU_IP:3000` veya reverse proxy ile `https://zubi.noktafikir.com`
+- Zubee: `http://SUNUCU_IP:3000` veya reverse proxy ile `https://zubi.noktafikir.com`
 - OpenCloud: dışarıdan kapalı (Zubee üzerinden dosya erişimi)
 
 ## 5. Güncelleme

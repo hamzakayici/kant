@@ -18,7 +18,7 @@ services:
       TELEGRAM_PUBLIC_APP_URL: ${TELEGRAM_PUBLIC_APP_URL:-https://zubi.noktafikir.com}
       AUTH_SECRET: ${AUTH_SECRET:?AUTH_SECRET tanımlı olmalı}
       DATABASE_URL: ${DATABASE_URL:?DATABASE_URL tanımlı olmalı}
-      KANT_AUTO_SEED: ${KANT_AUTO_SEED:-false}
+      ZUBEE_AUTO_SEED: ${ZUBEE_AUTO_SEED:-false}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
       TELEGRAM_WEBHOOK_SECRET: ${TELEGRAM_WEBHOOK_SECRET:-}
@@ -31,7 +31,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: kant-nginx
+    container_name: zubee-nginx
     restart: unless-stopped
     ports:
       - "80:80"

@@ -37,9 +37,9 @@ export function PlannerCalendar({
   const today = new Date()
 
   return (
-    <Card className={cn("flex h-full flex-col", className)}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <CardTitle className="text-base font-semibold capitalize">
+    <Card className={cn("flex h-full flex-col overflow-hidden bg-background/40 backdrop-blur-xl border-border/40 shadow-sm dark:bg-card/20", className)}>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 border-b border-border/40 bg-muted/20">
+        <CardTitle className="text-base font-semibold capitalize tracking-tight">
           {selectedDate.toLocaleString("tr-TR", {
             month: "long",
             year: "numeric",
@@ -48,8 +48,9 @@ export function PlannerCalendar({
         <div className="flex items-center gap-1">
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
             size="icon-sm"
+            className="h-7 w-7 rounded-full border-border/50 bg-background/50 backdrop-blur-md transition-all hover:bg-accent hover:text-accent-foreground"
             onClick={() =>
               onMonthChange(
                 new Date(
@@ -64,8 +65,9 @@ export function PlannerCalendar({
           </Button>
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
             size="icon-sm"
+            className="h-7 w-7 rounded-full border-border/50 bg-background/50 backdrop-blur-md transition-all hover:bg-accent hover:text-accent-foreground"
             onClick={() =>
               onMonthChange(
                 new Date(
@@ -80,7 +82,7 @@ export function PlannerCalendar({
           </Button>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-4">
         <div className="mb-2 grid grid-cols-7 gap-1 text-center">
           {WEEK_DAYS.map((day) => (
             <div
@@ -110,23 +112,33 @@ export function PlannerCalendar({
                 type="button"
                 onClick={() => onSelectDate(date)}
                 className={cn(
-                  "relative flex aspect-square flex-col items-center justify-center rounded-xl text-sm transition-all",
+                  "group relative flex aspect-square flex-col items-center justify-center rounded-xl text-sm transition-all duration-300",
                   isSelected
-                    ? "bg-primary font-semibold text-primary-foreground shadow-sm"
-                    : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                  isToday && !isSelected && "ring-1 ring-primary/40",
+                    ? "bg-primary font-semibold text-primary-foreground shadow-md shadow-primary/25 scale-105"
+                    : "text-muted-foreground hover:bg-accent hover:text-foreground hover:scale-105",
+                  isToday && !isSelected && "ring-1 ring-primary/40 bg-primary/5",
                 )}
               >
                 <span>{date.getDate()}</span>
                 {taskCount > 0 ? (
-                  <span
-                    className={cn(
-                      "mt-0.5 text-[9px] font-semibold tabular-nums",
-                      isSelected ? "text-primary-foreground/80" : "text-primary",
+                  <div className="absolute bottom-1.5 flex gap-0.5">
+                    {/* Görev sayısına göre yan yana minik noktalar */}
+                    {Array.from({ length: Math.min(taskCount, 3) }).map((_, i) => (
+                      <span
+                        key={i}
+                        className={cn(
+                          "size-1 rounded-full transition-colors",
+                          isSelected ? "bg-primary-foreground/80" : "bg-primary"
+                        )}
+                      />
+                    ))}
+                    {taskCount > 3 && (
+                      <span className={cn(
+                        "size-1 rounded-full opacity-50",
+                        isSelected ? "bg-primary-foreground/80" : "bg-primary"
+                      )} />
                     )}
-                  >
-                    {taskCount}
-                  </span>
+                  </div>
                 ) : null}
               </button>
             )
@@ -136,3 +148,4 @@ export function PlannerCalendar({
     </Card>
   )
 }
+

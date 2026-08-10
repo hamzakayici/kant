@@ -4,11 +4,12 @@ import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import { revalidatePath } from "next/cache"
 import { getUserPermissions, hasPermission, canCreateBoard, canAssignAssignees } from "@/lib/permissions"
+import { checkCardPermission } from "@/lib/card-permissions"
 import { deleteStoredFile, ensureBoardOpenCloudStructure, getAttachmentCopyUrl, getAttachmentOpenCloudUrl } from "@/lib/storage"
 import { isOpenCloudEnabled, getOpenCloudConfig } from "@/lib/storage/config"
 import {
   getAttachmentUrl,
-  isKantShareOrProxyUrl,
+  isZubeeShareOrProxyUrl,
   isOpenCloudHttpUrl,
 } from "@/lib/attachment-url"
 import { extractMentionedUserIds, normalizeMentionsInContent, stripMentionTokens } from "@/lib/chat-mentions"
@@ -23,9 +24,23 @@ export async function createCard(title: string, columnId: string, boardId: strin
   const session = await auth()
   if (!session) throw new Error("Yetkisiz işlem")
   
+  const dbUser = await prisma.user.findUnique({ where: { id: session.user.id } })
+  let currentRole = "system_requester"
+  if (dbUser?.customRoleId) currentRole = dbUser.customRoleId
+  else if (dbUser?.role) {
+    if (dbUser.role === "ADMIN") currentRole = "system_admin"
+    else if (dbUser.role === "EDITOR") currentRole = "system_editor"
+    else if (dbUser.role === "DESIGNER") currentRole = "system_designer"
+  }
+
+  const column = await prisma.column.findUnique({ where: { id: columnId } })
+  if (!column) throw new Error("Sütun bulunamadı")
+
   const perms = await getUserPermissions(session.user.id)
-  if (!hasPermission(perms, "CREATE_CARD")) {
-    throw new Error("Yetkisiz işlem")
+  const canCreate = hasPermission(perms, "CREATE_CARD") || currentRole === "system_admin"
+
+  if (!canCreate) {
+    throw new Error("Bu sütunda kart oluşturma yetkiniz bulunmuyor.")
   }
 
   // Mevcut tüm kartların order değerini 1 artırarak en üstü (0. sırayı) boşalt
@@ -79,10 +94,18 @@ export async function moveCard(cardId: string, newColumnId: string, newOrder: nu
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
 
-  const perms = await getUserPermissions(session.user.id)
-  if (!hasPermission(perms, "MOVE_CARD")) {
-    throw new Error("Kart taşıma yetkiniz bulunmuyor.")
+  const dbUser = await prisma.user.findUnique({ where: { id: session.user.id } })
+  let currentRole = "system_requester"
+  if (dbUser?.customRoleId) {
+    currentRole = dbUser.customRoleId
+  } else if (dbUser?.role) {
+    if (dbUser.role === "ADMIN") currentRole = "system_admin"
+    else if (dbUser.role === "EDITOR") currentRole = "system_editor"
+    else if (dbUser.role === "DESIGNER") currentRole = "system_designer"
   }
+
+  const perms = await getUserPermissions(session.user.id)
+  const hasGlobalMoveCard = hasPermission(perms, "MOVE_CARD") || currentRole === "system_admin"
 
   const oldCard = await prisma.card.findUnique({
     where: { id: cardId },
@@ -95,32 +118,32 @@ export async function moveCard(cardId: string, newColumnId: string, newOrder: nu
   })
   if (!newColumn) throw new Error("Sütun bulunamadı")
 
-  const dbUser = await prisma.user.findUnique({ where: { id: session.user.id } })
-  let currentRole = "system_requester"
-  if (dbUser?.customRoleId) {
-    currentRole = dbUser.customRoleId
-  } else if (dbUser?.role) {
-    if (dbUser.role === "ADMIN") currentRole = "system_admin"
-    else if (dbUser.role === "EDITOR") currentRole = "system_editor"
-    else if (dbUser.role === "DESIGNER") currentRole = "system_designer"
-  }
+  const sourceColumnId = oldCard.columnId
+  const isSameColumn = sourceColumnId === newColumnId
 
   // Check dragOutRoles on the old column
+  let canDragOut = false
   if (oldCard.column.dragOutRoles && oldCard.column.dragOutRoles.length > 0) {
-    if (!oldCard.column.dragOutRoles.includes(currentRole) && currentRole !== "system_admin") {
-      throw new Error("Bu sütundan kart çıkarma (taşıma) yetkiniz bulunmuyor.")
-    }
+    canDragOut = oldCard.column.dragOutRoles.includes(currentRole) || currentRole === "system_admin"
+  } else {
+    canDragOut = hasGlobalMoveCard
+  }
+  
+  if (!canDragOut) {
+    throw new Error("Bu sütundan kart çıkarma (taşıma) yetkiniz bulunmuyor.")
   }
 
   // Backend checks for RBAC (Drag In)
+  let canDragIn = false
   if (newColumn.allowedRoles && newColumn.allowedRoles.length > 0) {
-    if (!newColumn.allowedRoles.includes(currentRole) && currentRole !== "system_admin") {
-      throw new Error("Bu sütuna kart taşıma yetkiniz bulunmuyor.")
-    }
+    canDragIn = newColumn.allowedRoles.includes(currentRole) || currentRole === "system_admin"
+  } else {
+    canDragIn = hasGlobalMoveCard || isSameColumn
   }
 
-  const sourceColumnId = oldCard.columnId
-  const isSameColumn = sourceColumnId === newColumnId
+  if (!canDragIn) {
+    throw new Error("Bu sütuna kart taşıma yetkiniz bulunmuyor.")
+  }
 
   await prisma.$transaction(async (tx) => {
     const [sourceCards, targetCards] = await Promise.all([
@@ -169,13 +192,7 @@ export async function moveCard(cardId: string, newColumnId: string, newOrder: nu
 }
 
 export async function deleteCard(cardId: string) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz işlem")
-
-  const perms = await getUserPermissions(session.user.id)
-  if (!hasPermission(perms, "DELETE_CARD")) {
-    throw new Error("Yetkisiz işlem")
-  }
+  await checkCardPermission(cardId, "DELETE_CARD")
 
   await prisma.card.delete({
     where: { id: cardId }
@@ -200,8 +217,7 @@ export async function addComment(cardId: string, content: string) {
 }
 
 export async function updateCardTitle(cardId: string, title: string) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  const userId = await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.card.update({
     where: { id: cardId },
@@ -212,7 +228,7 @@ export async function updateCardTitle(cardId: string, title: string) {
     data: {
       action: "Başlığı güncelledi",
       cardId,
-      userId: session.user.id
+      userId
     }
   })
 
@@ -220,8 +236,7 @@ export async function updateCardTitle(cardId: string, title: string) {
 }
 
 export async function updateCardDescription(cardId: string, description: string) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  const userId = await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.card.update({
     where: { id: cardId },
@@ -238,7 +253,7 @@ export async function updateCardDescription(cardId: string, description: string)
   // If the last entry was made by the same user within the last 5 minutes, update it.
   // Otherwise, create a new one.
   const FIVE_MINUTES = 5 * 60 * 1000
-  if (lastHistory && lastHistory.userId === session.user.id && (Date.now() - new Date(lastHistory.createdAt).getTime() < FIVE_MINUTES)) {
+  if (lastHistory && lastHistory.userId === userId && (Date.now() - new Date(lastHistory.createdAt).getTime() < FIVE_MINUTES)) {
     await prisma.cardDescriptionHistory.update({
       where: { id: lastHistory.id },
       data: { content: description }
@@ -248,7 +263,7 @@ export async function updateCardDescription(cardId: string, description: string)
       data: {
         content: description,
         cardId,
-        userId: session.user.id
+        userId: userId
       }
     })
 
@@ -257,7 +272,7 @@ export async function updateCardDescription(cardId: string, description: string)
       data: {
         action: "Açıklamayı güncelledi",
         cardId,
-        userId: session.user.id
+        userId: userId
       }
     })
   }
@@ -339,8 +354,7 @@ export async function getCardForModal(cardId: string) {
 }
 
 export async function updateCardDates(cardId: string, startDate: Date | null, dueDate: Date | null, reminderMinutes?: number | null, isRecurring?: boolean) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  const userId = await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.card.update({
     where: { id: cardId },
@@ -356,7 +370,7 @@ export async function updateCardDates(cardId: string, startDate: Date | null, du
     data: {
       action: "Tarih ve hatırlatıcı ayarlarını güncelledi",
       cardId,
-      userId: session.user.id
+      userId: userId
     }
   })
 
@@ -428,11 +442,15 @@ export async function updateColumn(columnId: string, data: { name?: string, colo
   revalidatePath("/")
 }
 
-export async function updateColumnAllowedRoles(columnId: string, allowedRoles: string[], dragOutRoles: string[] = []) {
+export async function updateColumnAllowedRoles(
+  columnId: string, 
+  allowedRoles: string[], 
+  dragOutRoles: string[] = []
+) {
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
-  const dbUser = await prisma.user.findUnique({ where: { id: session.user.id } })
-  if (dbUser?.role !== "ADMIN") throw new Error("Sadece yöneticiler yetki değiştirebilir")
+  const perms = await getUserPermissions(session.user.id)
+  if (!hasPermission(perms, "MANAGE_BOARDS")) throw new Error("Sadece yöneticiler yetki değiştirebilir")
 
   await prisma.column.update({
     where: { id: columnId },
@@ -586,13 +604,7 @@ export async function reorderBoards(boardIds: string[]) {
 }
 
 export async function toggleCardAssignee(cardId: string, assigneeId: string) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
-
-  const perms = await getUserPermissions(session.user.id)
-  if (!canAssignAssignees(perms)) {
-    throw new Error("Sorumlu atama yetkiniz yok")
-  }
+  const userId = await checkCardPermission(cardId, "ASSIGN_ASSIGNEES")
 
   const card = await prisma.card.findUnique({
     where: { id: cardId },
@@ -614,7 +626,7 @@ export async function toggleCardAssignee(cardId: string, assigneeId: string) {
     data: {
       action: isAssigned ? "Sorumluyu karttan çıkardı" : "Yeni sorumlu atadı",
       cardId,
-      userId: session.user.id
+      userId
     }
   })
 
@@ -622,8 +634,7 @@ export async function toggleCardAssignee(cardId: string, assigneeId: string) {
 }
 
 export async function updateCardPriority(cardId: string, priority: any) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  const userId = await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.card.update({
     where: { id: cardId },
@@ -631,15 +642,14 @@ export async function updateCardPriority(cardId: string, priority: any) {
   })
 
   await prisma.activityLog.create({
-    data: { action: `Önceliği '${priority}' olarak güncelledi`, cardId, userId: session.user.id }
+    data: { action: `Önceliği '${priority}' olarak güncelledi`, cardId, userId }
   })
 
   revalidatePath("/")
 }
 
 export async function updateCardTags(cardId: string, tags: string[]) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  const userId = await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.card.update({
     where: { id: cardId },
@@ -647,22 +657,21 @@ export async function updateCardTags(cardId: string, tags: string[]) {
   })
 
   await prisma.activityLog.create({
-    data: { action: `Etiketleri güncelledi: ${tags.join(", ") || 'Etiket yok'}`, cardId, userId: session.user.id }
+    data: { action: `Etiketleri güncelledi: ${tags.join(", ") || 'Etiket yok'}`, cardId, userId }
   })
 
   revalidatePath("/")
 }
 
 export async function addChecklistItem(cardId: string, content: string) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  const userId = await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.checklistItem.create({
     data: { cardId, content }
   })
   
   await prisma.activityLog.create({
-    data: { action: `'${content}' adlı kontrol listesi öğesini ekledi`, cardId, userId: session.user.id }
+    data: { action: `'${content}' adlı kontrol listesi öğesini ekledi`, cardId, userId }
   })
 
   revalidatePath("/")
@@ -680,8 +689,7 @@ export async function addCardComment(cardId: string, content: string) {
 }
 
 export async function updateCardCover(cardId: string, coverAttachmentId: string | null, coverMode?: string) {
-  const session = await auth()
-  if (!session) throw new Error("Yetkisiz")
+  await checkCardPermission(cardId, "UPDATE_CARD")
 
   await prisma.card.update({
     where: { id: cardId },
@@ -791,7 +799,7 @@ export async function createShareLink(attachmentId: string): Promise<string> {
     return openCloudUrl
   }
 
-  if (isOpenCloudHttpUrl(attachment.path) && !isKantShareOrProxyUrl(attachment.path)) {
+  if (isOpenCloudHttpUrl(attachment.path) && !isZubeeShareOrProxyUrl(attachment.path)) {
     return attachment.path
   }
 

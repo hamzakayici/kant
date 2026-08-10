@@ -164,7 +164,7 @@ export async function updateBoardTelegramSupergroup(
   return updateTelegramSupergroup(supergroupId)
 }
 
-export async function importTelegramTopicsToKant() {
+export async function importTelegramTopicsToZubee() {
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
   if (session.user.role !== "ADMIN") {

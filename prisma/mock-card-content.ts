@@ -20,7 +20,7 @@ function card(
 
 export const ENRICHED_CARD_CONTENT: Record<string, EnrichedCardContent> = {
   "Sidebar ve layout bileşenlerini güncelle": card(
-    `<p><strong>Amaç:</strong> Kant arayüzünü dashboard-01 tasarım sistemine taşımak ve tüm sayfalarda tutarlı bir kabuk (shell) deneyimi sağlamak.</p>
+    `<p><strong>Amaç:</strong> Zubee arayüzünü dashboard-01 tasarım sistemine taşımak ve tüm sayfalarda tutarlı bir kabuk (shell) deneyimi sağlamak.</p>
 <ul>
 <li>Mevcut sidebar daralt/genişlet davranışı korunacak</li>
 <li>Mobil breakpoint'te drawer olarak açılacak</li>
@@ -49,7 +49,7 @@ export const ENRICHED_CARD_CONTENT: Record<string, EnrichedCardContent> = {
   ),
 
   "Telegram sohbet entegrasyonu": card(
-    `<p><strong>Kapsam:</strong> Kart detayından Telegram süper grubuna mesaj gönderme, webhook ile gelen mesajları Kant aktivite akışına yansıtma.</p>
+    `<p><strong>Kapsam:</strong> Kart detayından Telegram süper grubuna mesaj gönderme, webhook ile gelen mesajları Zubee aktivite akışına yansıtma.</p>
 <p><strong>Teknik:</strong> BotFather token, webhook secret, forum topic ID yapılandırması. MTProto ile kullanıcı adına gönderim opsiyonel.</p>
 <ul>
 <li>Webhook: <code>POST /api/telegram/webhook</code></li>
@@ -87,7 +87,7 @@ export const ENRICHED_CARD_CONTENT: Record<string, EnrichedCardContent> = {
   ),
 
   "OpenCloud dosya depolama testleri": card(
-    `<p>OpenCloud WebDAV yolu keşfi, upload, public share ve Kant attachment URL çözümlemesi test edildi.</p>
+    `<p>OpenCloud WebDAV yolu keşfi, upload, public share ve Zubee attachment URL çözümlemesi test edildi.</p>
 <ul>
 <li>Docker iç ağ: <code>https://opencloud:9200</code></li>
 <li>OPENCLOUD_INSECURE=true geliştirme için</li>

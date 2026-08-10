@@ -55,6 +55,8 @@ export default function CardModal({
   boardColumns = [],
   boardMembers = [],
   canAssignAssignees = false,
+  canUpdateCard = true,
+  canDeleteCard = true,
 }: {
   card: any
   onClose: () => void
@@ -64,6 +66,8 @@ export default function CardModal({
   boardColumns?: any[]
   boardMembers?: any[]
   canAssignAssignees?: boolean
+  canUpdateCard?: boolean
+  canDeleteCard?: boolean
 }) {
   const { showAlert } = useModal()
   const router = useRouter()
@@ -401,6 +405,7 @@ export default function CardModal({
                       type="text"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
+                      readOnly={!canUpdateCard}
                       className="w-full bg-transparent text-xl font-bold text-foreground placeholder:text-muted-foreground focus:outline-none sm:text-2xl"
                       placeholder="Görev başlığı..."
                     />
@@ -444,6 +449,7 @@ export default function CardModal({
                   onDateRemove={handleAdvancedDateRemove}
                   onTagsChange={handleTagsChange}
                   canAssignAssignees={canAssignAssignees}
+                  canUpdateCard={canUpdateCard}
                 />
 
                 <section className="rounded-xl border border-border/60 bg-muted/10 p-4">
@@ -491,6 +497,7 @@ export default function CardModal({
                   onToggle={handleToggleChecklist}
                   onDelete={handleDeleteChecklist}
                   onEdit={handleEditChecklist}
+                  canUpdateCard={canUpdateCard}
                 />
 
                 <CardModalAttachments
@@ -529,11 +536,13 @@ export default function CardModal({
             />
           </div>
 
-          <footer className="flex shrink-0 items-center justify-end border-t border-border/80 bg-card/80 px-5 py-3 backdrop-blur-sm sm:px-6">
-            <Button onClick={handleSaveDesc} disabled={isSaving}>
-              {isSaving ? "Kaydediliyor..." : "Kaydet"}
-            </Button>
-          </footer>
+          {canUpdateCard ? (
+            <footer className="flex shrink-0 items-center justify-end border-t border-border/80 bg-card/80 px-5 py-3 backdrop-blur-sm sm:px-6">
+              <Button onClick={handleSaveDesc} disabled={isSaving}>
+                {isSaving ? "Kaydediliyor..." : "Kaydet"}
+              </Button>
+            </footer>
+          ) : null}
         </div>
       </FileUploader>
 

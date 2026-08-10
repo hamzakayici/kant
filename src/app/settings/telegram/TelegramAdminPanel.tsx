@@ -19,7 +19,7 @@ import {
   syncAllChatGroupsToTelegram,
   discoverTelegramTopics,
   ensureTelegramMembershipForLinkedUsers,
-  importTelegramTopicsToKant,
+  importTelegramTopicsToZubee,
 } from "@/app/actions/telegramActions"
 
 type ChatGroupStatus = {
@@ -92,7 +92,7 @@ export default function TelegramAdminPanel({
     setImporting(true)
     setMessage(null)
     try {
-      const result = await importTelegramTopicsToKant()
+      const result = await importTelegramTopicsToZubee()
       setMessage(
         `${result.imported} konu içe aktarıldı, ${result.updated} güncellendi.${result.pruned ? ` ${result.pruned} eski grup temizlendi.` : ""}`,
       )
@@ -181,73 +181,89 @@ export default function TelegramAdminPanel({
   }
 
   return (
-    <div className="rounded-xl border border-border bg-card p-6">
-      <div className="mb-6 flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
-          <Send className="size-5 text-primary" />
-        </div>
-        <div>
-          <h2 className="text-lg font-semibold">Zubee Telegram Ayarları</h2>
-          <p className="text-sm text-muted-foreground">
-            Telegram konuları Zubee&apos;de birebir görünür — kaynak Telegram&apos;dır
-          </p>
-        </div>
-      </div>
-
-      <div className="mb-6 rounded-lg border border-blue-500/20 bg-blue-500/5 p-4 text-sm text-muted-foreground">
-        <p className="font-medium text-foreground">Yapılandırma (.env)</p>
-        <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
-          <li>
-            Süper grup:{" "}
-            {supergroupConfigured ? (
-              <span className="text-green-500">tanımlı</span>
-            ) : (
-              <span className="text-destructive">TELEGRAM_SUPERGROUP_ID eksik</span>
-            )}
-          </li>
-          <li>
-            Varsayılan sohbet:{" "}
-            {defaultTopicConfigured ? (
-              <span className="text-green-500">TELEGRAM_DEFAULT_TOPIC_ID tanımlı</span>
-            ) : (
-              <span className="text-amber-500">TELEGRAM_DEFAULT_TOPIC_ID eksik</span>
-            )}
-          </li>
-          <li>
-            Mobil kart linkleri:{" "}
-            {publicAppUrlStatus?.mobileReady ? (
-              <span className="text-green-500">TELEGRAM_PUBLIC_APP_URL hazır</span>
-            ) : publicAppUrlStatus?.configured ? (
-              <span className="text-amber-500">
-                TELEGRAM_PUBLIC_APP_URL geçersiz (HTTPS gerekli)
-              </span>
-            ) : (
-              <span className="text-amber-500">TELEGRAM_PUBLIC_APP_URL eksik</span>
-            )}
-          </li>
-          {publicAppUrlStatus?.resolved ? (
-            <li className="break-all font-mono text-[11px] text-muted-foreground">
-              {publicAppUrlStatus.resolved}
-            </li>
-          ) : null}
-          <li>Zubee&apos;deki liste = Telegram forum konuları</li>
-          <li>Geliştirmede <code className="rounded bg-muted px-1">npm run telegram:poll</code> çalışmalı</li>
-        </ul>
-      </div>
-
-      {botHealth?.warnings && botHealth.warnings.length > 0 ? (
-        <div className="mb-6 space-y-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-amber-500">
-            <AlertTriangle className="size-4" />
-            Yapılandırma uyarıları
+    <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-card/40 p-6 shadow-xl backdrop-blur-xl transition-all dark:bg-card/20">
+      {/* Decorative background glow */}
+      <div className="absolute -right-20 -top-20 z-0 size-64 rounded-full bg-blue-500/5 blur-[100px]" />
+      
+      <div className="relative z-10 mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex size-12 items-center justify-center rounded-xl bg-linear-to-br from-blue-500/20 to-blue-500/5 ring-1 ring-blue-500/20 shadow-inner">
+            <Send className="size-6 text-blue-500 -ml-0.5 mt-0.5" />
           </div>
-          <ul className="space-y-1.5 text-xs text-muted-foreground">
-            {botHealth.warnings.map((warning) => (
-              <li key={warning}>• {warning}</li>
-            ))}
+          <div>
+            <h2 className="text-xl font-bold tracking-tight">Zubee Telegram Ayarları</h2>
+            <p className="text-sm font-medium text-muted-foreground/80">
+              Telegram konuları Zubee'de birebir görünür — kaynak Telegram'dır
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 mb-8 grid gap-4 md:grid-cols-2">
+        <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-5 shadow-sm">
+          <p className="mb-3 flex items-center gap-2 font-semibold text-blue-600 dark:text-blue-400">
+            <Webhook className="size-4" />
+            Yapılandırma (.env)
+          </p>
+          <ul className="space-y-2.5 text-xs font-medium text-muted-foreground">
+            <li className="flex items-center justify-between border-b border-blue-500/10 pb-2">
+              <span>Süper grup</span>
+              {supergroupConfigured ? (
+                <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/10 text-emerald-500">tanımlı</Badge>
+              ) : (
+                <Badge variant="outline" className="border-red-500/30 bg-red-500/10 text-red-500">TELEGRAM_SUPERGROUP_ID eksik</Badge>
+              )}
+            </li>
+            <li className="flex items-center justify-between border-b border-blue-500/10 pb-2">
+              <span>Varsayılan sohbet</span>
+              {defaultTopicConfigured ? (
+                <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/10 text-emerald-500">tanımlı</Badge>
+              ) : (
+                <Badge variant="outline" className="border-amber-500/30 bg-amber-500/10 text-amber-500">TELEGRAM_DEFAULT_TOPIC_ID eksik</Badge>
+              )}
+            </li>
+            <li className="flex flex-col gap-1 border-b border-blue-500/10 pb-2">
+              <div className="flex items-center justify-between">
+                <span>Mobil linkler</span>
+                {publicAppUrlStatus?.mobileReady ? (
+                  <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/10 text-emerald-500">hazır</Badge>
+                ) : publicAppUrlStatus?.configured ? (
+                  <Badge variant="outline" className="border-amber-500/30 bg-amber-500/10 text-amber-500">geçersiz (HTTPS gerekli)</Badge>
+                ) : (
+                  <Badge variant="outline" className="border-amber-500/30 bg-amber-500/10 text-amber-500">eksik</Badge>
+                )}
+              </div>
+              {publicAppUrlStatus?.resolved ? (
+                <span className="text-[10px] font-mono text-muted-foreground/60 break-all">{publicAppUrlStatus.resolved}</span>
+              ) : null}
+            </li>
+            <li className="pt-1 text-blue-500/70 italic">Geliştirmede <code className="rounded-md bg-blue-500/10 px-1.5 py-0.5 font-mono text-[10px] not-italic text-blue-500">npm run telegram:poll</code> çalışmalı</li>
           </ul>
         </div>
-      ) : null}
+
+        {botHealth?.warnings && botHealth.warnings.length > 0 ? (
+          <div className="flex flex-col justify-center rounded-xl border border-amber-500/30 bg-amber-500/5 p-5 shadow-sm">
+            <div className="mb-3 flex items-center gap-2 font-semibold text-amber-600 dark:text-amber-400">
+              <AlertTriangle className="size-4" />
+              Yapılandırma Uyarıları
+            </div>
+            <ul className="space-y-2 text-xs font-medium text-amber-600/80 dark:text-amber-400/80">
+              {botHealth.warnings.map((warning, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-amber-500/50" />
+                  <span>{warning}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5 text-center shadow-sm">
+            <CheckCircle2 className="mb-2 size-8 text-emerald-500/80" />
+            <p className="font-semibold text-emerald-600 dark:text-emerald-400">Bot Sağlıklı</p>
+            <p className="text-xs font-medium text-emerald-600/70 dark:text-emerald-400/70">Hiçbir yapılandırma uyarısı yok.</p>
+          </div>
+        )}
+      </div>
 
       <div className="mb-6 space-y-3 rounded-lg border border-border/60 bg-muted/20 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">

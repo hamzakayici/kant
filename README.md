@@ -2,7 +2,7 @@
 
 Ekipler için Kanban proje yönetimi — panolar, kartlar, sohbet, dosya paylaşımı ve Trello içe/dışa aktarım.
 
-**Repo:** https://github.com/hamzakayici/kant
+**Repo:** https://github.com/hamzakayici/zubee
 
 ## Hızlı başlangıç
 

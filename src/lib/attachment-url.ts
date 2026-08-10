@@ -17,7 +17,7 @@ export function isOpenCloudShareUrl(url: string | null | undefined): boolean {
 }
 
 /** Zubee proxy veya paylaşım token linki — OpenCloud değil. */
-export function isKantShareOrProxyUrl(url: string | null | undefined): boolean {
+export function isZubeeShareOrProxyUrl(url: string | null | undefined): boolean {
   if (!url) return false
   if (url.startsWith("/api/") || url.startsWith("/public/share/")) return true
 
@@ -37,7 +37,7 @@ export function isKantShareOrProxyUrl(url: string | null | undefined): boolean {
 export function isOpenCloudDirectUrl(url: string | null | undefined): boolean {
   return (
     isOpenCloudHttpUrl(url) &&
-    !isKantShareOrProxyUrl(url) &&
+    !isZubeeShareOrProxyUrl(url) &&
     !isOpenCloudShareUrl(url)
   )
 }

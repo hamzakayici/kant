@@ -50,12 +50,20 @@ export default function KanbanBoard({
   allRoles = [],
   currentUserRole = "system_requester",
   canAssignAssignees = false,
+  canMoveCard = false,
+  canCreateCard = false,
+  canDeleteCard = false,
+  canUpdateCard = false,
 }: {
   initialBoard: any
   userRole: string
   allRoles?: any[]
   currentUserRole?: string
   canAssignAssignees?: boolean
+  canMoveCard?: boolean
+  canCreateCard?: boolean
+  canDeleteCard?: boolean
+  canUpdateCard?: boolean
 }) {
   const { showAlert } = useModal()
   const [columns, setColumns] = useState(initialBoard.columns)
@@ -148,8 +156,7 @@ export default function KanbanBoard({
     initialBoard.identifier,
   ])
 
-  const canCreateCard = userRole === "REQUESTER" || userRole === "ADMIN"
-  const canReorderColumns = userRole === "ADMIN"
+  const canReorderColumns = userRole === "ADMIN" || currentUserRole === "system_admin"
 
   const registerColumnScroll = useCallback(
     (columnId: string, element: HTMLElement | null) => {
@@ -447,7 +454,12 @@ export default function KanbanBoard({
   }, [])
 
   const canDragCard = (column: any) => {
-    if (userRole === "ADMIN") return true
+    if (currentUserRole === "system_admin") return true
+    if (column.dragOutRoles?.length > 0) {
+      return column.dragOutRoles.includes(currentUserRole)
+    }
+    if (canMoveCard) return true
+    if (userRole === "ADMIN" || currentUserRole === "system_admin") return true
     if (userRole === "DESIGNER") {
       return ["BACKLOG", "UNSTARTED", "ACTIVE"].includes(column.category)
     }
@@ -690,12 +702,10 @@ export default function KanbanBoard({
 
     if (
       oldColumn?.dragOutRoles?.length > 0 &&
-      oldColumn.id !== targetColumn.id
+      oldColumn.id !== targetColumn.id &&
+      currentUserRole !== "system_admin"
     ) {
-      if (
-        !oldColumn.dragOutRoles.includes(currentUserRole) &&
-        currentUserRole !== "system_admin"
-      ) {
+      if (!oldColumn.dragOutRoles.includes(currentUserRole)) {
         setColumns(initialBoard.columns)
         columnsRef.current = initialBoard.columns
         await showAlert(
@@ -705,11 +715,8 @@ export default function KanbanBoard({
       }
     }
 
-    if (targetColumn.allowedRoles?.length > 0) {
-      if (
-        !targetColumn.allowedRoles.includes(currentUserRole) &&
-        currentUserRole !== "system_admin"
-      ) {
+    if (targetColumn.allowedRoles?.length > 0 && currentUserRole !== "system_admin") {
+      if (!targetColumn.allowedRoles.includes(currentUserRole)) {
         setColumns(initialBoard.columns)
         columnsRef.current = initialBoard.columns
         await showAlert("Bu sütuna kart taşıma yetkiniz bulunmuyor.")
@@ -827,6 +834,9 @@ export default function KanbanBoard({
               const filteredCol = filteredColumns.find((f: any) => f.id === col.id)
               const displayCards = filteredCol?.cards ?? col.cards
 
+              const columnCanCreate = canCreateCard || currentUserRole === "system_admin"
+              const columnCanDelete = canDeleteCard || currentUserRole === "system_admin"
+
               return (
                 <KanbanColumnSlot
                   key={col.id}
@@ -837,7 +847,8 @@ export default function KanbanBoard({
                   boardIdentifier={initialBoard.identifier}
                   allRoles={allRoles}
                   canReorderColumn={canReorderColumns}
-                  canAddCard={canCreateCard}
+                  canAddCard={columnCanCreate}
+                  canDeleteCard={columnCanDelete}
                   isAdding={addingToColumn === col.id}
                   isCreating={creatingInColumn === col.id}
                   newCardTitle={newCardTitle}
@@ -894,7 +905,9 @@ export default function KanbanBoard({
           boardIdentifier={initialBoard.identifier}
           boardColumns={initialBoard.columns}
           boardMembers={initialBoard.members}
-          canAssignAssignees={canAssignAssignees}
+          canAssignAssignees={canAssignAssignees || currentUserRole === "system_admin"}
+          canUpdateCard={canUpdateCard || currentUserRole === "system_admin"}
+          canDeleteCard={canDeleteCard || currentUserRole === "system_admin"}
           onClose={handleCloseModal}
         />
       ) : null}

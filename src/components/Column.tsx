@@ -127,7 +127,11 @@ export default function Column({
   const columnStyle = sortableTranslateStyle(transform, transition)
 
   const handleSavePermissions = async () => {
-    await updateColumnAllowedRoles(column.id, allowedRoles, dragOutRoles)
+    await updateColumnAllowedRoles(
+      column.id, 
+      allowedRoles, 
+      dragOutRoles
+    )
     setShowPermissionsModal(false)
     window.location.reload()
   }
@@ -423,6 +427,7 @@ export default function Column({
                 })}
               </div>
             </div>
+
           </div>
 
           <DialogFooter>

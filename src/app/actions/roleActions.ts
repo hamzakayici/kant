@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
-import bcrypt from "bcryptjs"
 import { revalidatePath } from "next/cache"
 import { getUserPermissions, hasPermission, checkIsSuperAdmin } from "@/lib/permissions"
 import { resolveResetPassword } from "@/lib/reset-password"
@@ -27,7 +26,7 @@ export async function getRoles() {
     // Initialize system roles
     await prisma.customRole.createMany({
       data: [
-        { id: "system_admin", name: "Müdürlük / Admin", permissions: ["MANAGE_ROLES", "CREATE_BOARD", "MANAGE_BOARDS", "CREATE_CARD", "MOVE_CARD", "DELETE_CARD", "UPDATE_CARD", "ASSIGN_ASSIGNEES", "MANAGE_CHATS"], icon: "Shield" },
+        { id: "system_admin", name: "Müdürlük", permissions: ["MANAGE_ROLES", "CREATE_BOARD", "MANAGE_BOARDS", "CREATE_CARD", "MOVE_CARD", "DELETE_CARD", "UPDATE_CARD", "ASSIGN_ASSIGNEES", "MANAGE_CHATS"], icon: "Shield" },
         { id: "system_editor", name: "Editör", permissions: ["UPDATE_CARD", "MOVE_CARD", "ASSIGN_ASSIGNEES"], icon: "Edit3" },
         { id: "system_designer", name: "Görsel Ekip (Tasarımcı)", permissions: ["UPDATE_CARD", "MOVE_CARD", "ASSIGN_ASSIGNEES"], icon: "Brush" },
         { id: "system_requester", name: "Talep Eden", permissions: ["CREATE_CARD"], icon: "User" }
@@ -43,35 +42,15 @@ export async function getRoles() {
 
   const adminRole = await prisma.customRole.findUnique({
     where: { id: "system_admin" },
-    select: { permissions: true },
+    select: { permissions: true, name: true },
   })
-  if (adminRole && !adminRole.permissions.includes("CREATE_BOARD")) {
+  if (adminRole && adminRole.name !== "Müdürlük") {
     await prisma.customRole.update({
       where: { id: "system_admin" },
       data: {
-        permissions: [...adminRole.permissions, "CREATE_BOARD"],
+        name: "Müdürlük",
       },
     })
-  }
-
-  for (const roleId of ["system_admin", "system_editor", "system_designer"] as const) {
-    const role = await prisma.customRole.findUnique({
-      where: { id: roleId },
-      select: { permissions: true },
-    })
-    if (role) {
-      const missing: string[] = []
-      if (!role.permissions.includes("ASSIGN_ASSIGNEES")) missing.push("ASSIGN_ASSIGNEES")
-      if (!role.permissions.includes("MOVE_CARD")) missing.push("MOVE_CARD")
-      if (missing.length > 0) {
-        await prisma.customRole.update({
-          where: { id: roleId },
-          data: {
-            permissions: [...role.permissions, ...missing],
-          },
-        })
-      }
-    }
   }
 
   const allRoles = await prisma.customRole.findMany({
@@ -282,6 +261,7 @@ export async function changeMyPassword(newPassword: string) {
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
   
+  const bcrypt = require("bcryptjs")
   const hashedPassword = await bcrypt.hash(newPassword, 10)
 
   await prisma.user.update({
@@ -324,10 +304,13 @@ export async function resetUserPassword(userId: string): Promise<ResetPasswordRe
   const temporaryPassword = resolveResetPassword()
 
   try {
+    const bcrypt = require("bcryptjs")
+    const hashedPassword = await bcrypt.hash(temporaryPassword, 10)
+    
     await prisma.user.update({
       where: { id: userId },
       data: {
-        password: await bcrypt.hash(temporaryPassword, 10),
+        password: hashedPassword,
         mustChangePassword: true,
       },
     })

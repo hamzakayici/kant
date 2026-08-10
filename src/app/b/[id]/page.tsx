@@ -233,6 +233,10 @@ export default async function BoardPage(props: {
               allRoles={allRoles}
               currentUserRole={currentUserRole}
               canAssignAssignees={canAssign}
+              canMoveCard={hasPermission(permissions, "MOVE_CARD")}
+              canCreateCard={hasPermission(permissions, "CREATE_CARD")}
+              canDeleteCard={hasPermission(permissions, "DELETE_CARD")}
+              canUpdateCard={hasPermission(permissions, "UPDATE_CARD")}
             />
           ) : null}
           {view === "timeline" ? (

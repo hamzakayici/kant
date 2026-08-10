@@ -28,8 +28,8 @@ async function main() {
   const password =
     process.env.OPENCLOUD_PASSWORD ||
     process.env.OPENCLOUD_ADMIN_PASSWORD ||
-    "kant_opencloud_dev"
-  const root = process.env.OPENCLOUD_ROOT || "Kant"
+    "zubee_opencloud_dev"
+  const root = process.env.OPENCLOUD_ROOT || "Zubee"
 
   if (process.env.OPENCLOUD_WEBDAV_BASE) {
     console.log("OpenCloud WebDAV yolu zaten tanımlı, keşif atlanıyor.")

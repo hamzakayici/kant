@@ -9,16 +9,15 @@ export default async function RolesPage() {
   const session = await auth()
   if (!session) return <div>Yetkisiz</div>
 
-  const perms = await getUserPermissions(session.user.id)
-  if (!hasPermission(perms, "MANAGE_ROLES")) {
+  const callerIsSuperAdmin = await checkIsSuperAdmin(session.user.id)
+  
+  if (!callerIsSuperAdmin) {
     return (
-      <div className="p-8 text-foreground">
-        Bu sayfayı görüntüleme yetkiniz yok.
+      <div className="flex min-h-screen items-center justify-center bg-background p-8 text-foreground">
+        Bu sayfayı görüntüleme yetkiniz yok. (Sadece Süper Admin)
       </div>
     )
   }
-
-  const callerIsSuperAdmin = await checkIsSuperAdmin(session.user.id)
 
   const roles = await getRoles()
   const users = await prisma.user.findMany({
@@ -41,7 +40,7 @@ export default async function RolesPage() {
   })
 
   return (
-    <div className="min-h-screen bg-background p-6 text-foreground md:p-8">
+    <div className="h-full overflow-y-auto bg-background p-6 text-foreground md:p-8">
       <PageHeader
         title="Roller ve Yetkiler"
         description="Kullanıcı rollerini, erişim izinlerini ve hesapları yönetin"

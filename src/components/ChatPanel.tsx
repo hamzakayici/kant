@@ -30,8 +30,8 @@ import { ChatDropOverlay } from "@/components/chat/ChatDropOverlay"
 import {
   CHAT_LIVE_POLL_MS,
   getVisibilityAwarePollMs,
-  KANT_OPEN_MINI_CHAT_EVENT,
-  KANT_OPEN_MINI_CHAT_KEY,
+  ZUBEE_OPEN_MINI_CHAT_EVENT,
+  ZUBEE_OPEN_MINI_CHAT_KEY,
   shouldReplaceChatMessages,
 } from "@/lib/chat-live"
 import { ChatMessageBubble } from "@/components/chat/ChatMessageBubble"
@@ -177,11 +177,11 @@ export default function ChatPanel({
       return
     }
 
-    const pendingGroupId = sessionStorage.getItem(KANT_OPEN_MINI_CHAT_KEY)
+    const pendingGroupId = sessionStorage.getItem(ZUBEE_OPEN_MINI_CHAT_KEY)
     if (pendingGroupId) {
       const group = chatGroups.find((item) => item.id === pendingGroupId)
       if (group) {
-        sessionStorage.removeItem(KANT_OPEN_MINI_CHAT_KEY)
+        sessionStorage.removeItem(ZUBEE_OPEN_MINI_CHAT_KEY)
         openConversation(group)
         wasMiniChatOpenRef.current = true
         return
@@ -207,8 +207,8 @@ export default function ChatPanel({
       if (detail?.groupId) openGroupFromNotification(detail.groupId)
     }
 
-    window.addEventListener(KANT_OPEN_MINI_CHAT_EVENT, onOpenMiniChat)
-    return () => window.removeEventListener(KANT_OPEN_MINI_CHAT_EVENT, onOpenMiniChat)
+    window.addEventListener(ZUBEE_OPEN_MINI_CHAT_EVENT, onOpenMiniChat)
+    return () => window.removeEventListener(ZUBEE_OPEN_MINI_CHAT_EVENT, onOpenMiniChat)
   }, [chatGroups, openConversation])
 
   useEffect(() => {

@@ -98,16 +98,18 @@ export function NavUser({
               </DropdownMenuLabel>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem render={<Link href="/settings/roles" />}>
-                <Settings2 className="size-4" />
-                Ayarlar
-              </DropdownMenuItem>
-              <DropdownMenuItem render={<Link href="/settings/telegram" />}>
-                <Send className="size-4" />
-                Telegram
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+            {user.isSuperAdmin && (
+              <DropdownMenuGroup>
+                <DropdownMenuItem render={<Link href="/settings/roles" />}>
+                  <Settings2 className="size-4" />
+                  Ayarlar
+                </DropdownMenuItem>
+                <DropdownMenuItem render={<Link href="/settings/telegram" />}>
+                  <Send className="size-4" />
+                  Telegram
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => signOut({ callbackUrl: "/login" })}

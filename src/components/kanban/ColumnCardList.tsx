@@ -27,6 +27,7 @@ type ColumnCardListProps = {
   userRole: string
   boardIdentifier: string
   isCreatingCard?: boolean
+  canDeleteCard?: boolean
   onDeleteCard: (cardId: string) => void
   onShareCard: (card: any) => void
   onOpenCard: (card: any) => void
@@ -40,6 +41,7 @@ function ColumnCardListComponent({
   userRole,
   boardIdentifier,
   isCreatingCard = false,
+  canDeleteCard = false,
   onDeleteCard,
   onShareCard,
   onOpenCard,
@@ -48,7 +50,6 @@ function ColumnCardListComponent({
   const dnd = useKanbanBoardDndOptional()
   const columnDragUi = useColumnDragUi(columnId)
   const isPreviewActive = columnDragUi !== null
-  const canDelete = userRole === "ADMIN"
 
   useEffect(() => {
     if (!dnd || !scrollRoot) return
@@ -148,8 +149,7 @@ function ColumnCardListComponent({
                 index={cardIndex}
                 top={virtualRow.start}
                 isDragging={isPreviewActive}
-                measureRef={measureElement}
-                canDelete={canDelete}
+                canDelete={canDeleteCard}
                 boardIdentifier={boardIdentifier}
                 onDeleteCard={onDeleteCard}
                 onShareCard={onShareCard}

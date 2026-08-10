@@ -16,7 +16,7 @@ import {
 } from "../src/lib/telegram/api"
 
 async function main() {
-  console.log("=== Kant Telegram Kurulum ===\n")
+  console.log("=== Zubee Telegram Kurulum ===\n")
 
   if (!isTelegramEnabled()) {
     console.error("❌ TELEGRAM_BOT_TOKEN tanımlı değil (.env)")
@@ -64,7 +64,7 @@ async function main() {
 
   const supergroupId = await getTelegramSupergroupId()
   const defaultChatGroupId = await getTelegramDefaultChatGroupId()
-  console.log("\n--- Kant Telegram grubu ---")
+  console.log("\n--- Zubee Telegram grubu ---")
   if (!supergroupId) {
     console.log(
       "Süper grup atanmamış. .env dosyasına TELEGRAM_SUPERGROUP_ID ekleyin.",
@@ -102,13 +102,13 @@ async function main() {
     })
     if (defaultGroup) {
       console.log(
-        `\nVarsayılan Kant sohbeti: ${defaultGroup.name} (konu #${defaultGroup.telegramTopicId ?? "?"})`,
+        `\nVarsayılan Zubee sohbeti: ${defaultGroup.name} (konu #${defaultGroup.telegramTopicId ?? "?"})`,
       )
       console.log("  TELEGRAM_DEFAULT_TOPIC_ID ile .env üzerinden ayarlanır.")
     }
   } else if (process.env.TELEGRAM_DEFAULT_TOPIC_ID?.trim()) {
     console.log(
-      `\n⚠️  TELEGRAM_DEFAULT_TOPIC_ID tanımlı ama eşleşen Kant grubu yok — önce içe aktarın.`,
+      `\n⚠️  TELEGRAM_DEFAULT_TOPIC_ID tanımlı ama eşleşen Zubee grubu yok — önce içe aktarın.`,
     )
   }
 

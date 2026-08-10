@@ -44,6 +44,7 @@ type CardModalPropertiesProps = {
   onDateRemove: () => void
   onTagsChange: (tags: string[]) => void
   canAssignAssignees?: boolean
+  canUpdateCard?: boolean
 }
 
 function PropertyCell({

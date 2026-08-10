@@ -14,8 +14,8 @@ const USERNAME = process.env.OPENCLOUD_USERNAME || "admin"
 const PASSWORD =
   process.env.OPENCLOUD_PASSWORD ||
   process.env.OPENCLOUD_ADMIN_PASSWORD ||
-  "kant_opencloud_dev"
-const ROOT = process.env.OPENCLOUD_ROOT || "Kant"
+  "zubee_opencloud_dev"
+const ROOT = process.env.OPENCLOUD_ROOT || "Zubee"
 
 function upsertEnv(lines: Record<string, string>) {
   const envPath = resolve(process.cwd(), ".env")

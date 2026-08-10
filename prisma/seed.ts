@@ -909,7 +909,7 @@ async function main() {
   const adminPasswordPlain = process.env.SEED_ADMIN_PASSWORD ?? "admin123"
   const adminPassword = await bcrypt.hash(adminPasswordPlain, 10)
 
-  if (process.env.KANT_SEED_MINIMAL === "true") {
+  if (process.env.ZUBEE_SEED_MINIMAL === "true") {
     await prisma.user.upsert({
       where: { email: adminEmail },
       update: {

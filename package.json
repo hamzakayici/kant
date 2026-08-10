@@ -4,7 +4,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/hamzakayici/kant.git"
+    "url": "https://github.com/hamzakayici/zubee.git"
   },
   "scripts": {
     "dev": "next dev --webpack",
@@ -30,7 +30,7 @@
     "opencloud:sync": "tsx --env-file=.env scripts/sync-opencloud.ts",
     "opencloud:up": "docker compose up opencloud opencloud-redirect opencloud-gateway -d",
     "opencloud:down": "docker compose stop opencloud opencloud-redirect opencloud-gateway",
-    "opencloud:reset": "docker compose stop opencloud opencloud-redirect opencloud-gateway && docker volume rm -f kant_kant_opencloud_config kant_kant_opencloud_data 2>/dev/null; docker compose up opencloud opencloud-redirect opencloud-gateway -d && tsx --env-file=.env scripts/opencloud-setup.ts",
+    "opencloud:reset": "docker compose stop opencloud opencloud-redirect opencloud-gateway && docker volume rm -f zubee_zubee_opencloud_config zubee_zubee_opencloud_data 2>/dev/null; docker compose up opencloud opencloud-redirect opencloud-gateway -d && tsx --env-file=.env scripts/opencloud-setup.ts",
     "opencloud:setup": "tsx --env-file=.env scripts/opencloud-setup.ts",
     "opencloud:logs": "docker compose logs -f opencloud",
     "telegram:poll": "tsx --env-file=.env scripts/telegram-poll.ts",

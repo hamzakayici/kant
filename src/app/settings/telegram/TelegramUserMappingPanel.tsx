@@ -197,60 +197,73 @@ export default function TelegramUserMappingPanel({
   }
 
   return (
-    <div className="rounded-xl border border-border bg-card p-6">
-      <div className="mb-6 flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
-          <Users className="size-5 text-primary" />
-        </div>
-        <div>
-          <h2 className="text-lg font-semibold">Kullanıcı Eşleştirme</h2>
-          <p className="text-sm text-muted-foreground">
-            Zubee hesaplarını Telegram kullanıcılarıyla eşleştirin
-          </p>
+    <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-card/40 p-6 shadow-xl backdrop-blur-xl transition-all dark:bg-card/20">
+      {/* Decorative gradient */}
+      <div className="absolute -left-20 -top-20 z-0 size-64 rounded-full bg-blue-500/5 blur-[100px]" />
+      
+      <div className="relative z-10 mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex size-12 items-center justify-center rounded-xl bg-linear-to-br from-blue-500/20 to-blue-500/5 ring-1 ring-blue-500/20 shadow-inner">
+            <Users className="size-6 text-blue-500 -ml-0.5 mt-0.5" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold tracking-tight">Kullanıcı Eşleştirme</h2>
+            <p className="text-sm font-medium text-muted-foreground/80">
+              Zubee hesaplarını Telegram kullanıcılarıyla eşleştirin
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="outline">
-            {linkedCount}/{users.length} bağlı
+      <div className="relative z-10 mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge variant="outline" className="h-7 border-blue-500/20 bg-blue-500/10 px-3 text-blue-600 dark:text-blue-400">
+            {linkedCount} / {users.length} Bağlı
           </Badge>
           {botUsername ? (
-            <Badge variant="secondary">@{botUsername}</Badge>
+            <Badge variant="secondary" className="h-7 bg-muted/50 px-3 text-muted-foreground">
+              @{botUsername}
+            </Badge>
           ) : null}
         </div>
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Ad, e-posta veya @kullanıcı ara..."
-            className="pl-9"
-          />
+        
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <div className="flex rounded-lg bg-muted/40 p-1">
+            {(
+              [
+                ["all", "Tümü"],
+                ["linked", "Bağlı"],
+                ["unlinked", "Bağlı Değil"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setFilter(value)}
+                className={cn(
+                  "rounded-md px-3 py-1.5 text-xs font-medium transition-all",
+                  filter === value
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Ara..."
+              className="pl-9 h-9 bg-background/50 backdrop-blur-sm"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-2">
-        {(
-          [
-            ["all", "Tümü"],
-            ["linked", "Bağlı"],
-            ["unlinked", "Bağlı değil"],
-          ] as const
-        ).map(([value, label]) => (
-          <Button
-            key={value}
-            type="button"
-            size="sm"
-            variant={filter === value ? "default" : "outline"}
-            onClick={() => setFilter(value)}
-          >
-            {label}
-          </Button>
-        ))}
-      </div>
-
-      <div className="space-y-2">
+      <div className="relative z-10 space-y-3">
         {filteredUsers.map((user) => {
           const pendingCode =
             generatedCodes[user.id] ?? user.pendingLinkCode ?? null
@@ -259,10 +272,10 @@ export default function TelegramUserMappingPanel({
           return (
             <div
               key={user.id}
-              className="flex flex-col gap-3 rounded-lg border border-border/60 bg-muted/20 p-3 sm:flex-row sm:items-center sm:justify-between"
+              className="group flex flex-col gap-4 rounded-xl border border-border/40 bg-card/40 p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-border/80 hover:bg-card/80 hover:shadow-md dark:bg-card/20 sm:flex-row sm:items-center sm:justify-between"
             >
-              <div className="flex min-w-0 items-center gap-3">
-                <Avatar size="sm">
+              <div className="flex min-w-0 items-center gap-4">
+                <Avatar size="sm" className="size-10 border-2 border-background shadow-sm transition-transform group-hover:scale-105">
                   {user.avatarUrl ? (
                     <AvatarImage
                       src={user.avatarUrl}
@@ -270,7 +283,7 @@ export default function TelegramUserMappingPanel({
                     />
                   ) : null}
                   <AvatarFallback
-                    className="text-xs font-semibold text-white"
+                    className="text-xs font-bold text-white shadow-inner"
                     style={{ backgroundColor: user.color || "#3b82f6" }}
                   >
                     {getUserInitial(user)}
@@ -279,45 +292,51 @@ export default function TelegramUserMappingPanel({
                 <div className="min-w-0">
                   <p
                     className={cn(
-                      "truncate font-medium",
+                      "truncate font-semibold tracking-tight",
                       !user.isActive && "text-muted-foreground line-through",
                     )}
                   >
                     {getUserDisplayName(user)}
                   </p>
-                  <p className="truncate text-xs text-muted-foreground">
+                  <p className="truncate text-xs font-medium text-muted-foreground/80">
                     {user.email}
                   </p>
                   {user.telegramUserId ? (
-                    <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-green-500">
-                      <CheckCircle2 className="size-3.5" />
-                      {user.telegramUsername
-                        ? `@${user.telegramUsername}`
-                        : `ID ${user.telegramUserId}`}
+                    <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                      <span className="flex items-center gap-1 rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                        <CheckCircle2 className="size-3" />
+                        {user.telegramUsername
+                          ? `@${user.telegramUsername}`
+                          : `ID: ${user.telegramUserId}`}
+                      </span>
                       {user.mtprotoLinked ? (
                         <Badge
                           variant="secondary"
-                          className="h-5 text-[10px]"
+                          className="h-5 px-1.5 text-[9px] bg-blue-500/10 text-blue-600 dark:text-blue-400 border-none"
                         >
                           MTProto
                         </Badge>
                       ) : null}
-                    </p>
+                    </div>
                   ) : (
-                    <p className="mt-1 text-xs text-amber-500">Bağlı değil</p>
+                    <p className="mt-1.5 flex items-center gap-1 text-[10px] font-semibold text-amber-500/80">
+                      <span className="size-1.5 rounded-full bg-amber-500/50" />
+                      Bağlı değil
+                    </p>
                   )}
                   {pendingCode ? (
-                    <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <code className="rounded bg-muted px-2 py-0.5 font-mono text-[11px]">
+                    <div className="mt-2.5 flex flex-wrap items-center gap-2">
+                      <code className="rounded-md bg-primary/10 px-2 py-1 font-mono text-[10px] font-semibold text-primary ring-1 ring-primary/20">
                         /start {pendingCode.code}
                       </code>
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon-sm"
+                        className="h-6 w-6 rounded-md hover:bg-primary/20 hover:text-primary"
                         onClick={() => copyStartCommand(pendingCode.code)}
                       >
-                        <Copy className="size-3.5" />
+                        <Copy className="size-3" />
                       </Button>
                     </div>
                   ) : null}
@@ -333,11 +352,12 @@ export default function TelegramUserMappingPanel({
                       variant="outline"
                       disabled={isBusy}
                       onClick={() => handleGenerateCode(user)}
+                      className="bg-background/50 shadow-sm transition-all hover:bg-muted"
                     >
                       {isBusy ? (
-                        <Loader2 className="size-4 animate-spin" />
+                        <Loader2 className="mr-1.5 size-3.5 animate-spin" />
                       ) : (
-                        <UserPlus className="size-4" />
+                        <UserPlus className="mr-1.5 size-3.5" />
                       )}
                       Kod oluştur
                     </Button>
@@ -347,8 +367,9 @@ export default function TelegramUserMappingPanel({
                       variant="outline"
                       disabled={isBusy}
                       onClick={() => openLinkSheet(user)}
+                      className="bg-background/50 shadow-sm transition-all hover:bg-muted"
                     >
-                      <Link2 className="size-4" />
+                      <Link2 className="mr-1.5 size-3.5" />
                       Manuel bağla
                     </Button>
                   </>
@@ -359,11 +380,12 @@ export default function TelegramUserMappingPanel({
                     variant="outline"
                     disabled={isBusy}
                     onClick={() => handleUnlink(user)}
+                    className="border-destructive/20 text-destructive hover:bg-destructive/10 hover:text-destructive shadow-sm transition-all"
                   >
                     {isBusy ? (
-                      <Loader2 className="size-4 animate-spin" />
+                      <Loader2 className="mr-1.5 size-3.5 animate-spin" />
                     ) : (
-                      <Unlink className="size-4" />
+                      <Unlink className="mr-1.5 size-3.5" />
                     )}
                     Bağlantıyı kaldır
                   </Button>

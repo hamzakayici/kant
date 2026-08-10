@@ -13,8 +13,8 @@ Bu rehber, Zubee projesini yerel ortamda çalıştırmak için gereken adımlar�
 ### 1. Projeyi klonlayın
 
 ```bash
-git clone <repo-url> kant
-cd kant
+git clone <repo-url> zubee
+cd zubee
 ```
 
 ### 2. Bağımlılıkları yükleyin
@@ -29,7 +29,7 @@ Proje kök dizininde `.env` dosyası oluşturun:
 
 ```env
 # PostgreSQL bağlantı dizesi
-DATABASE_URL="postgresql://kant_user:kant_password@localhost:5432/kant_db?schema=public"
+DATABASE_URL="postgresql://zubee_user:zubee_password@localhost:5432/zubee_db?schema=public"
 
 # NextAuth JWT imzalama anahtarı (üretmek için: openssl rand -base64 32)
 AUTH_SECRET="your-secret-key-here"
@@ -54,13 +54,13 @@ npm run docker:up:build
 
 | Servis | Adres |
 |--------|-------|
-| Kant | http://localhost:3000 |
+| Zubee | http://localhost:3000 |
 | OpenCloud | https://localhost:9200 |
 | PostgreSQL | localhost:5433 |
 
-OpenCloud giriş: `admin` / `kant_opencloud_dev`
+OpenCloud giriş: `admin` / `zubee_opencloud_dev`
 
-Production için `.env` veya ortam değişkenlerinde `AUTH_SECRET` ve `OPENCLOUD_ADMIN_PASSWORD` değiştirin. Seed'i kapatmak için `KANT_AUTO_SEED=false`.
+Production için `.env` veya ortam değişkenlerinde `AUTH_SECRET` ve `OPENCLOUD_ADMIN_PASSWORD` değiştirin. Seed'i kapatmak için `ZUBEE_AUTO_SEED=false`.
 
 Yalnızca veritabanı (host'ta `npm run dev` için):
 
@@ -81,7 +81,7 @@ npm run docker:up:db
 PostgreSQL Docker üzerinde **5433** portunda çalışır (yerel PostgreSQL ile çakışmayı önlemek için). `.env` dosyasındaki `DATABASE_URL` buna göre ayarlanmalıdır:
 
 ```env
-DATABASE_URL="postgresql://kant_user:kant_password@127.0.0.1:5433/kant_db?schema=public"
+DATABASE_URL="postgresql://zubee_user:zubee_password@127.0.0.1:5433/zubee_db?schema=public"
 ```
 
 Migration ve seed:

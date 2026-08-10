@@ -11,6 +11,7 @@ type CardModalChecklistProps = {
   onToggle: (itemId: string, done: boolean) => void
   onDelete: (itemId: string) => void
   onEdit: (itemId: string, content: string) => void
+  canUpdateCard?: boolean
 }
 
 export function CardModalChecklist({
@@ -21,6 +22,7 @@ export function CardModalChecklist({
   onToggle,
   onDelete,
   onEdit,
+  canUpdateCard = true,
 }: CardModalChecklistProps) {
   const doneCount = items.filter((i) => i.isDone).length
   const progress = items.length > 0 ? Math.round((doneCount / items.length) * 100) : 0

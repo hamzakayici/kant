@@ -25,7 +25,7 @@ Zubee Web (ChatPanel)  ←→  PostgreSQL  ←→  Telegram Bot API
 
 ```env
 TELEGRAM_BOT_TOKEN="123456:ABC..."
-TELEGRAM_BOT_USERNAME="kant_sohbet_bot"
+TELEGRAM_BOT_USERNAME="zubee_sohbet_bot"
 TELEGRAM_WEBHOOK_SECRET="rastgele-gizli-anahtar"
 AUTH_URL="https://siteniz.com"
 # Production: AUTH_URL="https://zubi.noktafikir.com"

@@ -14,7 +14,7 @@ import {
   migrateTelegramSupergroupId,
   resolveTelegramAuthor,
   addTelegramUserToAllChatGroups,
-  importTelegramTopicToKant,
+  importTelegramTopicToZubee,
   ensureTelegramTopicImported,
   syncAllForumTopicsInChat,
   resolveTopicNameFromMessage,
@@ -62,7 +62,7 @@ export async function handleTelegramUpdate(update: TelegramUpdate) {
     const topicId = await resolveInboundForumTopicId(chatId, message)
 
     if (message.forum_topic_created && message.message_thread_id) {
-      await importTelegramTopicToKant(
+      await importTelegramTopicToZubee(
         message.message_thread_id,
         message.forum_topic_created.name,
       )
@@ -74,7 +74,7 @@ export async function handleTelegramUpdate(update: TelegramUpdate) {
       if (editedTopicId === GENERAL_FORUM_TOPIC_ID) {
         await setTelegramGeneralTopicName(message.forum_topic_edited.name)
       }
-      await importTelegramTopicToKant(
+      await importTelegramTopicToZubee(
         editedTopicId,
         message.forum_topic_edited.name,
       )
@@ -84,7 +84,7 @@ export async function handleTelegramUpdate(update: TelegramUpdate) {
     if (topicId) {
       const resolvedName = resolveTopicNameFromMessage(message)
       if (resolvedName) {
-        await importTelegramTopicToKant(topicId, resolvedName)
+        await importTelegramTopicToZubee(topicId, resolvedName)
       } else {
         await ensureTelegramTopicImported(topicId, undefined, message)
       }
@@ -104,7 +104,7 @@ export async function handleTelegramUpdate(update: TelegramUpdate) {
     const renameName = resolveTopicNameFromMessage(message)
     if (isForum && topicId && renameName) {
       await registerForumSupergroupIfNeeded(chatId)
-      await importTelegramTopicToKant(topicId, renameName)
+      await importTelegramTopicToZubee(topicId, renameName)
     }
     return
   }
@@ -323,7 +323,7 @@ async function handleBotCommand(
     return
   }
 
-  if (command === "/kant_sync" || command === "/sync") {
+  if (command === "/zubee_sync" || command === "/sync") {
     if (!isForum) {
       await sendTelegramMessage({
         chatId,
@@ -378,7 +378,7 @@ async function handleBotCommand(
         "Genel kanaldan gönderdiniz; tek konu eşlenemedi.\n\n" +
         "Şunu deneyin:\n" +
         "1. Konu listesinden bir konuya girin (ör. Görsel İşler)\n" +
-        "2. O konunun içinde /kant_sync yazın\n\n" +
+        "2. O konunun içinde /zubee_sync yazın\n\n" +
         "Veya her konunun adını bir kez düzenleyin (Telegram bunu Zubee'ye aktarır).",
     })
     return

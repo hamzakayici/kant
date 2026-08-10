@@ -1,5 +1,5 @@
 # Dockge — yalnızca bu dosyayı yapıştırıp Deploy edin (git clone gerekmez)
-# Image: ghcr.io/hamzakayici/kant:latest (main branch push sonrası otomatik build)
+# Image: ghcr.io/hamzakayici/zubee:latest (main branch push sonrası otomatik build)
 #
 # Dockge → Environment sekmesine ekleyin:
 #   AUTH_URL=https://zubi.noktafikir.com
@@ -7,14 +7,14 @@
 #   NEXT_PUBLIC_APP_URL=https://zubi.noktafikir.com
 #   TELEGRAM_PUBLIC_APP_URL=https://zubi.noktafikir.com
 #   AUTH_SECRET=<openssl rand -base64 32>
-#   POSTGRES_PASSWORD=kant_password
-#   DATABASE_URL=postgresql://kant_user:kant_password@db:5432/kant_db?schema=public
-#   KANT_AUTO_SEED=true
-#   KANT_SEED_MINIMAL=true
-#   SEED_ADMIN_EMAIL=admin@kant.com
+#   POSTGRES_PASSWORD=zubee_password
+#   DATABASE_URL=postgresql://zubee_user:zubee_password@db:5432/zubee_db?schema=public
+#   ZUBEE_AUTO_SEED=true
+#   ZUBEE_SEED_MINIMAL=true
+#   SEED_ADMIN_EMAIL=admin@zubee.com
 #   SEED_ADMIN_PASSWORD=admin123
-#   OPENCLOUD_ADMIN_PASSWORD=kant_opencloud_dev
-#   OPENCLOUD_PASSWORD=kant_opencloud_dev
+#   OPENCLOUD_ADMIN_PASSWORD=zubee_opencloud_dev
+#   OPENCLOUD_PASSWORD=zubee_opencloud_dev
 #   TELEGRAM_BOT_TOKEN=...
 #   TELEGRAM_BOT_USERNAME=...
 #   TELEGRAM_WEBHOOK_SECRET=...
@@ -28,13 +28,13 @@ services:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-kant_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kant_password}
-      POSTGRES_DB: ${POSTGRES_DB:-kant_db}
+      POSTGRES_USER: ${POSTGRES_USER:-zubee_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zubee_password}
+      POSTGRES_DB: ${POSTGRES_DB:-zubee_db}
     volumes:
-      - kant_postgres_data:/var/lib/postgresql/data
+      - zubee_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kant_user -d kant_db"]
+      test: ["CMD-SHELL", "pg_isready -U zubee_user -d zubee_db"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -49,14 +49,14 @@ services:
       PROXY_TLS: "true"
       OC_INSECURE: "true"
       PROXY_ENABLE_BASIC_AUTH: "true"
-      IDM_ADMIN_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
+      IDM_ADMIN_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-zubee_opencloud_dev}
       IDM_CREATE_DEMO_USERS: "false"
       OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD: "false"
       OC_PASSWORD_POLICY_DISABLED: "true"
       OC_LOG_LEVEL: warn
     volumes:
-      - kant_opencloud_config:/etc/opencloud
-      - kant_opencloud_data:/var/lib/opencloud
+      - zubee_opencloud_config:/etc/opencloud
+      - zubee_opencloud_data:/var/lib/opencloud
     entrypoint: ["/bin/sh"]
     command:
       - -c
@@ -77,7 +77,7 @@ services:
       start_period: 45s
 
   app:
-    image: ghcr.io/hamzakayici/kant:latest
+    image: ghcr.io/hamzakayici/zubee:latest
     platform: linux/arm64
     pull_policy: always
     restart: unless-stopped
@@ -85,7 +85,7 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL:-postgresql://kant_user:kant_password@db:5432/kant_db?schema=public}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://zubee_user:zubee_password@db:5432/zubee_db?schema=public}
       AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-random-secret}
       AUTH_URL: ${AUTH_URL:-}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-}
@@ -101,14 +101,14 @@ services:
       OPENCLOUD_ENABLED: "true"
       OPENCLOUD_URL: https://opencloud:9200
       OPENCLOUD_USERNAME: admin
-      OPENCLOUD_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
-      OPENCLOUD_ROOT: Kant
+      OPENCLOUD_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-zubee_opencloud_dev}
+      OPENCLOUD_ROOT: Zubee
       STORAGE_MODE: opencloud
       OPENCLOUD_PUBLIC_SHARES: "true"
       OPENCLOUD_INSECURE: "true"
-      KANT_AUTO_SEED: ${KANT_AUTO_SEED:-true}
-      KANT_SEED_MINIMAL: ${KANT_SEED_MINIMAL:-true}
-      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@kant.com}
+      ZUBEE_AUTO_SEED: ${ZUBEE_AUTO_SEED:-true}
+      ZUBEE_SEED_MINIMAL: ${ZUBEE_SEED_MINIMAL:-true}
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@zubee.com}
       SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-admin123}
     depends_on:
       db:
@@ -116,10 +116,10 @@ services:
       opencloud:
         condition: service_healthy
     volumes:
-      - kant_uploads:/app/uploads
+      - zubee_uploads:/app/uploads
 
 volumes:
-  kant_postgres_data:
-  kant_opencloud_config:
-  kant_opencloud_data:
-  kant_uploads:
+  zubee_postgres_data:
+  zubee_opencloud_config:
+  zubee_opencloud_data:
+  zubee_uploads:

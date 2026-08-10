@@ -1,29 +1,29 @@
-# Kant — tam stack (PostgreSQL + OpenCloud + uygulama)
+# Zubee — tam stack (PostgreSQL + OpenCloud + uygulama)
 # Başlat: docker compose up -d --build
-# İlk kurulumda seed otomatik çalışır (KANT_AUTO_SEED=true)
+# İlk kurulumda seed otomatik çalışır (ZUBEE_AUTO_SEED=true)
 
 services:
   db:
     image: postgres:15-alpine
-    container_name: kant-postgres
+    container_name: zubee-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-kant_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kant_password}
-      POSTGRES_DB: ${POSTGRES_DB:-kant_db}
+      POSTGRES_USER: ${POSTGRES_USER:-zubee_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zubee_password}
+      POSTGRES_DB: ${POSTGRES_DB:-zubee_db}
     ports:
-      - "5433:5432"
+      - "5434:5432"
     volumes:
-      - kant_postgres_data:/var/lib/postgresql/data
+      - zubee_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kant_user -d kant_db"]
+      test: ["CMD-SHELL", "pg_isready -U zubee_user -d zubee_db"]
       interval: 5s
       timeout: 5s
       retries: 10
 
   opencloud:
     image: opencloudeu/opencloud-rolling:7.3.0
-    container_name: kant-opencloud
+    container_name: zubee-opencloud
     expose:
       - "9200"
     environment:
@@ -31,14 +31,14 @@ services:
       PROXY_TLS: "true"
       OC_INSECURE: "true"
       PROXY_ENABLE_BASIC_AUTH: "true"
-      IDM_ADMIN_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
+      IDM_ADMIN_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-zubee_opencloud_dev}
       IDM_CREATE_DEMO_USERS: "false"
       OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD: "false"
       OC_PASSWORD_POLICY_DISABLED: "true"
       OC_LOG_LEVEL: warn
     volumes:
-      - kant_opencloud_config:/etc/opencloud
-      - kant_opencloud_data:/var/lib/opencloud
+      - zubee_opencloud_config:/etc/opencloud
+      - zubee_opencloud_data:/var/lib/opencloud
     entrypoint: ["/bin/sh"]
     command:
       - -c
@@ -61,14 +61,14 @@ services:
 
   opencloud-redirect:
     image: nginx:alpine
-    container_name: kant-opencloud-redirect
+    container_name: zubee-opencloud-redirect
     volumes:
       - ./docker/opencloud/nginx-redirect.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped
 
   opencloud-gateway:
     image: nginx:alpine
-    container_name: kant-opencloud-gateway
+    container_name: zubee-opencloud-gateway
     ports:
       - "9200:9200"
     volumes:
@@ -84,12 +84,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: kant-app
+    container_name: zubee-app
     restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://kant_user:kant_password@db:5432/kant_db?schema=public}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://zubee_user:zubee_password@db:5432/zubee_db?schema=public}
       AUTH_SECRET: ${AUTH_SECRET:-change-me-to-a-random-secret}
       AUTH_URL: ${AUTH_URL:-}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-}
@@ -107,22 +107,22 @@ services:
       OPENCLOUD_URL: https://opencloud:9200
       OPENCLOUD_PUBLIC_URL: ${OPENCLOUD_PUBLIC_URL:-https://localhost:9200}
       OPENCLOUD_USERNAME: admin
-      OPENCLOUD_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-kant_opencloud_dev}
-      OPENCLOUD_ROOT: Kant
+      OPENCLOUD_PASSWORD: ${OPENCLOUD_ADMIN_PASSWORD:-zubee_opencloud_dev}
+      OPENCLOUD_ROOT: Zubee
       STORAGE_MODE: opencloud
       OPENCLOUD_PUBLIC_SHARES: "true"
       OPENCLOUD_INSECURE: "true"
-      KANT_AUTO_SEED: ${KANT_AUTO_SEED:-true}
+      ZUBEE_AUTO_SEED: ${ZUBEE_AUTO_SEED:-true}
     depends_on:
       db:
         condition: service_healthy
       opencloud:
         condition: service_healthy
     volumes:
-      - kant_uploads:/app/uploads
+      - zubee_uploads:/app/uploads
 
 volumes:
-  kant_postgres_data:
-  kant_opencloud_config:
-  kant_opencloud_data:
-  kant_uploads:
+  zubee_postgres_data:
+  zubee_opencloud_config:
+  zubee_opencloud_data:
+  zubee_uploads:
