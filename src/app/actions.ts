@@ -79,6 +79,11 @@ export async function moveCard(cardId: string, newColumnId: string, newOrder: nu
   const session = await auth()
   if (!session) throw new Error("Yetkisiz")
 
+  const perms = await getUserPermissions(session.user.id)
+  if (!hasPermission(perms, "MOVE_CARD")) {
+    throw new Error("Kart taşıma yetkiniz bulunmuyor.")
+  }
+
   const oldCard = await prisma.card.findUnique({
     where: { id: cardId },
     include: { column: true }

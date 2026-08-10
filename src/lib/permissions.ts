@@ -5,6 +5,7 @@ export const AVAILABLE_PERMISSIONS = [
   { id: "CREATE_BOARD", label: "Pano Oluştur" },
   { id: "MANAGE_BOARDS", label: "Panoları Düzenle / Sil" },
   { id: "CREATE_CARD", label: "Kart Oluştur" },
+  { id: "MOVE_CARD", label: "Kart Taşı" },
   { id: "DELETE_CARD", label: "Kart Sil" },
   { id: "UPDATE_CARD", label: "Kart Düzenle" },
   { id: "ASSIGN_ASSIGNEES", label: "Sorumlu Ata" },
@@ -17,6 +18,10 @@ export function canCreateBoard(permissions: string[]): boolean {
 
 export function canAssignAssignees(permissions: string[]): boolean {
   return hasPermission(permissions, "ASSIGN_ASSIGNEES")
+}
+
+export function canMoveCard(permissions: string[]): boolean {
+  return hasPermission(permissions, "MOVE_CARD")
 }
 
 

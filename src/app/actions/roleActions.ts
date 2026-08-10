@@ -27,9 +27,9 @@ export async function getRoles() {
     // Initialize system roles
     await prisma.customRole.createMany({
       data: [
-        { id: "system_admin", name: "Müdürlük / Admin", permissions: ["MANAGE_ROLES", "CREATE_BOARD", "MANAGE_BOARDS", "CREATE_CARD", "DELETE_CARD", "UPDATE_CARD", "ASSIGN_ASSIGNEES", "MANAGE_CHATS"], icon: "Shield" },
-        { id: "system_editor", name: "Editör", permissions: ["UPDATE_CARD", "ASSIGN_ASSIGNEES"], icon: "Edit3" },
-        { id: "system_designer", name: "Görsel Ekip (Tasarımcı)", permissions: ["UPDATE_CARD", "ASSIGN_ASSIGNEES"], icon: "Brush" },
+        { id: "system_admin", name: "Müdürlük / Admin", permissions: ["MANAGE_ROLES", "CREATE_BOARD", "MANAGE_BOARDS", "CREATE_CARD", "MOVE_CARD", "DELETE_CARD", "UPDATE_CARD", "ASSIGN_ASSIGNEES", "MANAGE_CHATS"], icon: "Shield" },
+        { id: "system_editor", name: "Editör", permissions: ["UPDATE_CARD", "MOVE_CARD", "ASSIGN_ASSIGNEES"], icon: "Edit3" },
+        { id: "system_designer", name: "Görsel Ekip (Tasarımcı)", permissions: ["UPDATE_CARD", "MOVE_CARD", "ASSIGN_ASSIGNEES"], icon: "Brush" },
         { id: "system_requester", name: "Talep Eden", permissions: ["CREATE_CARD"], icon: "User" }
       ]
     })
@@ -54,18 +54,23 @@ export async function getRoles() {
     })
   }
 
-  for (const roleId of ["system_editor", "system_designer"] as const) {
+  for (const roleId of ["system_admin", "system_editor", "system_designer"] as const) {
     const role = await prisma.customRole.findUnique({
       where: { id: roleId },
       select: { permissions: true },
     })
-    if (role && !role.permissions.includes("ASSIGN_ASSIGNEES")) {
-      await prisma.customRole.update({
-        where: { id: roleId },
-        data: {
-          permissions: [...role.permissions, "ASSIGN_ASSIGNEES"],
-        },
-      })
+    if (role) {
+      const missing: string[] = []
+      if (!role.permissions.includes("ASSIGN_ASSIGNEES")) missing.push("ASSIGN_ASSIGNEES")
+      if (!role.permissions.includes("MOVE_CARD")) missing.push("MOVE_CARD")
+      if (missing.length > 0) {
+        await prisma.customRole.update({
+          where: { id: roleId },
+          data: {
+            permissions: [...role.permissions, ...missing],
+          },
+        })
+      }
     }
   }
 
