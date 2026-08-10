@@ -1,4 +1,4 @@
-const LAST_SHARE_GROUP_KEY = "kant-last-share-chat-group"
+const LAST_SHARE_GROUP_KEY = "zubee-last-share-chat-group"
 
 function boardKey(boardId: string) {
   return `${LAST_SHARE_GROUP_KEY}:${boardId}`

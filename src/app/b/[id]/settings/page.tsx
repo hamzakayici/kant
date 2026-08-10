@@ -51,7 +51,7 @@ export default async function SettingsPage({
                 <div>
                   <h2 className="text-lg font-semibold">Telegram</h2>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Telegram entegrasyonu artık pano bazlı değil; tüm Kant projesi için
+                    Telegram entegrasyonu artık pano bazlı değil; tüm Zubee projesi için
                     merkezi olarak yönetilir.
                   </p>
                   <Link

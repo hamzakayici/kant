@@ -3,7 +3,7 @@ import { Pool } from "pg"
 import { PrismaPg } from "@prisma/adapter-pg"
 
 const PRISMA_CLIENT_VERSION = 8
-const PRISMA_GLOBAL_KEY = `prisma_kant_v${PRISMA_CLIENT_VERSION}`
+const PRISMA_GLOBAL_KEY = `prisma_zubee_v${PRISMA_CLIENT_VERSION}`
 
 const globalForPrisma = globalThis as unknown as {
   [PRISMA_GLOBAL_KEY]?: PrismaClient
@@ -14,16 +14,16 @@ const adapter = new PrismaPg(pool)
 
 function createPrismaClient() {
   const client = new PrismaClient({ adapter }) as PrismaClient & {
-    __kantVersion?: number
+    __zubeeVersion?: number
   }
-  client.__kantVersion = PRISMA_CLIENT_VERSION
+  client.__zubeeVersion = PRISMA_CLIENT_VERSION
   return client
 }
 
 function isPrismaClientReady(client: PrismaClient | undefined): client is PrismaClient {
   return Boolean(
     client &&
-      (client as PrismaClient & { __kantVersion?: number }).__kantVersion ===
+      (client as PrismaClient & { __zubeeVersion?: number }).__zubeeVersion ===
         PRISMA_CLIENT_VERSION,
   )
 }

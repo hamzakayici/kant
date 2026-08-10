@@ -441,7 +441,7 @@ export default function ChatPageClient({
     setNotificationsEnabled(enabled)
     if (!enabled && getChatNotificationPermission() === "denied") {
       alert(
-        "Bildirim izni reddedildi. Tarayıcı ayarlarından Kant için bildirimlere izin verin.",
+        "Bildirim izni reddedildi. Tarayıcı ayarlarından Zubee için bildirimlere izin verin.",
       )
     }
   }
@@ -522,7 +522,7 @@ export default function ChatPageClient({
                 <Users className="mb-3 size-10 text-muted-foreground/40" />
                 <p className="text-sm text-muted-foreground">
                   {telegramEnabled
-                    ? "Henüz Telegram konusu yok. Yeni konuları Telegram grubunda oluşturun; Kant otomatik senkronize eder."
+                    ? "Henüz Telegram konusu yok. Yeni konuları Telegram grubunda oluşturun; Zubee otomatik senkronize eder."
                     : "Henüz sohbet grubu yok"}
                 </p>
                 {!telegramEnabled ? (

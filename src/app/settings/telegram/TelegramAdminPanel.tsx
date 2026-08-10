@@ -171,7 +171,7 @@ export default function TelegramAdminPanel({
     try {
       const result = await syncAllChatGroupsToTelegram()
       setMessage(
-        `${result.synced} Telegram konusu Kant'ta görünüyor (${result.imported ?? 0} yeni, ${result.updated ?? 0} güncellendi).`,
+        `${result.synced} Telegram konusu Zubee'de görünüyor (${result.imported ?? 0} yeni, ${result.updated ?? 0} güncellendi).`,
       )
     } catch (e: unknown) {
       setMessage(e instanceof Error ? e.message : "Senkronizasyon başarısız")
@@ -187,9 +187,9 @@ export default function TelegramAdminPanel({
           <Send className="size-5 text-primary" />
         </div>
         <div>
-          <h2 className="text-lg font-semibold">Kant Telegram Ayarları</h2>
+          <h2 className="text-lg font-semibold">Zubee Telegram Ayarları</h2>
           <p className="text-sm text-muted-foreground">
-            Telegram konuları Kant&apos;ta birebir görünür — kaynak Telegram&apos;dır
+            Telegram konuları Zubee&apos;de birebir görünür — kaynak Telegram&apos;dır
           </p>
         </div>
       </div>
@@ -230,7 +230,7 @@ export default function TelegramAdminPanel({
               {publicAppUrlStatus.resolved}
             </li>
           ) : null}
-          <li>Kant&apos;taki liste = Telegram forum konuları</li>
+          <li>Zubee&apos;deki liste = Telegram forum konuları</li>
           <li>Geliştirmede <code className="rounded bg-muted px-1">npm run telegram:poll</code> çalışmalı</li>
         </ul>
       </div>

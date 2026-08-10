@@ -1,7 +1,7 @@
 import { getUserDisplayName } from "@/lib/user"
 import { formatChatMessagePreview } from "@/lib/chat-preview"
 
-const STORAGE_KEY = "kant-chat-notifications-enabled"
+const STORAGE_KEY = "zubee-chat-notifications-enabled"
 
 export type NotifiableChatMessage = {
   id: string
@@ -88,7 +88,7 @@ export function showChatNotification(params: {
 
   const notification = new Notification(title, {
     body,
-    tag: `kant-chat-${params.groupId}-${params.message.id}`,
+    tag: `zubee-chat-${params.groupId}-${params.message.id}`,
     icon: "/favicon.ico",
   })
 

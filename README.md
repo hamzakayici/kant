@@ -1,4 +1,4 @@
-# Kant
+# Zubee
 
 Ekipler için Kanban proje yönetimi — panolar, kartlar, sohbet, dosya paylaşımı ve Trello içe/dışa aktarım.
 

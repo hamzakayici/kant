@@ -69,7 +69,7 @@ export async function generateMetadata(props: {
       description,
       url,
       type: "website",
-      siteName: "Kant",
+      siteName: "Zubee",
       ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630, alt: preview.title }] } : {}),
     },
     twitter: {

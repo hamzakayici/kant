@@ -22,8 +22,8 @@ const ralewayHeading = Raleway({
 })
 
 export const metadata: Metadata = {
-  title: "Kant Kanban",
-  description: "Gelişmiş Kanban panosu",
+  title: "Zubee",
+  description: "Gelişmiş Kanban proje yönetim platformu",
 }
 
 export const viewport = {

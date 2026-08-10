@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/login-form"
-import { GalleryVerticalEndIcon } from "lucide-react"
+import { ZubeeIcon } from "@/components/zubee-icon"
 
 const LOGIN_IMAGE_URL = "/login-bg.jpg"
 
@@ -9,10 +9,10 @@ export default function LoginPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <div className="flex items-center gap-2 font-medium">
-            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEndIcon className="size-4" />
+            <div className="flex size-6 items-center justify-center rounded-md bg-lime-500 text-white">
+              <ZubeeIcon className="size-4" />
             </div>
-            Kant
+            Zubee
           </div>
         </div>
         <div className="flex flex-1 items-center justify-center">

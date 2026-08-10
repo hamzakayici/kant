@@ -140,7 +140,7 @@ export async function handleTelegramUpdate(update: TelegramUpdate) {
     await sendTelegramMessage({
       chatId,
       text:
-        "Kant hesabınız bağlı değil. Ayarlar → Telegram bölümünden bağlantı kodu alın ve bota /start KOD gönderin.",
+        "Zubee hesabınız bağlı değil. Ayarlar → Telegram bölümünden bağlantı kodu alın ve bota /start KOD gönderin.",
       topicId: toTelegramThreadId(topicId),
     })
     return
@@ -158,13 +158,13 @@ export async function handleTelegramUpdate(update: TelegramUpdate) {
   if (!isMember && author.role !== "ADMIN") {
     await sendTelegramMessage({
       chatId,
-      text: "Bu gruba mesaj göndermek için Kant'ta bu sohbet grubunun üyesi olmalısınız.",
+      text: "Bu gruba mesaj göndermek için Zubee'de bu sohbet grubunun üyesi olmalısınız.",
       topicId: toTelegramThreadId(topicId),
     })
     return
   }
 
-  // Kant'tan MTProto ile gönderilen mesajın Telegram yankısı — çift kayıt önle
+  // Zubee'den MTProto ile gönderilen mesajın Telegram yankısı — çift kayıt önle
   const echoedWebMessage = await prisma.chatMessage.findFirst({
     where: {
       chatGroupId: group.id,
@@ -309,8 +309,8 @@ async function handleBotCommand(
     await sendTelegramMessage({
       chatId,
       text:
-        "Merhaba! Kant sohbet botuna hoş geldiniz.\n\n" +
-        "Hesabınızı bağlamak için Kant'ta Ayarlar → Telegram bölümünden bağlantı kodunu alın, " +
+        "Merhaba! Zubee sohbet botuna hoş geldiniz.\n\n" +
+        "Hesabınızı bağlamak için Zubee'de Ayarlar → Telegram bölümünden bağlantı kodunu alın, " +
         `ardından ${botMention} şu şekilde gönderin:\n\n` +
         "<code>/start KODUNUZ</code>",
       topicId: toTelegramThreadId(topicId),
@@ -350,7 +350,7 @@ async function handleBotCommand(
       await sendTelegramMessage({
         chatId,
         text: name
-          ? `✅ "${name}" Kant ile eşlendi. Sohbet sayfasını yenileyin.${hint}`
+          ? `✅ "${name}" Zubee ile eşlendi. Sohbet sayfasını yenileyin.${hint}`
           : `✅ Konu #${topicId} eşlendi; ad henüz alınamadı. Bir mesaj gönderin veya konu adını düzenleyin.${hint}`,
         topicId: toTelegramThreadId(topicId),
       })
@@ -367,7 +367,7 @@ async function handleBotCommand(
         chatId,
         text:
           `✅ ${result.imported} yeni konu eklendi, ${result.updated} güncellendi. ` +
-          `Kant'ta toplam ${total} konu görünüyor. Sayfayı yenileyin.`,
+          `Zubee'de toplam ${total} konu görünüyor. Sayfayı yenileyin.`,
       })
       return
     }
@@ -379,7 +379,7 @@ async function handleBotCommand(
         "Şunu deneyin:\n" +
         "1. Konu listesinden bir konuya girin (ör. Görsel İşler)\n" +
         "2. O konunun içinde /kant_sync yazın\n\n" +
-        "Veya her konunun adını bir kez düzenleyin (Telegram bunu Kant'a aktarır).",
+        "Veya her konunun adını bir kez düzenleyin (Telegram bunu Zubee'ye aktarır).",
     })
     return
   }
@@ -401,7 +401,7 @@ async function linkTelegramAccount(
   if (!user) {
     await sendTelegramMessage({
       chatId,
-      text: "Geçersiz veya süresi dolmuş bağlantı kodu. Kant'tan yeni kod oluşturun.",
+      text: "Geçersiz veya süresi dolmuş bağlantı kodu. Zubee'den yeni kod oluşturun.",
     })
     return
   }
@@ -413,7 +413,7 @@ async function linkTelegramAccount(
   if (existing && existing.id !== user.id) {
     await sendTelegramMessage({
       chatId,
-      text: "Bu Telegram hesabı başka bir Kant kullanıcısına bağlı.",
+      text: "Bu Telegram hesabı başka bir Zubee kullanıcısına bağlı.",
     })
     return
   }
@@ -432,6 +432,6 @@ async function linkTelegramAccount(
 
   await sendTelegramMessage({
     chatId,
-    text: `✅ Kant hesabınız (${getUserDisplayName(user)}) başarıyla bağlandı. Artık Telegram mesajlarınız siteyle eşzamanlı görünecek.`,
+    text: `✅ Zubee hesabınız (${getUserDisplayName(user)}) başarıyla bağlandı. Artık Telegram mesajlarınız siteyle eşzamanlı görünecek.`,
   })
 }

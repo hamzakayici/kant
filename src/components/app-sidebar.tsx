@@ -9,6 +9,7 @@ import {
 import { NavChat } from "@/components/nav-chat"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
+import { ZubeeIcon } from "@/components/zubee-icon"
 import {
   Sidebar,
   SidebarContent,
@@ -44,7 +45,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
   const resolvedUser = user ?? {
-    email: "demo@kant.app",
+    email: "demo@zubee.app",
     name: "Demo",
     avatarUrl: null,
     color: null,
@@ -63,10 +64,10 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
               className="data-[slot=sidebar-menu-button]:p-1.5!"
               render={<Link href="/" />}
             >
-              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <span className="text-sm font-bold">K</span>
+              <div className="flex size-8 items-center justify-center rounded-lg bg-lime-500 text-white">
+                <ZubeeIcon className="size-5" />
               </div>
-              <span className="text-base font-semibold">Kant</span>
+              <span className="text-base font-semibold">Zubee</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

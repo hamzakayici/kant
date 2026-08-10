@@ -21,7 +21,7 @@ export function ChatTelegramSenderBanner({
       <AlertTriangle className="mt-0.5 size-4 shrink-0" />
       <div>
         <p className="font-medium">
-          Kant&apos;tan Telegram&apos;a mesaj göndermek için kendi hesabınızı
+          Zubee&apos;den Telegram&apos;a mesaj göndermek için kendi hesabınızı
           doğrulamanız gerekiyor.
         </p>
         <p className="mt-1 text-xs opacity-90">

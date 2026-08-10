@@ -838,7 +838,7 @@ export async function createChatGroup(
 
   if (isTelegramEnabled()) {
     throw new Error(
-      "Yeni konular yalnızca Telegram üzerinden oluşturulabilir. Telegram'da konu açın; Kant otomatik senkronize eder.",
+      "Yeni konular yalnızca Telegram üzerinden oluşturulabilir. Telegram'da konu açın; Zubee otomatik senkronize eder.",
     )
   }
 

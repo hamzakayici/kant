@@ -503,7 +503,7 @@ export async function adminLinkTelegramAccount(
   })
 
   if (existing && existing.id !== userId) {
-    throw new Error("Bu Telegram hesabı başka bir Kant kullanıcısına bağlı")
+    throw new Error("Bu Telegram hesabı başka bir Zubee kullanıcısına bağlı")
   }
 
   await prisma.user.update({

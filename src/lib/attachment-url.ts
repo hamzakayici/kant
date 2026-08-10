@@ -16,7 +16,7 @@ export function isOpenCloudShareUrl(url: string | null | undefined): boolean {
   return !!url && /\/s\/[A-Za-z0-9]+/.test(url)
 }
 
-/** Kant proxy veya paylaşım token linki — OpenCloud değil. */
+/** Zubee proxy veya paylaşım token linki — OpenCloud değil. */
 export function isKantShareOrProxyUrl(url: string | null | undefined): boolean {
   if (!url) return false
   if (url.startsWith("/api/") || url.startsWith("/public/share/")) return true
@@ -42,7 +42,7 @@ export function isOpenCloudDirectUrl(url: string | null | undefined): boolean {
   )
 }
 
-/** Uygulama içi görüntüleme/indirme — her zaman Kant proxy üzerinden. */
+/** Uygulama içi görüntüleme/indirme — her zaman Zubee proxy üzerinden. */
 export function getAttachmentUrl(attachment: AttachmentLike): string {
   if (!attachment?.id) return ""
 

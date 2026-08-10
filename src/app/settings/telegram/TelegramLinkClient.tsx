@@ -135,7 +135,7 @@ export default function TelegramLinkClient({
       setMtprotoStep("idle")
       setSmsCode("")
       setPassword("")
-      setMessage("Artık Kant'tan gönderdiğiniz mesajlar Telegram'da kendi adınızla görünür.")
+      setMessage("Artık Zubee'den gönderdiğiniz mesajlar Telegram'da kendi adınızla görünür.")
     } catch (e: unknown) {
       setMessage(e instanceof Error ? e.message : "Doğrulama başarısız")
     } finally {
@@ -204,14 +204,14 @@ export default function TelegramLinkClient({
             <div className="flex items-center gap-3 rounded-lg border border-green-500/20 bg-green-500/10 p-4">
               <User className="size-5 shrink-0 text-green-400" />
               <p className="text-sm text-green-400">
-                Kant&apos;tan gönderilen mesajlar Telegram&apos;da kendi adınızla
+                Zubee&apos;den gönderilen mesajlar Telegram&apos;da kendi adınızla
                 görünür.
               </p>
             </div>
           ) : (
             <div className="space-y-3 rounded-lg border border-amber-500/20 bg-amber-500/10 p-4 text-sm">
               <p className="font-medium text-amber-600 dark:text-amber-400">
-                Kant → Telegram: kendi adınızla gönderin
+                Zubee → Telegram: kendi adınızla gönderin
               </p>
               <p className="text-muted-foreground">
                 Bot API mesajları her zaman &quot;{botUsername ? `@${botUsername}` : "bot"}&quot;

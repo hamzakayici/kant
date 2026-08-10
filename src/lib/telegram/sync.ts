@@ -39,7 +39,7 @@ type ForumTopicMessage = {
   reply_to_message?: { message_thread_id?: number }
 }
 
-/** Forum mesajından Kant topic ID'si (Genel konu = 1). */
+/** Forum mesajından Zubee topic ID'si (Genel konu = 1). */
 export function resolveForumTopicId(message: ForumTopicMessage): number | undefined {
   if (message.message_thread_id) return message.message_thread_id
   if (message.chat.is_forum) return GENERAL_FORUM_TOPIC_ID
@@ -209,7 +209,7 @@ function collectTopicNamesFromUpdate(
   }
 }
 
-/** Telegram konusunu Kant sohbet grubuna yansıtır (Telegram kaynak). */
+/** Telegram konusunu Zubee sohbet grubuna yansıtır (Telegram kaynak). */
 export async function ensureTelegramTopicImported(
   topicId: number,
   fallbackName?: string,
@@ -498,7 +498,7 @@ export async function createTelegramTopicForKantGroup(
   return group
 }
 
-/** Telegram'daki konu adını Kant'a çeker (Telegram kaynak; Telegram'a yazmaz). */
+/** Telegram'daki konu adını Zubee'ye çeker (Telegram kaynak; Telegram'a yazmaz). */
 export async function pullTelegramTopicNameForGroup(chatGroupId: string) {
   if (!isTelegramEnabled()) return
 

@@ -141,7 +141,7 @@ export function getTelegramMessageBody(message: TelegramMessage): string | null 
   }
 }
 
-/** Kant veritabanına kaydedilecek metin (medya varsa yalnızca caption). */
+/** Zubee veritabanına kaydedilecek metin (medya varsa yalnızca caption). */
 export function getTelegramInboundContent(message: TelegramMessage): string {
   return message.text?.trim() || message.caption?.trim() || ""
 }

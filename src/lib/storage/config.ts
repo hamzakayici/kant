@@ -17,7 +17,7 @@ export function getOpenCloudConfig() {
   const url = process.env.OPENCLOUD_URL?.replace(/\/$/, "")
   const username = process.env.OPENCLOUD_USERNAME
   const password = process.env.OPENCLOUD_PASSWORD
-  const root = process.env.OPENCLOUD_ROOT || "Kant"
+  const root = process.env.OPENCLOUD_ROOT || "Zubee"
   const webdavBase = process.env.OPENCLOUD_WEBDAV_BASE
 
   if (!url || !username || !password) {

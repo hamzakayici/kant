@@ -2,8 +2,8 @@ export const CHAT_LIVE_POLL_MS = 800
 export const CHAT_GROUPS_POLL_MS = 2000
 export const CHAT_HIDDEN_POLL_MULTIPLIER = 3
 
-export const KANT_OPEN_MINI_CHAT_EVENT = "kant:open-mini-chat"
-export const KANT_OPEN_MINI_CHAT_KEY = "kant-open-mini-chat"
+export const KANT_OPEN_MINI_CHAT_EVENT = "zubee:open-mini-chat"
+export const KANT_OPEN_MINI_CHAT_KEY = "zubee-open-mini-chat"
 
 export function getVisibilityAwarePollMs(baseMs: number) {
   if (typeof document === "undefined") return baseMs

@@ -159,7 +159,7 @@ export default function TelegramUserMappingPanel({
   const handleConfirmLink = async () => {
     if (!linkUser || !lookupResult) return
     if (lookupResult.alreadyLinkedTo && lookupResult.alreadyLinkedTo.id !== linkUser.id) {
-      setMessage("Bu Telegram hesabı başka bir Kant kullanıcısına bağlı")
+      setMessage("Bu Telegram hesabı başka bir Zubee kullanıcısına bağlı")
       return
     }
 
@@ -205,7 +205,7 @@ export default function TelegramUserMappingPanel({
         <div>
           <h2 className="text-lg font-semibold">Kullanıcı Eşleştirme</h2>
           <p className="text-sm text-muted-foreground">
-            Kant hesaplarını Telegram kullanıcılarıyla eşleştirin
+            Zubee hesaplarını Telegram kullanıcılarıyla eşleştirin
           </p>
         </div>
       </div>

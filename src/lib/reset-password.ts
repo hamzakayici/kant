@@ -1,5 +1,5 @@
 /** Varsayılan admin şifre sıfırlama değeri (sunucu + istemci aynı metni göstersin diye). */
-export const DEFAULT_RESET_PASSWORD = "Kant1234!"
+export const DEFAULT_RESET_PASSWORD = "Zubee1234!"
 
 export function resolveResetPassword() {
   return (

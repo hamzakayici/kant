@@ -33,5 +33,5 @@ if [ "$KANT_AUTO_SEED" = "true" ]; then
   npx prisma db seed
 fi
 
-echo "Kant başlatılıyor..."
+echo "Zubee başlatılıyor..."
 exec npm start

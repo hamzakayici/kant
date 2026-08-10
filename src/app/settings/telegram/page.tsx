@@ -16,7 +16,7 @@ export default async function TelegramSettingsPage() {
     <div className="min-h-screen bg-background p-6 text-foreground md:p-8">
       <PageHeader
         title="Telegram"
-        description="Tüm Kant sohbetlerinizi tek Telegram grubuyla senkronize edin"
+        description="Tüm Zubee sohbetlerinizi tek Telegram grubuyla senkronize edin"
         className="mb-8"
       />
 

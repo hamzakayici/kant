@@ -86,16 +86,16 @@ type MockProject = {
 
 const MOCK_PROJECTS: MockProject[] = [
   {
-    name: "Kant Platform",
+    name: "Zubee Platform",
     identifier: "KNT",
     description: "Kanban ve proje yönetim platformu geliştirme",
     icon: "Briefcase",
     coverImage: COVER_PRESETS[0],
     memberEmails: [
-      { email: "admin@kant.com", role: "ADMIN" },
+      { email: "admin@zubee.com", role: "ADMIN" },
       { email: "hamzakayc@gmail.com", role: "ADMIN" },
-      { email: "tasarim@kant.com", role: "DESIGNER" },
-      { email: "editor@kant.com", role: "EDITOR" },
+      { email: "tasarim@zubee.com", role: "DESIGNER" },
+      { email: "editor@zubee.com", role: "EDITOR" },
     ],
     cards: [
       {
@@ -105,7 +105,7 @@ const MOCK_PROJECTS: MockProject[] = [
         tags: ["ui", "frontend"],
         description: "Dashboard-01 tasarım sistemine geçiş.",
         daysUntilDue: 3,
-        assigneeEmails: ["tasarim@kant.com"],
+        assigneeEmails: ["tasarim@zubee.com"],
         checklist: [
           { content: "App sidebar", isDone: true },
           { content: "Nav bileşenleri", isDone: true },
@@ -132,7 +132,7 @@ const MOCK_PROJECTS: MockProject[] = [
         priority: "MEDIUM",
         tags: ["backend", "telegram"],
         daysUntilDue: 7,
-        assigneeEmails: ["admin@kant.com"],
+        assigneeEmails: ["admin@zubee.com"],
         attachments: [
           {
             filename: "telegram-akisi.jpg",
@@ -223,9 +223,9 @@ const MOCK_PROJECTS: MockProject[] = [
     icon: "Layout",
     coverImage: COVER_PRESETS[1],
     memberEmails: [
-      { email: "admin@kant.com", role: "ADMIN" },
-      { email: "tasarim@kant.com", role: "DESIGNER" },
-      { email: "talep@kant.com", role: "REQUESTER" },
+      { email: "admin@zubee.com", role: "ADMIN" },
+      { email: "tasarim@zubee.com", role: "DESIGNER" },
+      { email: "talep@zubee.com", role: "REQUESTER" },
     ],
     cards: [
       {
@@ -234,7 +234,7 @@ const MOCK_PROJECTS: MockProject[] = [
         priority: "URGENT",
         tags: ["tasarım", "homepage"],
         daysUntilDue: 1,
-        assigneeEmails: ["tasarim@kant.com"],
+        assigneeEmails: ["tasarim@zubee.com"],
         checklist: [
           { content: "Wireframe", isDone: true },
           { content: "Görsel tasarım", isDone: false },
@@ -289,7 +289,7 @@ const MOCK_PROJECTS: MockProject[] = [
         priority: "HIGH",
         tags: ["seo"],
         daysUntilDue: 5,
-        assigneeEmails: ["editor@kant.com"],
+        assigneeEmails: ["editor@zubee.com"],
         attachments: [
           {
             filename: "seo-checklist.pdf",
@@ -339,8 +339,8 @@ const MOCK_PROJECTS: MockProject[] = [
     coverImage: COVER_PRESETS[2],
     memberEmails: [
       { email: "hamzakayc@gmail.com", role: "ADMIN" },
-      { email: "tasarim@kant.com", role: "DESIGNER" },
-      { email: "editor@kant.com", role: "EDITOR" },
+      { email: "tasarim@zubee.com", role: "DESIGNER" },
+      { email: "editor@zubee.com", role: "EDITOR" },
     ],
     cards: [
       {
@@ -349,7 +349,7 @@ const MOCK_PROJECTS: MockProject[] = [
         priority: "HIGH",
         tags: ["ux", "mobile"],
         daysUntilDue: 6,
-        assigneeEmails: ["tasarim@kant.com"],
+        assigneeEmails: ["tasarim@zubee.com"],
         attachments: [
           {
             filename: "onboarding-ekranlari.jpg",
@@ -385,7 +385,7 @@ const MOCK_PROJECTS: MockProject[] = [
         priority: "URGENT",
         tags: ["aso"],
         daysUntilDue: 2,
-        assigneeEmails: ["tasarim@kant.com", "editor@kant.com"],
+        assigneeEmails: ["tasarim@zubee.com", "editor@zubee.com"],
         attachments: [
           {
             filename: "app-store-screenshot-1.jpg",
@@ -444,9 +444,9 @@ const MOCK_PROJECTS: MockProject[] = [
     icon: "Target",
     coverImage: COVER_PRESETS[3],
     memberEmails: [
-      { email: "admin@kant.com", role: "ADMIN" },
-      { email: "talep@kant.com", role: "REQUESTER" },
-      { email: "editor@kant.com", role: "EDITOR" },
+      { email: "admin@zubee.com", role: "ADMIN" },
+      { email: "talep@zubee.com", role: "REQUESTER" },
+      { email: "editor@zubee.com", role: "EDITOR" },
     ],
     cards: [
       {
@@ -455,7 +455,7 @@ const MOCK_PROJECTS: MockProject[] = [
         priority: "HIGH",
         tags: ["sosyal", "içerik"],
         daysUntilDue: 4,
-        assigneeEmails: ["editor@kant.com"],
+        assigneeEmails: ["editor@zubee.com"],
         checklist: [
           { content: "Instagram", isDone: true },
           { content: "LinkedIn", isDone: true },
@@ -496,7 +496,7 @@ const MOCK_PROJECTS: MockProject[] = [
         columnIndex: 0,
         priority: "HIGH",
         tags: ["copywriting"],
-        assigneeEmails: ["talep@kant.com"],
+        assigneeEmails: ["talep@zubee.com"],
         attachments: [
           {
             filename: "landing-page-metinleri.pdf",
@@ -600,10 +600,10 @@ for (const project of MOCK_PROJECTS) {
 }
 
 const COMMENT_AUTHORS = [
-  "admin@kant.com",
-  "tasarim@kant.com",
-  "editor@kant.com",
-  "talep@kant.com",
+  "admin@zubee.com",
+  "tasarim@zubee.com",
+  "editor@zubee.com",
+  "talep@zubee.com",
   "hamzakayc@gmail.com",
 ] as const
 
@@ -675,7 +675,7 @@ async function enrichMockProjectContent(
     }
   }
 
-  const defaultAuthorId = usersByEmail["admin@kant.com"]?.id
+  const defaultAuthorId = usersByEmail["admin@zubee.com"]?.id
   if (!defaultAuthorId) return
 
   let enrichedCount = 0
@@ -790,7 +790,7 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
 
   for (const [index, project] of MOCK_PROJECTS.entries()) {
     const adminUser =
-      usersByEmail[project.memberEmails[0]?.email] ?? usersByEmail["admin@kant.com"]
+      usersByEmail[project.memberEmails[0]?.email] ?? usersByEmail["admin@zubee.com"]
 
     const board = await prisma.board.create({
       data: {
@@ -905,7 +905,7 @@ async function seedMockProjects(usersByEmail: Record<string, { id: string }>) {
 }
 
 async function main() {
-  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@kant.com"
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@zubee.com"
   const adminPasswordPlain = process.env.SEED_ADMIN_PASSWORD ?? "admin123"
   const adminPassword = await bcrypt.hash(adminPasswordPlain, 10)
 
@@ -978,10 +978,10 @@ async function main() {
   })
 
   const requester = await prisma.user.upsert({
-    where: { email: "talep@kant.com" },
+    where: { email: "talep@zubee.com" },
     update: { firstName: "Ayşe", lastName: "Demir" },
     create: {
-      email: "talep@kant.com",
+      email: "talep@zubee.com",
       firstName: "Ayşe",
       lastName: "Demir",
       password: userPassword,
@@ -991,10 +991,10 @@ async function main() {
   })
 
   const designer = await prisma.user.upsert({
-    where: { email: "tasarim@kant.com" },
+    where: { email: "tasarim@zubee.com" },
     update: { firstName: "Elif", lastName: "Yıldız" },
     create: {
-      email: "tasarim@kant.com",
+      email: "tasarim@zubee.com",
       firstName: "Elif",
       lastName: "Yıldız",
       password: userPassword,
@@ -1004,10 +1004,10 @@ async function main() {
   })
 
   const editor = await prisma.user.upsert({
-    where: { email: "editor@kant.com" },
+    where: { email: "editor@zubee.com" },
     update: { firstName: "Mehmet", lastName: "Kaya" },
     create: {
-      email: "editor@kant.com",
+      email: "editor@zubee.com",
       firstName: "Mehmet",
       lastName: "Kaya",
       password: userPassword,
@@ -1017,11 +1017,11 @@ async function main() {
   })
 
   const usersByEmail = {
-    "admin@kant.com": admin,
+    "admin@zubee.com": admin,
     "hamzakayc@gmail.com": hamzaAdmin,
-    "talep@kant.com": requester,
-    "tasarim@kant.com": designer,
-    "editor@kant.com": editor,
+    "talep@zubee.com": requester,
+    "tasarim@zubee.com": designer,
+    "editor@zubee.com": editor,
   }
 
   console.log("Kullanıcılar hazır.")
