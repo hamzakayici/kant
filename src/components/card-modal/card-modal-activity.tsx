@@ -14,6 +14,7 @@ type CardModalActivityProps = {
   isSubmittingComment: boolean
   onCommentChange: (value: string) => void
   onCommentSubmit: () => void
+  inlineMobile?: boolean
 }
 
 export function CardModalActivity({
@@ -23,6 +24,7 @@ export function CardModalActivity({
   isSubmittingComment,
   onCommentChange,
   onCommentSubmit,
+  inlineMobile = false,
 }: CardModalActivityProps) {
   const items = [
     ...(activities || []).map((a) => ({
@@ -39,7 +41,14 @@ export function CardModalActivity({
   ].sort((a, b) => b.date.getTime() - a.date.getTime())
 
   return (
-    <aside className="flex min-h-0 flex-col border-t border-border/80 bg-muted/20 lg:border-t-0 lg:border-l">
+    <aside
+      className={cn(
+        "flex min-h-0 flex-col bg-muted/20",
+        inlineMobile
+          ? "border-t border-border/80 lg:hidden"
+          : "border-l border-border/80 hidden lg:flex",
+      )}
+    >
       <div className="flex items-center gap-2 border-b border-border/60 px-4 py-3">
         <MessageSquare className="size-4 text-primary" />
         <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
@@ -47,54 +56,19 @@ export function CardModalActivity({
         </h3>
       </div>
 
-      <ScrollArea className="min-h-0 flex-1">
-        <div className="space-y-4 p-4">
-          {items.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">
-              Henüz yorum veya etkinlik yok.
-            </p>
-          ) : (
-            items.map((item) => (
-              <div key={`${item.type}-${item.id}`} className="flex gap-3">
-                <Avatar className="size-8 shrink-0">
-                  <AvatarFallback
-                    className="text-xs font-bold"
-                    style={getUserColorStylesWithOpacity(item.user?.color)}
-                  >
-                    {getUserInitial(item.user)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm leading-snug">
-                    <span className="font-semibold">
-                      {getUserDisplayName(item.user)}
-                    </span>
-                    {item.type === "activity" ? (
-                      <span className="ml-1 text-muted-foreground">
-                        {item.action}
-                      </span>
-                    ) : null}
-                  </div>
-                  {item.type === "comment" ? (
-                    <div className="mt-2 rounded-xl border border-border/60 bg-card/80 px-3 py-2.5 text-sm whitespace-pre-wrap text-foreground/90">
-                      {item.content}
-                    </div>
-                  ) : null}
-                  <div className="mt-1.5 flex items-center gap-1 text-[11px] text-muted-foreground">
-                    <Clock className="size-3" />
-                    {item.date.toLocaleString("tr-TR", {
-                      day: "numeric",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </ScrollArea>
+      <div className={cn("min-h-0 flex-1", !inlineMobile && "overflow-hidden")}>
+        {inlineMobile ? (
+          <div className="space-y-4 p-4">
+            <ActivityItems items={items} />
+          </div>
+        ) : (
+          <ScrollArea className="h-full">
+            <div className="space-y-4 p-4">
+              <ActivityItems items={items} />
+            </div>
+          </ScrollArea>
+        )}
+      </div>
 
       <div className="shrink-0 border-t border-border/60 p-4">
         <div
@@ -131,5 +105,58 @@ export function CardModalActivity({
         </div>
       </div>
     </aside>
+  )
+}
+
+function ActivityItems({ items }: { items: any[] }) {
+  if (items.length === 0) {
+    return (
+      <p className="py-8 text-center text-sm text-muted-foreground">
+        Henüz yorum veya etkinlik yok.
+      </p>
+    )
+  }
+
+  return (
+    <>
+      {items.map((item) => (
+        <div key={`${item.type}-${item.id}`} className="flex gap-3">
+          <Avatar className="size-8 shrink-0">
+            <AvatarFallback
+              className="text-xs font-bold"
+              style={getUserColorStylesWithOpacity(item.user?.color)}
+            >
+              {getUserInitial(item.user)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="min-w-0 flex-1">
+            <div className="text-sm leading-snug">
+              <span className="font-semibold">
+                {getUserDisplayName(item.user)}
+              </span>
+              {item.type === "activity" ? (
+                <span className="ml-1 text-muted-foreground">
+                  {item.action}
+                </span>
+              ) : null}
+            </div>
+            {item.type === "comment" ? (
+              <div className="mt-2 rounded-xl border border-border/60 bg-card/80 px-3 py-2.5 text-sm whitespace-pre-wrap text-foreground/90">
+                {item.content}
+              </div>
+            ) : null}
+            <div className="mt-1.5 flex items-center gap-1 text-[11px] text-muted-foreground">
+              <Clock className="size-3" />
+              {item.date.toLocaleString("tr-TR", {
+                day: "numeric",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
   )
 }

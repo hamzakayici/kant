@@ -428,7 +428,7 @@ export default function ChatPanel({
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex h-[min(480px,calc(100vh-6rem))] w-[min(360px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
+    <div className="fixed bottom-6 right-6 z-50 flex h-[min(480px,calc(100dvh-6rem))] w-[min(360px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
       <div className="flex shrink-0 flex-col border-b border-border bg-card">
         <div className="flex items-center justify-between gap-2 px-3 py-3">
           <div className="flex min-w-0 flex-1 items-center gap-2">

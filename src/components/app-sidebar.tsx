@@ -4,14 +4,10 @@ import * as React from "react"
 import Link from "next/link"
 import {
   Calendar,
-  CircleHelp,
   LayoutGrid,
-  Send,
-  Settings2,
 } from "lucide-react"
 import { NavChat } from "@/components/nav-chat"
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -33,24 +29,6 @@ const navMain = [
     title: "Planlayıcı",
     url: "/planner",
     icon: <Calendar className="size-4" />,
-  },
-]
-
-const navSecondary = [
-  {
-    title: "Roller ve Yetkiler",
-    url: "/settings/roles",
-    icon: <Settings2 className="size-4" />,
-  },
-  {
-    title: "Telegram",
-    url: "/settings/telegram",
-    icon: <Send className="size-4" />,
-  },
-  {
-    title: "Yardım",
-    url: "#",
-    icon: <CircleHelp className="size-4" />,
   },
 ]
 
@@ -95,7 +73,6 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       <SidebarContent>
         <NavMain items={navMain} />
         <NavChat />
-        <NavSecondary items={navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser

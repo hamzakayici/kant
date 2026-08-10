@@ -491,6 +491,18 @@ export default function CardModal({
                   onMakeCover={handleMakeCover}
                   onDownloadAll={handleDownloadAll}
                 />
+
+                <div className="mt-8 block lg:hidden">
+                  <CardModalActivity
+                    activities={card.activities || []}
+                    comments={card.comments || []}
+                    commentText={commentText}
+                    isSubmittingComment={isSubmittingComment}
+                    onCommentChange={setCommentText}
+                    onCommentSubmit={handleCommentSubmit}
+                    inlineMobile
+                  />
+                </div>
               </div>
             </ScrollArea>
 

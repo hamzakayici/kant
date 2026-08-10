@@ -99,10 +99,10 @@ export default function GlobalSearch({ boardId }: { boardId?: string }) {
         className={cn(
           "flex h-9 items-center overflow-hidden rounded-lg border border-border bg-card transition-all duration-300",
           isOpen
-            ? "w-[260px] border-primary/50 md:w-[360px]"
+            ? "absolute inset-x-2 top-1.5 z-50 w-auto border-primary/50 md:static md:w-[360px]"
             : boardId
-              ? "w-[200px] md:w-[240px]"
-              : "w-[200px] md:w-[320px]",
+              ? "w-[140px] md:w-[240px]"
+              : "w-[160px] md:w-[320px]",
         )}
       >
         <Search className="ml-3 size-4 text-muted-foreground" />
@@ -136,7 +136,7 @@ export default function GlobalSearch({ boardId }: { boardId?: string }) {
       </div>
 
       {isOpen && query.trim().length >= 2 ? (
-        <div className="absolute top-full right-0 z-50 mt-2 flex w-[320px] rounded-lg border border-border bg-popover shadow-2xl md:w-[480px]">
+        <div className="absolute top-full right-0 z-50 mt-2 flex w-[calc(100vw-16px)] rounded-lg border border-border bg-popover shadow-2xl md:w-[480px]">
           {hoveredCard ? (
             <div className="pointer-events-none absolute top-0 right-[calc(100%+8px)] hidden w-[300px] flex-col overflow-hidden rounded-lg border border-border bg-popover shadow-2xl md:flex">
               {getCoverUrl(hoveredCard) ? (
