@@ -114,6 +114,7 @@ function KanbanCardComponent({
   return (
     <div
       ref={setNodeRef}
+      style={style}
       data-kanban-card={card.id}
       data-kanban-index={index}
       {...attributes}
