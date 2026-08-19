@@ -750,8 +750,17 @@ export default function CardModal({
         isDestructive
         onConfirm={async () => {
           if (confirmDeleteAttachmentId) {
-            await deleteAttachment(confirmDeleteAttachmentId)
+            const idToDelete = confirmDeleteAttachmentId
             setConfirmDeleteAttachmentId(null)
+            
+            // Optimistic update
+            setCard((prev: any) => ({
+              ...prev,
+              attachments: prev.attachments?.filter((a: any) => a.id !== idToDelete) || [],
+              coverAttachmentId: prev.coverAttachmentId === idToDelete ? null : prev.coverAttachmentId
+            }))
+            
+            await deleteAttachment(idToDelete)
             router.refresh()
           }
         }}

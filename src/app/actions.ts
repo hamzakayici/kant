@@ -769,9 +769,15 @@ export async function deleteAttachment(attachmentId: string) {
   })
   
   if (attachment.cardId) {
+    const card = await prisma.card.findUnique({ where: { id: attachment.cardId } })
+    const isCover = card?.coverAttachmentId === attachmentId
+
     await prisma.card.update({
       where: { id: attachment.cardId },
-      data: { updatedAt: new Date() },
+      data: { 
+        updatedAt: new Date(),
+        ...(isCover ? { coverAttachmentId: null } : {})
+      },
     })
     await prisma.activityLog.create({
       data: { action: `'${attachment.filename}' adlı dosyayı sildi`, cardId: attachment.cardId, userId: session.user.id }
