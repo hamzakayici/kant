@@ -6,6 +6,7 @@ import { KanbanCard } from "@/components/kanban/KanbanCard"
 type VirtualKanbanRowProps = {
   card: any
   index: number
+  virtualIndex: number
   top: number
   isDragging: boolean
   measureRef?: (element: HTMLElement | null) => void
@@ -19,6 +20,7 @@ type VirtualKanbanRowProps = {
 function VirtualKanbanRowComponent({
   card,
   index,
+  virtualIndex,
   top,
   isDragging,
   measureRef,
@@ -30,12 +32,11 @@ function VirtualKanbanRowComponent({
 }: VirtualKanbanRowProps) {
   return (
     <div
-      data-index={index}
+      data-index={virtualIndex}
       ref={measureRef}
       className="absolute top-0 left-0 w-full shrink-0 [backface-visibility:hidden]"
       style={{
         transform: `translate3d(0, ${top}px, 0)`,
-        contain: "layout style paint",
         willChange: isDragging ? "transform" : undefined,
       }}
     >
@@ -57,6 +58,7 @@ export const VirtualKanbanRow = memo(
   (prev, next) =>
     prev.card === next.card &&
     prev.index === next.index &&
+    prev.virtualIndex === next.virtualIndex &&
     prev.top === next.top &&
     prev.isDragging === next.isDragging &&
     prev.measureRef === next.measureRef &&

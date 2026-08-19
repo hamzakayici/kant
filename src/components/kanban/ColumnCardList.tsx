@@ -147,6 +147,7 @@ function ColumnCardListComponent({
                 key={card.id}
                 card={card}
                 index={cardIndex}
+                virtualIndex={virtualRow.index}
                 top={virtualRow.start}
                 isDragging={isPreviewActive}
                 measureRef={measureElement}
