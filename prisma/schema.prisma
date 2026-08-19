@@ -242,7 +242,7 @@ model SharedLink {
   id           String   @id @default(uuid())
   token        String   @unique
   attachmentId String   @unique
-  attachment   Attachment @relation(fields: [attachmentId], references: [id])
+  attachment   Attachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
   
   expiresAt    DateTime?
   password     String?
