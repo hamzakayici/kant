@@ -133,7 +133,7 @@ function KanbanCardComponent({
       {coverImage ? (
         <div
           className={cn(
-            "relative flex w-full items-center justify-center overflow-hidden",
+            "relative flex w-full items-center justify-center overflow-hidden h-28 shrink-0",
             card.coverMode === "CONTAIN"
               ? "border-b border-border/50 bg-muted/30 p-1.5"
               : "bg-black/40",
@@ -143,7 +143,7 @@ function KanbanCardComponent({
             src={getAttachmentExternalUrl(coverImage)}
             alt=""
             className={cn(
-              "h-auto max-h-28 w-full",
+              "h-full w-full",
               card.coverMode === "CONTAIN" ? "object-contain" : "object-cover",
             )}
             onError={(e) => {
