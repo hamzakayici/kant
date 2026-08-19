@@ -1,23 +1,13 @@
 "use client"
-
-import { memo, useEffect, useMemo } from "react"
-import { useVirtualizer } from "@tanstack/react-virtual"
+import { memo, useEffect, useMemo, useRef } from "react"
 import { KanbanCardSkeleton } from "@/components/kanban/KanbanCardSkeleton"
 import { KanbanDropSlot } from "@/components/kanban/KanbanDropIndicator"
-import { VirtualKanbanRow } from "@/components/kanban/VirtualKanbanRow"
-import { useColumnScrollRoot } from "@/components/kanban/ColumnDropScroll"
+import { KanbanCard } from "@/components/kanban/KanbanCard"
 import { useKanbanBoardDndOptional } from "@/components/kanban/KanbanBoardDndContext"
 import { useColumnDragUi } from "@/components/kanban/useColumnDragUi"
 import {
   buildColumnDragCards,
-  getColumnDropIndicatorIndex,
 } from "@/lib/kanban-column-preview"
-import {
-  KANBAN_CARD_ESTIMATE_HEIGHT,
-  KANBAN_CARD_ROW_GAP,
-} from "@/lib/kanban-utils"
-
-const DROP_INDICATOR_HEIGHT = KANBAN_CARD_ESTIMATE_HEIGHT
 
 type ColumnCardListProps = {
   columnId: string
@@ -46,16 +36,9 @@ function ColumnCardListComponent({
   onShareCard,
   onOpenCard,
 }: ColumnCardListProps) {
-  const scrollRoot = useColumnScrollRoot()
   const dnd = useKanbanBoardDndOptional()
   const columnDragUi = useColumnDragUi(columnId)
-  const isPreviewActive = columnDragUi !== null
-
-  useEffect(() => {
-    if (!dnd || !scrollRoot) return
-    dnd.registerColumnScroll(columnId, scrollRoot)
-    return () => dnd.registerColumnScroll(columnId, null)
-  }, [columnId, dnd, scrollRoot])
+  const isDraggingCurrentColumn = columnDragUi?.dropHint.columnId === columnId
 
   const filterVisibleIds = useMemo(
     () => new Set(displayCards.map((card) => card.id)),
@@ -72,85 +55,39 @@ function ColumnCardListComponent({
     [baseOrderedCards, columnDragUi, columnId],
   )
 
-  const dropIndicatorIndex = useMemo(() => {
-    if (!columnDragUi || columnDragUi.dropHint.columnId !== columnId) {
-      return null
+  const cardsWithSlot = useMemo(() => {
+    if (!columnDragUi || !isDraggingCurrentColumn) {
+      return orderedCards
     }
-    return getColumnDropIndicatorIndex(
-      orderedCards,
-      columnId,
-      columnDragUi,
-      baseOrderedCards,
-    )
-  }, [orderedCards, columnId, columnDragUi, baseOrderedCards])
+    const result = [...orderedCards]
+    result.splice(columnDragUi.dropHint.index, 0, { isDropSlot: true } as any)
+    return result
+  }, [orderedCards, columnDragUi, isDraggingCurrentColumn])
 
-  const virtualCount =
-    orderedCards.length + (dropIndicatorIndex !== null ? 1 : 0)
-
-  const virtualizer = useVirtualizer({
-    count: virtualCount,
-    getScrollElement: () => scrollRoot,
-    estimateSize: (index) =>
-      dropIndicatorIndex !== null && index === dropIndicatorIndex
-        ? DROP_INDICATOR_HEIGHT
-        : KANBAN_CARD_ESTIMATE_HEIGHT,
-    gap: KANBAN_CARD_ROW_GAP,
-    overscan: isPreviewActive ? 6 : 4,
-    getItemKey: (index) => {
-      if (dropIndicatorIndex !== null && index === dropIndicatorIndex) {
-        return `drop-${columnId}-${dropIndicatorIndex}`
-      }
-      const card = orderedCards[mapVirtualIndex(index, dropIndicatorIndex)]
-      return card?.id ?? index
-    },
-  })
-
-  const measureElement = isPreviewActive ? undefined : virtualizer.measureElement
-  const virtualItems = virtualizer.getVirtualItems()
+  const hasCards = orderedCards.length > 0
 
   return (
     <>
       {isCreatingCard ? <KanbanCardSkeleton /> : null}
-      {orderedCards.length === 0 && dropIndicatorIndex === null ? null : (
-        <div
-          className="relative w-full"
-          style={{ height: virtualizer.getTotalSize() }}
-        >
-          {virtualItems.map((virtualRow) => {
-            if (
-              dropIndicatorIndex !== null &&
-              virtualRow.index === dropIndicatorIndex
-            ) {
+
+      {hasCards || isCreatingCard || isDraggingCurrentColumn ? (
+        <div className="flex flex-col gap-2 relative w-full pb-10">
+          {cardsWithSlot.map((item, index) => {
+            if (item.isDropSlot) {
               return (
-                <div
-                  key={`drop-${columnId}-${dropIndicatorIndex}`}
-                  className="absolute top-0 left-0 z-10 w-full shrink-0"
-                  style={{
-                    transform: `translate3d(0, ${virtualRow.start}px, 0)`,
-                    contain: "layout style paint",
-                  }}
-                >
-                  <KanbanDropSlot variant="target" />
-                </div>
+                <KanbanDropSlot 
+                  key={`drop-${columnId}-${index}`} 
+                  variant="target"
+                />
               )
             }
 
-            const cardIndex = mapVirtualIndex(
-              virtualRow.index,
-              dropIndicatorIndex,
-            )
-            const card = orderedCards[cardIndex]
-            if (!card) return null
-
+            const card = item
             return (
-              <VirtualKanbanRow
+              <KanbanCard
                 key={card.id}
                 card={card}
-                index={cardIndex}
-                virtualIndex={virtualRow.index}
-                top={virtualRow.start}
-                isDragging={isPreviewActive}
-                measureRef={measureElement}
+                index={index}
                 canDelete={canDeleteCard}
                 boardIdentifier={boardIdentifier}
                 onDeleteCard={onDeleteCard}
@@ -160,19 +97,8 @@ function ColumnCardListComponent({
             )
           })}
         </div>
-      )}
+      ) : null}
     </>
   )
 }
-
-function mapVirtualIndex(
-  virtualIndex: number,
-  dropIndicatorIndex: number | null,
-) {
-  if (dropIndicatorIndex === null || virtualIndex < dropIndicatorIndex) {
-    return virtualIndex
-  }
-  return virtualIndex - 1
-}
-
 export const ColumnCardList = memo(ColumnCardListComponent)
