@@ -28,7 +28,7 @@ else
   npx prisma db push --skip-generate
 fi
 
-if [ "$KANT_AUTO_SEED" = "true" ]; then
+if [ "$ZUBEE_AUTO_SEED" = "true" ]; then
   echo "Seed verileri yükleniyor..."
   npx prisma db seed
 fi
