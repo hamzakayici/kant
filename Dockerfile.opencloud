@@ -1,7 +1,9 @@
 FROM opencloudeu/opencloud-rolling:7.3.0
 
-# Railway'de opencloud init otomatik çalışsın
-COPY docker/opencloud-entrypoint.sh /opencloud-entrypoint.sh
-RUN chmod +x /opencloud-entrypoint.sh
+# Özel entrypoint: opencloud init + server
+COPY docker/opencloud-entrypoint.sh /usr/local/bin/opencloud-entrypoint.sh
+RUN chmod +x /usr/local/bin/opencloud-entrypoint.sh
 
-ENTRYPOINT ["/opencloud-entrypoint.sh"]
+ENV OC_CONFIG_DIR=/etc/opencloud
+
+ENTRYPOINT ["/usr/local/bin/opencloud-entrypoint.sh"]

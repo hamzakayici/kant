@@ -1,8 +1,10 @@
 #!/bin/sh
 set -e
 
-echo "OpenCloud init çalıştırılıyor..."
-opencloud init --config-path /etc/opencloud --admin-password "${IDM_ADMIN_PASSWORD:-admin}" || true
+export OC_CONFIG_DIR="${OC_CONFIG_DIR:-/etc/opencloud}"
+
+echo "OpenCloud init çalıştırılıyor (config: $OC_CONFIG_DIR)..."
+opencloud init || true
 
 echo "OpenCloud server başlatılıyor..."
 exec opencloud server
